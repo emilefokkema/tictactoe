@@ -89,11 +89,108 @@ class ActivePointer {
     }
 }
 
+interface Gesture {
+    handlePointerDown(event: PointerEvent): void
+    handlePointerMove(event: PointerEvent): void
+    handlePointerUp(event: PointerEvent): void
+}
+
+class PointerThatIsDown  implements Gesture {
+    public constructor(
+        private readonly rootTarget: EventTargetImpl,
+        private readonly replaceGesture: (oldValue: Gesture, newValue: Gesture) => void,
+        private readonly target: EventTargetImpl,
+        private readonly x: number,
+        private readonly y: number,
+        private readonly pointerId: number,
+        private readonly cancelAllowed: boolean
+    ){
+
+    }
+
+    public handlePointerDown(event: PointerEvent): void {
+        
+    }
+
+    public handlePointerMove(): void {
+        
+    }
+
+    public handlePointerUp(): void {
+        
+    }
+}
+
+class NoopGesture implements Gesture {
+    public constructor(
+        private readonly rootTarget: EventTargetImpl,
+        private readonly replaceGesture: (oldValue: Gesture, newValue: Gesture) => void
+    ){
+
+    }
+
+    public handlePointerDown(event: PointerEvent): void {
+        const target = this.rootTarget.findTarget(event.offsetX, event.offsetY);
+        if(!target){
+            return;
+        }
+        let cancelAllowed = false;
+        const customEvent: CustomPointerEventMap['pointerdown'] =  {
+            type: 'pointerdown',
+            allowCancel(){
+                cancelAllowed = true;
+            }
+        }
+        target.dispatchEvent('pointerdown', customEvent);
+        if(event.pointerType === 'mouse' && cancelAllowed){
+            event.preventDefault();
+        }
+        this.replaceGesture(this, new PointerThatIsDown(
+            this.rootTarget,
+            this.replaceGesture,
+            target,
+            event.offsetX,
+            event.offsetY,
+            event.pointerId,
+            cancelAllowed
+        ))
+    }
+
+    public handlePointerMove(): void {
+        
+    }
+
+    public handlePointerUp(): void {
+        
+    }
+}
+
+class CustomPointerEventProducer {
+    private gesture: Gesture;
+    public constructor(
+        rootTarget: EventTargetImpl
+    ){
+        this.gesture = new NoopGesture(rootTarget, (oldValue, newValue) => this.replaceGesture(oldValue, newValue))
+    }
+
+    public handlePointerDown(event: PointerEvent): void {
+        
+    }
+
+    private replaceGesture(oldValue: Gesture, newValue: Gesture): void {
+        if(oldValue !== this.gesture){
+            return;
+        }
+        this.gesture = newValue;
+    }
+}
+
 export function createPointerEvents(
     pointerEvents: PointerEventTargetLike
 ): CustomPointerEventTarget {
     let activePointer: ActivePointer | undefined;
     const rootTarget = new EventTargetImpl(undefined, undefined);
+    const eventProducer = new CustomPointerEventProducer(rootTarget);
     pointerEvents.addEventListener('pointerdown', (ev) => {
         if(activePointer === undefined){
             const target = rootTarget.findTarget(ev.offsetX, ev.offsetY);
