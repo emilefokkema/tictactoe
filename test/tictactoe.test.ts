@@ -7,6 +7,14 @@ import { createTestPlayer } from './player/test-player-impl';
 import { TestPlayer } from './player/test-player';
 import { GameState } from '../src/scripts/state/game-state';
 
+function gameStateWithPositions(positions: number[]): GameState {
+    let result = GameState.initial;
+    for(const position of positions){
+        result = result.playPosition(position)
+    }
+    return result;
+}
+
 describe('a tictactoe', () => {
     let ticTacToe: TicTacToeRoot;
     let player: TestPlayer;
@@ -170,6 +178,146 @@ describe('a tictactoe', () => {
                     expect(player.grid.toString()).toMatchSnapshot();
                 })
             })
+        })
+    })
+
+    describe('when playing 0, 2, 1, 6, 3 and 8 and revealing the winner', () => {
+        let player02: TestPlayer;
+        let player0216: TestPlayer;
+        let player02163: TestPlayer;
+        let player021638: TestPlayer;
+
+        beforeEach(() => {
+            player02 = player
+                .play(0)
+                .play(2);
+            player0216 = player02
+                .play(1)
+                .play(6)
+            player02163 = player0216.play(3)
+            player021638 = player02163.play(8);
+            const player0216385 = player021638.play(5);
+            const player0216384 = player021638.play(4);
+            player0216385.play(4);
+            player0216384.play(5);
+            player0216385.grid.findByPosition([5]).dblclick();
+            player0216384.grid.findByPosition([4]).dblclick();
+        })
+
+        it('should look like this', () => {
+            expect(player02163.grid.toString()).toMatchSnapshot();
+        })
+
+        describe('and then winner 023 is revealed', () => {
+
+            beforeEach(() => {
+                const player023 = player02
+                    .play(3)
+                const player02364 = player023
+                    .play(6)
+                    .play(4);
+                player02364.play(5).play(8);
+                player02364.play(8).play(5);
+                player02364.play(1).play(5);
+                player02364.play(7).play(8);
+                player023.play(1).play(6);
+                player023.play(4).play(6);
+                player023.play(5).play(6);
+                player023.play(7).play(6);
+                player023.play(8).play(6);
+            })
+
+            it('should look like this', () => {
+                expect(player02163.grid.toString()).toMatchSnapshot();
+            })
+
+            describe('and then winner 02164 is revealed', () => {
+
+                beforeEach(() => {
+                    const player02164 = player0216.play(4);
+                    player02164.play(3).play(8);
+                    player02164.play(5).play(8);
+                    player02164.play(7).play(8);
+                    player02164.play(8).play(7);
+                })
+
+                it('should look like this', () => {
+                    expect(player02163.grid.toString()).toMatchSnapshot();
+                })
+
+                describe('and then winner 02163584 is revealed', () => {
+                    let player0216358: TestPlayer;
+
+                    beforeEach(() => {
+                        player0216358 = player02163.play(5).play(8);
+                        player0216358.play(4);
+                    })
+
+                    it('should look like this', () => {
+                        expect(player0216358.grid.toString()).toMatchSnapshot();
+                    })
+
+                    describe('and then winner 021635874 is revealed', () => {
+                        let player02163587: TestPlayer;
+
+                        beforeEach(() => {
+                            player02163587 = player0216358.play(7);
+                            player02163587.play(4);
+                        })
+
+                        it('should look like this', () => {
+                            expect(player02163587.grid.toString()).toMatchSnapshot();
+                        })
+                    })
+                })
+            })
+        })
+    })
+
+    describe('when it is told to reveal positions', () => {
+
+
+        beforeEach(() => {
+            const gameStatesAndWinners: {winner: Player, gameState: GameState}[] = [
+                {
+                    gameState: gameStateWithPositions([0, 2, 1, 6, 3]),
+                    winner: Player.O
+                },
+                {
+                    gameState: gameStateWithPositions([0, 2, 3, 6]),
+                    winner: Player.X
+                },
+                {
+                    gameState: gameStateWithPositions([0, 2]),
+                    winner: Player.X
+                },
+                {
+                    gameState: gameStateWithPositions([0, 2, 1, 6]),
+                    winner: Player.X
+                },
+                {
+                    gameState: gameStateWithPositions([0, 2, 1, 6, 3, 5, 8]),
+                    winner: Player.O
+                },
+                {
+                    gameState: gameStateWithPositions([0, 2, 1, 6, 3, 5, 8, 7]),
+                    winner: Player.X
+                },
+            ];
+            for(const {winner, gameState} of gameStatesAndWinners){
+                ticTacToe.revealPosition({
+                    gameState,
+                    winner: {
+                        player: winner,
+                        gameState
+                    }
+                })
+            }
+        });
+
+        it('should look like this', () => {
+            expect(player.grid.findByPosition([0, 2, 1, 6]).grid.toString()).toMatchSnapshot();
+            expect(player.grid.findByPosition([6, 0, 3, 8]).grid.toString()).toMatchSnapshot();
         })
     })
 
