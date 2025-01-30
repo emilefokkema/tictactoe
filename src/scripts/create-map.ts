@@ -6,6 +6,7 @@ import { palette } from "./palette";
 import { Renderer } from "./renderer/types";
 import { lightTheme } from "./themes";
 import { GridImpl } from "./ui-impl/grid-impl";
+import { StorageState } from "./storage-state";
 
 export function createMap(
     renderer: Renderer,
@@ -45,6 +46,12 @@ export function createMap(
             ctx.restore();
         }
     });
+
+    const stateString = "{\"0\":{\"1\":{\"3\":{\"2\":{\"6\":{},\"w\":1},\"4\":{\"6\":{},\"w\":1},\"5\":{\"6\":{},\"w\":1},\"6\":{\"4\":{\"2\":{\"5\":{},\"w\":1},\"5\":{\"8\":{},\"w\":1},\"7\":{\"5\":{}},\"8\":{\"5\":{},\"w\":1}},\"w\":1},\"7\":{\"6\":{},\"w\":1},\"8\":{\"6\":{}}},\"w\":1}}}";
+    const state = StorageState.fromJSON(JSON.parse(stateString));
+    for(const revealed of state.getRevealedPositions()){
+        ticTacToeRoot.revealPosition(revealed)
+    }
 
     renderer.rerender();
 }

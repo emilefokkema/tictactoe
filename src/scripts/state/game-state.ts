@@ -154,6 +154,10 @@ export class GameState {
         return positions.length % 2 === 0 ? Player.X : Player.O;
     }
 
+    public toJSON(){
+        return [...PositionStream.readAll(this.positions)]
+    }
+
     public toString(): string{
         const playersAtPositions = [...this.getPlayersAtPositions()];
         const symbols = [' ', 'X', 'O'];

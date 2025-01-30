@@ -6,14 +6,8 @@ import { Player } from '../src/scripts/player';
 import { createTestPlayer } from './player/test-player-impl';
 import { TestPlayer } from './player/test-player';
 import { GameState } from '../src/scripts/state/game-state';
-
-function gameStateWithPositions(positions: number[]): GameState {
-    let result = GameState.initial;
-    for(const position of positions){
-        result = result.playPosition(position)
-    }
-    return result;
-}
+import { gameStateWithPositions } from './game-state-with-positions';
+import { revealedPosition } from './revealed-position-builder';
 
 describe('a tictactoe', () => {
     let ticTacToe: TicTacToeRoot;
@@ -278,46 +272,46 @@ describe('a tictactoe', () => {
 
 
         beforeEach(() => {
-            const gameStatesAndWinners: {winner: Player, gameState: GameState}[] = [
-                {
-                    gameState: gameStateWithPositions([0, 2, 1, 6, 3]),
-                    winner: Player.O
-                },
-                {
-                    gameState: gameStateWithPositions([0, 2, 3, 6]),
-                    winner: Player.X
-                },
-                {
-                    gameState: gameStateWithPositions([0, 2]),
-                    winner: Player.X
-                },
-                {
-                    gameState: gameStateWithPositions([0, 2, 1, 6]),
-                    winner: Player.X
-                },
-                {
-                    gameState: gameStateWithPositions([0, 2, 1, 6, 3, 5, 8]),
-                    winner: Player.O
-                },
-                {
-                    gameState: gameStateWithPositions([0, 2, 1, 6, 3, 5, 8, 7]),
-                    winner: Player.X
-                },
+            const positions: RevealedPosition[] = [
+                revealedPosition([0, 2, 1, 6, 3], Player.O),
+                revealedPosition([0, 2, 3, 6], Player.X),
+                revealedPosition([0, 2], Player.X),
+                revealedPosition([0, 2, 1, 6], Player.X),
+                revealedPosition([0, 2, 1, 6, 3, 5, 8], Player.O),
+                revealedPosition([0, 2, 1, 6, 3, 5, 8, 7], Player.X),
             ];
-            for(const {winner, gameState} of gameStatesAndWinners){
-                ticTacToe.revealPosition({
-                    gameState,
-                    winner: {
-                        player: winner,
-                        gameState
-                    }
-                })
+            for(const position of positions){
+                ticTacToe.revealPosition(position);
             }
         });
 
         it('should look like this', () => {
             expect(player.grid.findByPosition([0, 2, 1, 6]).grid.toString()).toMatchSnapshot();
             expect(player.grid.findByPosition([6, 0, 3, 8]).grid.toString()).toMatchSnapshot();
+        })
+    })
+
+    describe('when it is told to reveal positions 2', () => {
+
+        beforeEach(() => {
+            const positions: RevealedPosition[] = [
+                revealedPosition([0, 1, 3, 2, 6], Player.X, [0, 1, 3, 2]),
+                revealedPosition([0, 1, 3, 4, 6], Player.X, [0, 1, 3, 4]),
+                revealedPosition([0, 1, 3, 5, 6], Player.X, [0, 1, 3, 5]),
+                revealedPosition([0, 1, 3, 6, 4, 2, 5], Player.X, [0, 1, 3, 6, 4, 2]),
+                revealedPosition([0, 1, 3, 6, 4, 5, 8], Player.X, [0, 1, 3, 6, 4, 5]),
+                revealedPosition([0, 1, 3, 6, 4, 7, 5], Player.X, [0, 1, 3, 6]),
+                revealedPosition([0, 1, 3, 6, 4, 8, 5], Player.X, [0, 1, 3, 6, 4, 8]),
+                revealedPosition([0, 1, 3, 7, 6], Player.X, [0, 1, 3, 7]),
+                revealedPosition([0, 1, 3, 8, 6], Player.X, [0, 1]),
+            ];
+            for(const position of positions){
+                ticTacToe.revealPosition(position);
+            }
+        })
+
+        it.only('should', () => {
+            console.log(player.grid.findByPosition([0, 1]).grid.toString())
         })
     })
 

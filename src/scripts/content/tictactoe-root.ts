@@ -25,6 +25,8 @@ export function createTicTacToeRoot(
     };
     const parent: TicTacToeParent = {
         notifyRevealedPosition(position: RevealedPosition): void {
+            console.log(`revealed ${JSON.stringify(position.gameState)}` + 
+                (position.winner ? ` (winner ${position.winner.player} at ${JSON.stringify(position.winner.gameState)})` : ''))
             impl.revealPosition(position);
             for(const listener of listeners.positionrevealed.slice()){
                 listener(position);
