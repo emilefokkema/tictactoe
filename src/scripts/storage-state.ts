@@ -16,44 +16,44 @@ export class StorageState implements WriteTicTacToe {
     ){
 
     }
-    private getNextState(state: GameState): GameState | undefined {
+    private getNextStateAndPosition(state: GameState): {state: GameState, position: number} | undefined {
         const index = state.indexOfPredecessor(this.gameState);
         if(index === -1){
             return undefined;
         }
-        return state.predecessorAtIndex(index + 1);
+        const nextState = state.predecessorAtIndex(index + 1);
+        if(!nextState){
+            return undefined;
+        }
+        const nextPosition = nextState.getLastPlayedPosition()!;
+        return {
+            state: nextState,
+            position: nextPosition
+        }
     }
     public revealPosition(position: RevealedPosition): void {
         const winner = position.winner;
         if(winner && winner.gameState.equals(this.gameState)){
             this.winner = winner.player;
         }
-        const nextState = this.getNextState(position.gameState);
-        if(!nextState){
+        const next = this.getNextStateAndPosition(position.gameState);
+        if(!next){
             return;
         }
-        const nextPosition = nextState.getLastPlayedPosition();
-        if(nextPosition === undefined){
-            return;
-        }
-        const childState = this.positions[nextPosition] = this.positions[nextPosition] || new StorageState(nextState);
+        const childState = this.positions[next.position] = this.positions[next.position] || new StorageState(next.state);
         childState.revealPosition(position);
     }
 
     public hideState(state: GameState): void{
-        const nextState = this.getNextState(state);
-        if(!nextState){
+        const next = this.getNextStateAndPosition(state);
+        if(!next){
             return;
         }
-        const nextPosition = nextState.getLastPlayedPosition();
-        if(nextPosition === undefined){
+        if(next.state.equals(state)){
+            this.positions[next.position] = undefined;
             return;
         }
-        if(nextState.equals(state)){
-            this.positions[nextPosition] = undefined;
-            return;
-        }
-        const storageStateForNextState = this.positions[nextPosition];
+        const storageStateForNextState = this.positions[next.position];
         if(!storageStateForNextState){
             return;
         }
