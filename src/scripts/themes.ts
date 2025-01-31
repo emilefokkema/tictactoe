@@ -7,17 +7,30 @@ export interface Theme {
     readonly winnerTheme: Theme
 }
 
-export const lightTheme: Theme = {
-    backgroundColor: palette.light,
-    color: palette.dark,
-    get loserTheme(): Theme { return lessLightTheme; },
-    get winnerTheme(): Theme { return lightTheme; }
+class EverDarkerTheme implements Theme {
+    public backgroundColor: string
+    public color = '#151517';
+    private cachedWinner: Theme | undefined;
+    private cachedLoser: Theme | undefined;
+    public get winnerTheme(): Theme {
+        return this.cachedWinner = this.cachedWinner || this.createWinnerTheme();
+    }
+    public get loserTheme(): Theme {
+        return this.cachedLoser = this.cachedLoser || this.createLoserTheme();
+    }
+    public constructor(
+        private readonly lightness: number
+    ){
+        this.backgroundColor = `hsl(57 5 ${lightness})`;
+    }
+    private createLoserTheme(): Theme {
+        const newLightness = Math.max(0, this.lightness - 10);
+        return new EverDarkerTheme(newLightness);
+    }
+    private createWinnerTheme(): Theme {
+        const newLightness = Math.min(98, this.lightness + 5);
+        return new EverDarkerTheme(newLightness);
+    }
 }
 
-export const lessLightTheme: Theme = {
-    backgroundColor: palette.middle,
-    color: palette.dark,
-    get loserTheme(): Theme { return lessLightTheme; },
-    get winnerTheme(): Theme { return lightTheme; }
-}
-
+export const lightTheme = new EverDarkerTheme(98);
