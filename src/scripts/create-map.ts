@@ -6,15 +6,19 @@ import { palette } from "./palette";
 import { Renderer } from "./renderer/types";
 import { lightTheme } from "./themes";
 import { GridImpl } from "./ui-impl/grid-impl";
+import { TicTacToeStore } from "./store/tictactoe-store";
+import { connectStores } from "./store/connect-stores";
 
 export function createMap(
     renderer: Renderer,
     pointerEvents: PointerEventTargetLike,
-    screenMeasurements: ScreenMeasurements
+    screenMeasurements: ScreenMeasurements,
+    store: TicTacToeStore
 ): void {
     const eventTarget = createPointerEvents(pointerEvents);
     const measurements = getInitialMeasurements(screenMeasurements.width, screenMeasurements.height);
     const grid = new GridImpl(
+        renderer,
         {
             ...measurements,
             background: {
@@ -28,16 +32,8 @@ export function createMap(
         lightTheme,
         undefined
     )
-    const ticTacToeRoot = createTicTacToeRoot(
-        grid,
-        lightTheme
-    )
-    ticTacToeRoot.addEventListener('positionrevealed', (p) => {
-        renderer.rerender()
-    });
-    ticTacToeRoot.addEventListener('statehidden', (s) => {
-        renderer.rerender()
-    })
+    const ticTacToeRoot = createTicTacToeRoot(grid, lightTheme);
+    connectStores(store, ticTacToeRoot);
 
     renderer.setRenderable({
         draw(ctx): void{

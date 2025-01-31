@@ -13,12 +13,14 @@ import { O } from "./o";
 import { GridCellMeasurements } from "./types";
 import { Win } from "./win";
 import { X } from "./x";
+import { Renderer } from "../renderer/types";
 
 class GridCellImpl implements GridCell {
     private theme: Theme;
     public content: Drawable | undefined;
     private eventTarget: CustomPointerEventTarget | undefined;
     public constructor(
+        private readonly renderer: Renderer,
         private readonly measurements: GridCellMeasurements,
         private readonly borders: GridCellBorder[],
         private readonly gridEventTarget: CustomPointerEventTarget,
@@ -44,10 +46,12 @@ class GridCellImpl implements GridCell {
     }
     public setTheme(theme: Theme): void {
         this.theme = theme;
-        this.borders.forEach(b => b.setTheme(theme))
+        this.borders.forEach(b => b.setTheme(theme));
+        this.renderer.rerender();
     }
     public setGridTheme(theme: Theme){
         this.gridTheme = theme;
+        this.renderer.rerender();
     }
     public addEventListener<TType extends keyof CustomPointerEventMap>(type: TType, handler: (ev: CustomPointerEventMap[TType]) => void): void {
         this.ensureOwnEventTarget().addEventListener(type, handler);
@@ -57,18 +61,22 @@ class GridCellImpl implements GridCell {
     }
     public displayX(): void {
         this.content = new X(this.measurements, this.theme);
+        this.renderer.rerender();
     }
     public displayO(): void {
         this.content = new O(this.measurements, this.theme);
+        this.renderer.rerender();
     }
     public displayGrid(): Grid {
         const newGrid = new GridImpl(
+            this.renderer,
             this.measurements,
             this.ensureOwnEventTarget(),
             this.theme,
             this
         );
         this.content = newGrid;
+        this.renderer.rerender();
         return newGrid;
     }
     public clear(): void {
@@ -78,6 +86,7 @@ class GridCellImpl implements GridCell {
         }
         this.content = undefined;
         this.theme = this.gridTheme;
+        this.renderer.rerender();
     }
     public destroy(): void {
         this.eventTarget?.destroy();
@@ -100,6 +109,7 @@ export class GridImpl implements Grid, Drawable {
         return this.cellImpls;
     }
     public constructor(
+        private readonly renderer: Renderer,
         measurements: GridCellMeasurements,
         eventTarget: CustomPointerEventTarget,
         private theme: Theme,
@@ -113,6 +123,7 @@ export class GridImpl implements Grid, Drawable {
         const cellMeasurements = [...builder.getCellMeasurements()];
         this.cellImpls = [
             new GridCellImpl(
+                this.renderer,
                 cellMeasurements[0],
                 [
                     new GridCellBorder(this.leftVerticalBorder, GridBorderPart.BeginningRight),
@@ -122,6 +133,7 @@ export class GridImpl implements Grid, Drawable {
                 theme
             ),
             new GridCellImpl(
+                this.renderer,
                 cellMeasurements[1],
                 [
                     new GridCellBorder(this.leftVerticalBorder, GridBorderPart.BeginningLeft),
@@ -132,6 +144,7 @@ export class GridImpl implements Grid, Drawable {
                 theme
             ),
             new GridCellImpl(
+                this.renderer,
                 cellMeasurements[2],
                 [
                     new GridCellBorder(this.rightVerticalBorder, GridBorderPart.BeginningLeft),
@@ -141,6 +154,7 @@ export class GridImpl implements Grid, Drawable {
                 theme
             ),
             new GridCellImpl(
+                this.renderer,
                 cellMeasurements[3],
                 [
                     new GridCellBorder(this.topHorizontalBorder, GridBorderPart.BeginningRight),
@@ -151,6 +165,7 @@ export class GridImpl implements Grid, Drawable {
                 theme
             ),
             new GridCellImpl(
+                this.renderer,
                 cellMeasurements[4],
                 [
                     new GridCellBorder(this.topHorizontalBorder, GridBorderPart.MiddleRight),
@@ -162,6 +177,7 @@ export class GridImpl implements Grid, Drawable {
                 theme
             ),
             new GridCellImpl(
+                this.renderer,
                 cellMeasurements[5],
                 [
                     new GridCellBorder(this.topHorizontalBorder, GridBorderPart.EndRight),
@@ -172,6 +188,7 @@ export class GridImpl implements Grid, Drawable {
                 theme
             ),
             new GridCellImpl(
+                this.renderer,
                 cellMeasurements[6],
                 [
                     new GridCellBorder(this.leftVerticalBorder, GridBorderPart.EndRight),
@@ -181,6 +198,7 @@ export class GridImpl implements Grid, Drawable {
                 theme
             ),
            new GridCellImpl(
+                this.renderer,
                 cellMeasurements[7],
                 [
                     new GridCellBorder(this.leftVerticalBorder, GridBorderPart.EndLeft),
@@ -191,6 +209,7 @@ export class GridImpl implements Grid, Drawable {
                 theme
             ),
             new GridCellImpl(
+                this.renderer,
                 cellMeasurements[8],
                 [
                     new GridCellBorder(this.rightVerticalBorder, GridBorderPart.EndLeft),
@@ -239,6 +258,7 @@ export class GridImpl implements Grid, Drawable {
     public displayWinner(winner: Winner | undefined): void {
         if(!winner){
             this.overlayContent = undefined;
+            this.renderer.rerender();
             return;
         }
         const winnerStartContent = this.cellImpls[winner.three.positions[0]].content;
@@ -253,5 +273,6 @@ export class GridImpl implements Grid, Drawable {
             getMarkLineWidth(this.cellSize)
         )
         this.overlayContent = win;
+        this.renderer.rerender();
     }
 }
