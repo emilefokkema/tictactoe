@@ -1,4 +1,4 @@
-import { CustomPointerEventMap } from "../../src/scripts/events/types";
+import { CustomPointerEventMap } from "../../src/scripts/pointer-events/types";
 import { GameState } from "../../src/scripts/state/game-state";
 import { Grid } from "../../src/scripts/ui/grid";
 

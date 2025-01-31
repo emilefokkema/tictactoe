@@ -1,4 +1,4 @@
-import { CustomPointerEventMap } from "../events/types"
+import { CustomPointerEventMap } from "../pointer-events/types"
 import { GridCell } from "../ui/grid"
 
 export interface XParent {

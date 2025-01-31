@@ -1,4 +1,4 @@
-import { EventTargetImpl } from "./event-target-impl";
+import { PointerEventTargetImpl } from "./pointer-event-target-impl";
 import { GestureFactoryImpl } from "./gesture-factory-impl";
 import { CustomPointerEventTarget, PointerEventTargetLike, CustomPointerEventDispatcher, Gesture } from "./types";
 
@@ -35,7 +35,7 @@ class CustomPointerEventProducer {
 export function createPointerEvents(
     pointerEvents: PointerEventTargetLike
 ): CustomPointerEventTarget {
-    const rootTarget = new EventTargetImpl(undefined, undefined);
+    const rootTarget = new PointerEventTargetImpl(undefined, undefined);
     const eventProducer = new CustomPointerEventProducer(rootTarget);
     pointerEvents.addEventListener('pointerdown', (ev) => {
         eventProducer.handlePointerDown(ev);

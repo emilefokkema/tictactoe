@@ -1,5 +1,5 @@
 import Table, { TableConstructorOptions } from 'cli-table3'
-import { CustomPointerEventMap } from "../../src/scripts/events/types";
+import { CustomPointerEventMap } from "../../src/scripts/pointer-events/types";
 import { Theme } from "../../src/scripts/themes";
 import { Grid, GridCell } from "../../src/scripts/ui/grid";
 import { Winner } from "../../src/scripts/winner";

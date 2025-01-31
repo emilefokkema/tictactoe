@@ -1,4 +1,5 @@
-import { CustomPointerEventMap, EventTargetLike } from "../events/types";
+import { CustomPointerEventMap } from "../pointer-events/types";
+import { EventTargetLike } from '../events/types'
 import { Winner } from "../winner";
 import { Themeable } from "./themeable";
 

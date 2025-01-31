@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeAll, Mock, afterEach } from 'vitest'
 import { mockPointerEvents, PointerEventsMock } from './mock-pointer-events';
-import { CustomPointerEventTarget } from '../src/scripts/events/types';
-import { createPointerEvents } from '../src/scripts/events/create-pointer-events';
+import { CustomPointerEventTarget } from '../src/scripts/pointer-events/types';
+import { createPointerEvents } from '../src/scripts/pointer-events/create-pointer-events';
 
 vi.useFakeTimers();
 

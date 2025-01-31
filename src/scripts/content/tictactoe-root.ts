@@ -1,17 +1,12 @@
-import { EventTargetLike } from "../events/types";
 import { GameState } from "../state/game-state";
 import { RevealedPosition } from "../state/revealed-position";
 import { Theme } from "../themes";
 import { Grid } from "../ui/grid";
-import { WriteTicTacToe } from "./write-tictactoe";
 import { TicTacToeImpl, TicTacToeParent } from "./tictactoe-impl";
+import { EventDispatcher } from "../events/event-dispatcher";
+import { TicTacToeEventMap, TicTacToeStore } from "../store/tictactoe-store";
 
-export interface TicTacToeEventMap {
-    statehidden: GameState
-    positionrevealed: RevealedPosition
-}
-
-export interface TicTacToeRoot extends WriteTicTacToe, EventTargetLike<TicTacToeEventMap> {
+export interface TicTacToeRoot extends TicTacToeStore {
 
 }
 
@@ -19,22 +14,18 @@ export function createTicTacToeRoot(
     grid: Grid,
     theme: Theme
 ): TicTacToeRoot {
-    const listeners: {[Key in keyof TicTacToeEventMap]: ((ev: TicTacToeEventMap[Key]) => void)[]} = {
+    const eventDispatcher: EventDispatcher<TicTacToeEventMap> = new EventDispatcher({
         statehidden: [],
         positionrevealed: []
-    };
+    });
     const parent: TicTacToeParent = {
         notifyRevealedPosition(position: RevealedPosition): void {
             impl.revealPosition(position);
-            for(const listener of listeners.positionrevealed.slice()){
-                listener(position);
-            }
+            eventDispatcher.dispatchEvent('positionrevealed', position);
         },
         notifyHiddenState(state: GameState): void {
             impl.hideState(state);
-            for(const listener of listeners.statehidden.slice()){
-                listener(state);
-            }
+            eventDispatcher.dispatchEvent('statehidden', state);
         }
     };
     const impl = new TicTacToeImpl(
@@ -53,15 +44,10 @@ export function createTicTacToeRoot(
             impl.revealPosition(position);
         },
         addEventListener<TType extends keyof TicTacToeEventMap>(type: TType, listener: (ev: TicTacToeEventMap[TType]) => void): void {
-            listeners[type].push(listener)
+            eventDispatcher.addEventListener(type, listener);
         },
         removeEventListener<TType extends keyof TicTacToeEventMap>(type: TType, listener: (ev: TicTacToeEventMap[TType]) => void): void {
-            const listenersForEvent = listeners[type];
-            const index = listenersForEvent.indexOf(listener);
-            if(index === -1){
-                return;
-            }
-            listenersForEvent.splice(index, 1);
+            eventDispatcher.removeEventListener(type, listener);
         }
     };
 }

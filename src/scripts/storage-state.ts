@@ -1,14 +1,14 @@
-import { WriteTicTacToe } from "./content/write-tictactoe";
 import { Player } from "./player";
 import { GameState } from "./state/game-state";
 import { RevealedPosition } from "./state/revealed-position";
+import { TicTacToeStoreMutations } from "./store/tictactoe-store";
 
 type StorageStateJson = {
     [position: number]: StorageStateJson
     w?: Player
 }
 
-export class StorageState implements WriteTicTacToe {
+export class StorageState implements TicTacToeStoreMutations {
     private constructor(
         private readonly gameState: GameState,
         private readonly positions: (StorageState | undefined)[] = [],

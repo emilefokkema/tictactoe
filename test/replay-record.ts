@@ -1,5 +1,5 @@
-import { WriteTicTacToe } from "../src/scripts/content/write-tictactoe"
 import { RevealedPosition } from "../src/scripts/state/revealed-position"
+import { TicTacToeStoreMutations } from "../src/scripts/store/tictactoe-store"
 import { gameStateWithPositions } from "./game-state-with-positions"
 
 interface RevealedRecordEntry {
@@ -41,14 +41,14 @@ function createRevealedPosition(entry: RevealedRecordEntry): RevealedPosition {
     }
 }
 
-export function replayRecord(write: WriteTicTacToe, record: RecordEntry[]): void {
+export function replayRecord(store: TicTacToeStoreMutations, record: RecordEntry[]): void {
     for(const entry of record){
         if(isReveal(entry)){
-            write.revealPosition(createRevealedPosition(entry));
+            store.revealPosition(createRevealedPosition(entry));
             continue;
         }
         if(isHide(entry)){
-            write.hideState(gameStateWithPositions(entry.hidden))
+            store.hideState(gameStateWithPositions(entry.hidden))
         }
     }
 }

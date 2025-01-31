@@ -1,25 +1,25 @@
+import { EventDispatcher } from "../events/event-dispatcher";
 import { Measurements, measurementsInclude } from "../measurements";
 import { CustomPointerEventDispatcher, CustomPointerEventMap, CustomPointerEventTarget, PointerDownEventResult } from "./types";
 
-export class EventTargetImpl implements CustomPointerEventDispatcher {
-    private readonly children: EventTargetImpl[] = [];
-    private readonly listeners: {[key in keyof CustomPointerEventMap]: ((ev: CustomPointerEventMap[key]) => void)[]} = {
-        pointerdown: [],
-        clickcancel: [],
-        dblclickcancel: [],
-        dblclick: [],
-        click: []
-    };
+export class PointerEventTargetImpl implements CustomPointerEventDispatcher {
+    private readonly children: PointerEventTargetImpl[] = [];
+    private readonly eventDispatcher: EventDispatcher<CustomPointerEventMap>;
+
     public constructor(
         private readonly area: Measurements | undefined,
-        private readonly parent: EventTargetImpl | undefined
-    ){}
-    private dispatchEvent<TType extends keyof CustomPointerEventMap>(type: TType, event: CustomPointerEventMap[TType]): void{
-        for(const listener of this.listeners[type].slice()){
-            listener(event);
-        }
+        private readonly parent: PointerEventTargetImpl | undefined
+    ){
+        this.eventDispatcher = new EventDispatcher({
+            pointerdown: [],
+            clickcancel: [],
+            dblclickcancel: [],
+            dblclick: [],
+            click: []
+        })
     }
-    private removeChild(child: EventTargetImpl): void{
+
+    private removeChild(child: PointerEventTargetImpl): void{
         const index = this.children.indexOf(child);
         if(index === -1){
             return;
@@ -38,50 +38,45 @@ export class EventTargetImpl implements CustomPointerEventDispatcher {
                 cancelDoubleClickAllowed = true;
             }
         }
-        this.dispatchEvent('pointerdown', customEvent);
+        this.eventDispatcher.dispatchEvent('pointerdown', customEvent);
         return { cancelClickAllowed, cancelDoubleClickAllowed };
     }
     public dispatchClickCancel(): void {
         const event: CustomPointerEventMap['clickcancel'] =  {
             type: 'clickcancel'
         }
-        this.dispatchEvent('clickcancel', event);
+        this.eventDispatcher.dispatchEvent('clickcancel', event);
     }
     public dispatchDoubleClickCancel(): void {
         const event: CustomPointerEventMap['dblclickcancel'] =  {
             type: 'dblclickcancel'
         }
-        this.dispatchEvent('dblclickcancel', event);
+        this.eventDispatcher.dispatchEvent('dblclickcancel', event);
     }
     public dispatchClick(): void {
         const event: CustomPointerEventMap['click'] =  {
             type: 'click'
         }
-        this.dispatchEvent('click', event)
+        this.eventDispatcher.dispatchEvent('click', event)
     }
     public dispatchDoubleClick(): void {
         const event: CustomPointerEventMap['dblclick'] =  {
             type: 'dblclick'
         }
-        this.dispatchEvent('dblclick', event)
+        this.eventDispatcher.dispatchEvent('dblclick', event)
     }
     public addEventListener<TType extends keyof CustomPointerEventMap>(
         type: TType,
         listener: (ev: CustomPointerEventMap[TType]) => void): void {
-            this.listeners[type].push(listener);
+            this.eventDispatcher.addEventListener(type, listener);
     }
     public removeEventListener<TType extends keyof CustomPointerEventMap>(
         type: TType,
         listener: (ev: CustomPointerEventMap[TType]) => void): void {
-            const listeners = this.listeners[type];
-            const index = listeners.indexOf(listener);
-            if(index === -1){
-                return;
-            }
-            listeners.splice(index, 1);
+           this.eventDispatcher.removeEventListener(type, listener);
     }
     public addChildForArea(area: Measurements): CustomPointerEventTarget{
-        const child = new EventTargetImpl(area, this);
+        const child = new PointerEventTargetImpl(area, this);
         this.children.push(child);
         return child;
     }

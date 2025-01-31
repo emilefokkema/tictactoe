@@ -1,4 +1,4 @@
-import { CustomPointerEventMap, CustomPointerEventTarget, EventTargetLike } from "../events/types";
+import { CustomPointerEventMap, CustomPointerEventTarget } from "../pointer-events/types";
 import { getMarkLineWidth } from "../measurements";
 import { Theme } from "../themes";
 import { Drawable } from "../ui/drawable";

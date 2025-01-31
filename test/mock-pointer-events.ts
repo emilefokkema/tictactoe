@@ -1,4 +1,4 @@
-import { PointerEventTargetLike, PointerEventType } from '../src/scripts/events/types'
+import { PointerEventTargetLike, PointerEventType } from '../src/scripts/pointer-events/types'
 
 export type MockEvent = Pick<GlobalEventHandlersEventMap[PointerEventType], 'pointerId' | 'offsetX' | 'offsetY' | 'pointerType'> & {
     type: PointerEventType
