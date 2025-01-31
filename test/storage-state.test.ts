@@ -18,7 +18,7 @@ function restoreRevealedPositions(state: StorageState): RevealedPosition[] {
 }
 
 function stringifyRevealedPositions(positions: RevealedPosition[]): string {
-    const result = JSON.stringify(positions);
+    const result = JSON.stringify(positions, null, 2);
     return result;
 }
 
@@ -52,8 +52,22 @@ describe('a storage state', () => {
             replayRecord(initialState, manyLosers)
         })
 
-        it.only('should', () => {
+        it('should serialize and deserialize correctly', () => {
             const revealed = restoreRevealedPositions(initialState);
+            expect(stringifyRevealedPositions(revealed)).toMatchSnapshot();
+        })
+    })
+
+    describe('that is empty', () => {
+        let state: StorageState;
+
+        beforeEach(() => {
+            state = StorageState.create();
+        })
+
+        it('should serialize and deserialize correctly', () => {
+            const revealed = restoreRevealedPositions(state);
+            expect(stringifyRevealedPositions(revealed)).toMatchSnapshot();
         })
     })
 })

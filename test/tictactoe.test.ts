@@ -8,6 +8,7 @@ import { TestPlayer } from './player/test-player';
 import { GameState } from '../src/scripts/state/game-state';
 import { revealedPosition } from './revealed-position-builder';
 import winner01Succinct from './fixtures/winner-0-1-succinct.json'
+import manyLosersSuccinct from './fixtures/many-losers-succinct.json';
 import { replayRecord } from './replay-record';
 
 describe('a tictactoe', () => {
@@ -300,6 +301,17 @@ describe('a tictactoe', () => {
 
         it('should look like this', () => {
             expect(player.grid.findByPosition([0, 1]).grid.toString()).toMatchSnapshot();
+        })
+    })
+
+    describe('when it is told to reveal positions 3', () => {
+
+        beforeEach(() => {
+            replayRecord(ticTacToe, manyLosersSuccinct);
+        })
+
+        it('should look like this', () => {
+            expect(player.grid.findByPosition([0, 2, 1, 6, 3, 5, 8, 7]).grid.toString()).toMatchSnapshot();
         })
     })
 

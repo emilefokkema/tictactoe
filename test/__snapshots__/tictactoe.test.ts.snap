@@ -75,6 +75,16 @@ X!| |
 X!| |O                                                                                "
 `;
 
+exports[`a tictactoe > when it is told to reveal positions 3 > should look like this 1`] = `
+"
+1: -----  2: -----+  
+X|X|O     X!|X |O    
+-+-+-     --+--+--   
+X|2|O     X |X!|O    
+-+-+-     --+--+--   
+O|O|X     O |O |X!   "
+`;
+
 exports[`a tictactoe > when playing 0, 1, 3, 6 and 4 > and 7 and 8 > and winner 01 is revealed > should delete states by double clicking 1`] = `
 "
 1:      2:     3: -   4: -     5:     6: -   7: -   

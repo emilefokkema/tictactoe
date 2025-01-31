@@ -96,17 +96,14 @@ export class StorageState implements WriteTicTacToe {
                     player: this.winner
                 }
             }
+            return;
         }
-        if(!revealed){
+        if(!revealed && !this.gameState.equals(GameState.initial)){
             yield {
                 gameState: this.gameState,
                 winner: undefined
             }
         }
-    }
-
-    public removeState(state: GameState): void {
-
     }
 
     public toJSON(){
