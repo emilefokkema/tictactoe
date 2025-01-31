@@ -1,0 +1,723 @@
+[
+    {
+        "revealed": {
+            "gameState": [
+                0
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                3
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                3,
+                8
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                3,
+                8,
+                5
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                3,
+                8,
+                5,
+                4
+            ],
+            "winner": {
+                "player": 2,
+                "gameState": [
+                    0,
+                    2,
+                    1,
+                    6,
+                    3,
+                    8,
+                    5
+                ]
+            }
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                3,
+                8,
+                4
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                3,
+                8,
+                4,
+                5
+            ],
+            "winner": {
+                "gameState": [
+                    0,
+                    2,
+                    1,
+                    6,
+                    3
+                ],
+                "player": 2
+            }
+        }
+    },
+    {
+        "hidden": [
+            0,
+            2,
+            1,
+            6,
+            3,
+            8,
+            5
+        ]
+    },
+    {
+        "hidden": [
+            0,
+            2,
+            1,
+            6,
+            3,
+            8,
+            4
+        ]
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                6
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                6,
+                4
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                6,
+                4,
+                5
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                6,
+                4,
+                5,
+                8
+            ],
+            "winner": {
+                "player": 1,
+                "gameState": [
+                    0,
+                    2,
+                    3,
+                    6,
+                    4,
+                    5
+                ]
+            }
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                6,
+                4,
+                8
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                6,
+                4,
+                8,
+                5
+            ],
+            "winner": {
+                "player": 1,
+                "gameState": [
+                    0,
+                    2,
+                    3,
+                    6,
+                    4,
+                    8
+                ]
+            }
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                6,
+                4,
+                1
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                6,
+                4,
+                1,
+                5
+            ],
+            "winner": {
+                "player": 1,
+                "gameState": [
+                    0,
+                    2,
+                    3,
+                    6,
+                    4,
+                    1
+                ]
+            }
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                6,
+                4,
+                7
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                6,
+                4,
+                7,
+                8
+            ],
+            "winner": {
+                "gameState": [
+                    0,
+                    2,
+                    3,
+                    6
+                ],
+                "player": 1
+            }
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                1
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                1,
+                6
+            ],
+            "winner": {
+                "player": 1,
+                "gameState": [
+                    0,
+                    2,
+                    3,
+                    1
+                ]
+            }
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                4
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                4,
+                6
+            ],
+            "winner": {
+                "player": 1,
+                "gameState": [
+                    0,
+                    2,
+                    3,
+                    4
+                ]
+            }
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                5
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                5,
+                6
+            ],
+            "winner": {
+                "player": 1,
+                "gameState": [
+                    0,
+                    2,
+                    3,
+                    5
+                ]
+            }
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                7
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                7,
+                6
+            ],
+            "winner": {
+                "player": 1,
+                "gameState": [
+                    0,
+                    2,
+                    3,
+                    7
+                ]
+            }
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                8
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                3,
+                8,
+                6
+            ],
+            "winner": {
+                "gameState": [
+                    0,
+                    2
+                ],
+                "player": 1
+            }
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                4
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                4,
+                3
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                4,
+                3,
+                8
+            ],
+            "winner": {
+                "player": 1,
+                "gameState": [
+                    0,
+                    2,
+                    1,
+                    6,
+                    4,
+                    3
+                ]
+            }
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                4,
+                5
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                4,
+                5,
+                8
+            ],
+            "winner": {
+                "player": 1,
+                "gameState": [
+                    0,
+                    2,
+                    1,
+                    6,
+                    4,
+                    5
+                ]
+            }
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                4,
+                7
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                4,
+                7,
+                8
+            ],
+            "winner": {
+                "player": 1,
+                "gameState": [
+                    0,
+                    2,
+                    1,
+                    6,
+                    4,
+                    7
+                ]
+            }
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                4,
+                8
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                4,
+                8,
+                7
+            ],
+            "winner": {
+                "gameState": [
+                    0,
+                    2,
+                    1,
+                    6
+                ],
+                "player": 1
+            }
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                3,
+                5
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                3,
+                5,
+                8
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                3,
+                5,
+                8,
+                4
+            ],
+            "winner": {
+                "player": 2,
+                "gameState": [
+                    0,
+                    2,
+                    1,
+                    6,
+                    3,
+                    5,
+                    8
+                ]
+            }
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                3,
+                5,
+                8,
+                7
+            ]
+        }
+    },
+    {
+        "revealed": {
+            "gameState": [
+                0,
+                2,
+                1,
+                6,
+                3,
+                5,
+                8,
+                7,
+                4
+            ],
+            "winner": {
+                "player": 1,
+                "gameState": [
+                    0,
+                    2,
+                    1,
+                    6,
+                    3,
+                    5,
+                    8,
+                    7
+                ]
+            }
+        }
+    }
+]

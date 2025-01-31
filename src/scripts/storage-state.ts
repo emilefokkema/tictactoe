@@ -1,3 +1,4 @@
+import { WriteTicTacToe } from "./content/write-tictactoe";
 import { Player } from "./player";
 import { GameState } from "./state/game-state";
 import { RevealedPosition } from "./state/revealed-position";
@@ -7,30 +8,56 @@ type StorageStateJson = {
     w?: Player
 }
 
-export class StorageState {
+export class StorageState implements WriteTicTacToe {
     private constructor(
         private readonly gameState: GameState,
-        private readonly positions: StorageState[] = [],
+        private readonly positions: (StorageState | undefined)[] = [],
         private winner?: Player | undefined
     ){
 
     }
-    public addRevealedPosition(position: RevealedPosition): void {
+    private getNextState(state: GameState): GameState | undefined {
+        const index = state.indexOfPredecessor(this.gameState);
+        if(index === -1){
+            return undefined;
+        }
+        return state.predecessorAtIndex(index + 1);
+    }
+    public revealPosition(position: RevealedPosition): void {
         const winner = position.winner;
         if(winner && winner.gameState.equals(this.gameState)){
             this.winner = winner.player;
         }
-        const index = position.gameState.indexOfPredecessor(this.gameState);
-        if(index === -1){
-            return;
-        }
-        const nextState = position.gameState.predecessorAtIndex(index + 1);
+        const nextState = this.getNextState(position.gameState);
         if(!nextState){
             return;
         }
-        const nextPosition = nextState.getLastPlayedPosition()!;
+        const nextPosition = nextState.getLastPlayedPosition();
+        if(nextPosition === undefined){
+            return;
+        }
         const childState = this.positions[nextPosition] = this.positions[nextPosition] || new StorageState(nextState);
-        childState.addRevealedPosition(position);
+        childState.revealPosition(position);
+    }
+
+    public hideState(state: GameState): void{
+        const nextState = this.getNextState(state);
+        if(!nextState){
+            return;
+        }
+        const nextPosition = nextState.getLastPlayedPosition();
+        if(nextPosition === undefined){
+            return;
+        }
+        if(nextState.equals(state)){
+            this.positions[nextPosition] = undefined;
+            return;
+        }
+        const storageStateForNextState = this.positions[nextPosition];
+        if(!storageStateForNextState){
+            return;
+        }
+        storageStateForNextState.hideState(state);
     }
 
     public *getRevealedPositions(): Iterable<RevealedPosition> {

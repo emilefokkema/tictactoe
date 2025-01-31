@@ -3,7 +3,7 @@ import { GameState } from "../state/game-state";
 import { RevealedPosition } from "../state/revealed-position";
 import { Theme } from "../themes";
 import { Grid } from "../ui/grid";
-import { TicTacToe } from "./tictactoe";
+import { WriteTicTacToe } from "./write-tictactoe";
 import { TicTacToeImpl, TicTacToeParent } from "./tictactoe-impl";
 
 export interface TicTacToeEventMap {
@@ -11,7 +11,7 @@ export interface TicTacToeEventMap {
     positionrevealed: RevealedPosition
 }
 
-export interface TicTacToeRoot extends TicTacToe, EventTargetLike<TicTacToeEventMap> {
+export interface TicTacToeRoot extends WriteTicTacToe, EventTargetLike<TicTacToeEventMap> {
 
 }
 
@@ -25,8 +25,6 @@ export function createTicTacToeRoot(
     };
     const parent: TicTacToeParent = {
         notifyRevealedPosition(position: RevealedPosition): void {
-            console.log(`revealed ${JSON.stringify(position.gameState)}` + 
-                (position.winner ? ` (winner ${position.winner.player} at ${JSON.stringify(position.winner.gameState)})` : ''))
             impl.revealPosition(position);
             for(const listener of listeners.positionrevealed.slice()){
                 listener(position);

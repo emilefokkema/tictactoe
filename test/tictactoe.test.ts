@@ -6,8 +6,9 @@ import { Player } from '../src/scripts/player';
 import { createTestPlayer } from './player/test-player-impl';
 import { TestPlayer } from './player/test-player';
 import { GameState } from '../src/scripts/state/game-state';
-import { gameStateWithPositions } from './game-state-with-positions';
 import { revealedPosition } from './revealed-position-builder';
+import winner01Succinct from './fixtures/winner-0-1-succinct.json'
+import { replayRecord } from './replay-record';
 
 describe('a tictactoe', () => {
     let ticTacToe: TicTacToeRoot;
@@ -294,24 +295,11 @@ describe('a tictactoe', () => {
     describe('when it is told to reveal positions 2', () => {
 
         beforeEach(() => {
-            const positions: RevealedPosition[] = [
-                revealedPosition([0, 1, 3, 2, 6], Player.X, [0, 1, 3, 2]),
-                revealedPosition([0, 1, 3, 4, 6], Player.X, [0, 1, 3, 4]),
-                revealedPosition([0, 1, 3, 5, 6], Player.X, [0, 1, 3, 5]),
-                revealedPosition([0, 1, 3, 6, 4, 2, 5], Player.X, [0, 1, 3, 6, 4, 2]),
-                revealedPosition([0, 1, 3, 6, 4, 5, 8], Player.X, [0, 1, 3, 6, 4, 5]),
-                revealedPosition([0, 1, 3, 6, 4, 7, 5], Player.X, [0, 1, 3, 6]),
-                revealedPosition([0, 1, 3, 6, 4, 8, 5], Player.X, [0, 1, 3, 6, 4, 8]),
-                revealedPosition([0, 1, 3, 7, 6], Player.X, [0, 1, 3, 7]),
-                revealedPosition([0, 1, 3, 8, 6], Player.X, [0, 1]),
-            ];
-            for(const position of positions){
-                ticTacToe.revealPosition(position);
-            }
+            replayRecord(ticTacToe, winner01Succinct);
         })
 
-        it.only('should', () => {
-            console.log(player.grid.findByPosition([0, 1]).grid.toString())
+        it('should look like this', () => {
+            expect(player.grid.findByPosition([0, 1]).grid.toString()).toMatchSnapshot();
         })
     })
 

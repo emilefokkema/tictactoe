@@ -5,7 +5,7 @@ import { Theme } from "../themes"
 import { Grid, GridCell } from "../ui/grid"
 import { Winner } from "../winner"
 import { Possibility, PossibilityParent } from "./possibility"
-import { TicTacToe } from "./tictactoe"
+import { WriteTicTacToe } from "./write-tictactoe"
 import { X, XParent } from "./x"
 
 export interface TicTacToeParent {
@@ -13,7 +13,7 @@ export interface TicTacToeParent {
     notifyHiddenState(state: GameState): void
 }
 
-export class TicTacToeImpl implements TicTacToe, PossibilityParent, TicTacToeParent, XParent {
+export class TicTacToeImpl implements WriteTicTacToe, PossibilityParent, TicTacToeParent, XParent {
     private theme: Theme
     private readonly possibilities: Possibility[]
     private readonly xes: X[];

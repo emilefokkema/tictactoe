@@ -1,12 +1,25 @@
 import { describe, beforeEach, it, expect } from 'vitest'
 import { StorageState } from '../src/scripts/storage-state';
-import { revealedPosition } from './revealed-position-builder';
-import { Player } from '../src/scripts/player';
+import winner01 from './fixtures/winner-0-1.json'
+import manyLosers from './fixtures/many-losers.json'
+import { replayRecord } from './replay-record';
+import { GameState } from '../src/scripts/state/game-state';
+import { RevealedPosition } from '../src/scripts/state/revealed-position';
 
 function serializeAndDeserialize(state: StorageState): StorageState {
     const serialized = JSON.stringify(state);
     const deserialized = StorageState.fromJSON(JSON.parse(serialized));
     return deserialized;
+}
+
+function restoreRevealedPositions(state: StorageState): RevealedPosition[] {
+    const cloned = serializeAndDeserialize(state);
+    return [...cloned.getRevealedPositions()];
+}
+
+function stringifyRevealedPositions(positions: RevealedPosition[]): string {
+    const result = JSON.stringify(positions);
+    return result;
 }
 
 describe('a storage state', () => {
@@ -16,50 +29,31 @@ describe('a storage state', () => {
 
         beforeEach(() => {
             initialState = StorageState.create();
-            const positions = [
-                revealedPosition([0]),
-                revealedPosition([0, 1]),
-                revealedPosition([0, 1, 3]),
-                revealedPosition([0, 1, 3, 6]),
-                revealedPosition([0, 1, 3, 6, 4]),
-                revealedPosition([0, 1, 3, 6, 4, 5]),
-                revealedPosition([0, 1, 3, 6, 4, 5, 8], Player.X, [0, 1, 3, 6, 4, 5]),
-                revealedPosition([0, 1, 3, 6, 4, 2]),
-                revealedPosition([0, 1, 3, 6, 4, 2, 5], Player.X, [0, 1, 3, 6, 4, 2]),
-                revealedPosition([0, 1, 3, 6, 4, 8]),
-                revealedPosition([0, 1, 3, 6, 4, 8, 5], Player.X, [0, 1, 3, 6, 4, 8]),
-                revealedPosition([0, 1, 3, 6, 4, 7]),
-                revealedPosition([0, 1, 3, 6, 4, 7, 5], Player.X, [0, 1, 3, 6]),
-                revealedPosition([0, 1, 3, 4]),
-                revealedPosition([0, 1, 3, 4, 6], Player.X, [0, 1, 3, 4]),
-                revealedPosition([0, 1, 3, 7]),
-                revealedPosition([0, 1, 3, 7, 6], Player.X, [0, 1, 3, 7]),
-                revealedPosition([0, 1, 3, 2]),
-                revealedPosition([0, 1, 3, 2, 6], Player.X, [0, 1, 3, 2]),
-                revealedPosition([0, 1, 3, 5]),
-                revealedPosition([0, 1, 3, 5, 6], Player.X, [0, 1, 3, 5]),
-                revealedPosition([0, 1, 3, 8]),
-                revealedPosition([0, 1, 3, 8, 6], Player.X, [0, 1]),
-            ];
-            for(const position of positions){
-                initialState.addRevealedPosition(position)
-            }
+            replayRecord(initialState, winner01)
         })
 
         it('should serialize and deserialize correctly', () => {
-            const cloned = serializeAndDeserialize(initialState);
-            const revealed = [...cloned.getRevealedPositions()];
-            expect(revealed).toEqual([
-                revealedPosition([0, 1, 3, 2, 6], Player.X, [0, 1, 3, 2]),
-                revealedPosition([0, 1, 3, 4, 6], Player.X, [0, 1, 3, 4]),
-                revealedPosition([0, 1, 3, 5, 6], Player.X, [0, 1, 3, 5]),
-                revealedPosition([0, 1, 3, 6, 4, 2, 5], Player.X, [0, 1, 3, 6, 4, 2]),
-                revealedPosition([0, 1, 3, 6, 4, 5, 8], Player.X, [0, 1, 3, 6, 4, 5]),
-                revealedPosition([0, 1, 3, 6, 4, 7, 5], Player.X, [0, 1, 3, 6]),
-                revealedPosition([0, 1, 3, 6, 4, 8, 5], Player.X, [0, 1, 3, 6, 4, 8]),
-                revealedPosition([0, 1, 3, 7, 6], Player.X, [0, 1, 3, 7]),
-                revealedPosition([0, 1, 3, 8, 6], Player.X, [0, 1]),
-            ])
+            const revealed = restoreRevealedPositions(initialState);
+            expect(stringifyRevealedPositions(revealed)).toMatchSnapshot();
+        })
+
+        it('should hide state', () => {
+            initialState.hideState(GameState.initial.playPosition(0).playPosition(1).playPosition(3));
+            const revealed = restoreRevealedPositions(initialState);
+            expect(stringifyRevealedPositions(revealed)).toMatchSnapshot();
+        })
+    });
+
+    describe('based on the many losers scenario', () => {
+        let initialState: StorageState;
+
+        beforeEach(() => {
+            initialState = StorageState.create();
+            replayRecord(initialState, manyLosers)
+        })
+
+        it.only('should', () => {
+            const revealed = restoreRevealedPositions(initialState);
         })
     })
 })
