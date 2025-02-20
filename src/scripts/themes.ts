@@ -8,6 +8,24 @@ export interface Theme {
     equals(other: Theme | undefined): boolean
 }
 
+class DarkTheme implements Theme {
+    public backgroundColor: string;
+    public color: string;
+    public constructor(){
+        this.color = `hsl(0 0 50%)`;
+        this.backgroundColor = `hsl(0 0 10%)`
+    }
+    public get winnerTheme(): Theme {
+        return darkTheme;
+    }
+    public get loserTheme(): Theme {
+        return darkTheme;
+    }
+    public equals(other: Theme | undefined): boolean {
+        return other === this;
+    }
+}
+
 class EverDarkerTheme implements Theme {
     public backgroundColor: string
     public color = '#151517';
@@ -38,3 +56,4 @@ class EverDarkerTheme implements Theme {
 }
 
 export const lightTheme = new EverDarkerTheme(98);
+export const darkTheme = new DarkTheme();

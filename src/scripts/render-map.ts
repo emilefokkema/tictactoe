@@ -3,7 +3,7 @@ import { PointerEventTargetLike } from "./pointer-events/types";
 import { getInitialMeasurements, ScreenMeasurements } from "./measurements";
 import { palette } from "./palette";
 import { Renderer } from "./renderer/types";
-import { lightTheme } from "./themes";
+import { lightTheme, darkTheme } from "./themes";
 import { GridImpl } from "./ui-impl/grid-impl";
 import { TicTacToeMap } from "./map/tictactoemap";
 
@@ -15,6 +15,7 @@ export function renderMap(
 ): void {
     const eventTarget = createPointerEvents(pointerEvents);
     const measurements = getInitialMeasurements(screenMeasurements.width, screenMeasurements.height);
+    const theme = darkTheme;
     const grid = new GridImpl(
         renderer,
         {
@@ -27,17 +28,17 @@ export function renderMap(
             }
         },
         eventTarget,
-        lightTheme,
+        theme,
         undefined
     )
-    map.renderOnGrid(grid, lightTheme);
+    map.renderOnGrid(grid, theme);
     //const ticTacToeRoot = createTicTacToeRoot(grid, lightTheme);
 
     //store.connectNewMapStore(ticTacToeRoot);
 
     renderer.setRenderable({
         draw(ctx): void{
-            ctx.fillStyle = palette.light;
+            ctx.fillStyle = theme.backgroundColor;
             ctx.save();
             ctx.clearRect(-Infinity, -Infinity, Infinity, Infinity);
             ctx.fillRect(-Infinity, -Infinity, Infinity, Infinity);

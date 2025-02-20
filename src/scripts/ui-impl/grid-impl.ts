@@ -1,7 +1,6 @@
 import { CustomPointerEventMap, CustomPointerEventTarget } from "../pointer-events/types";
 import { getMarkLineWidth } from "../measurements";
 import { Theme } from "../themes";
-import { Drawable } from "../ui/drawable";
 import { Grid, GridCell } from "../ui/grid";
 import { Winner } from "../winner";
 import { GridBorder } from "./grid-border";
@@ -13,11 +12,12 @@ import { O } from "./o";
 import { GridCellMeasurements } from "./types";
 import { Win } from "./win";
 import { X } from "./x";
-import { Renderer } from "../renderer/types";
+import { Renderable, Renderer } from "../renderer/types";
+import { Themeable } from "../ui/themeable";
 
 class GridCellImpl implements GridCell {
     private theme: Theme;
-    public content: Drawable | undefined;
+    public content: Renderable | undefined;
     private eventTarget: CustomPointerEventTarget | undefined;
     public constructor(
         private readonly renderer: Renderer,
@@ -48,6 +48,13 @@ class GridCellImpl implements GridCell {
         this.theme = theme;
         this.borders.forEach(b => b.setTheme(theme));
         this.renderer.rerender();
+        const content = this.content;
+        if(!content){
+            return;
+        }
+        if(isMark(content)){
+            content.setTheme(theme)
+        }
     }
     public setGridTheme(theme: Theme){
         this.gridTheme = theme;
@@ -96,8 +103,8 @@ class GridCellImpl implements GridCell {
         this.content?.draw(ctx);
     }
 }
-export class GridImpl implements Grid, Drawable {
-    private overlayContent: Drawable | undefined;
+export class GridImpl implements Grid, Themeable, Renderable {
+    private overlayContent: Renderable | undefined;
     private readonly cellImpls: [GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl];
     private readonly leftVerticalBorder: GridBorder;
     private readonly rightVerticalBorder: GridBorder;
