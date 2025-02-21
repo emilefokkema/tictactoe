@@ -3,17 +3,17 @@ import { GameStateTree } from "../state/game-state-tree";
 import { GameStateTreeImpl } from "../state/game-state-tree-impl";
 import { deserializeTree } from "../state/serialization";
 import { MapPersister } from "../store/map-persister";
-import { Theme } from "../themes";
+import { Theme } from "../ui/theme";
 import { Grid } from "../ui/grid";
 import { MapRenderer } from "../map/map-renderer";
 import { TicTacToeMap } from "../map/tictactoemap";
 import { GameState } from "../state/game-state";
 import { createBroadcastChannelRenderer } from "../store/broadcast-channel-renderer";
 
-export function createTicTacToeMap(
+export function createTicTacToeMap<TTheme extends Theme>(
     localPersister: MapPersister,
     broadcastChannel: BroadcastChannel
-): TicTacToeMap {
+): TicTacToeMap<TTheme> {
     let tree: GameStateTree = GameStateTreeImpl.initial;
     const mapRenderers: MapRenderer[] = [];
     const remote = createBroadcastChannelRenderer(broadcastChannel);
@@ -70,8 +70,8 @@ export function createTicTacToeMap(
         mapRenderers.push(renderer);
     }
 
-    function renderOnGrid(
-        grid: Grid,
+    function renderOnGrid<TTheme extends Theme>(
+        grid: Grid<TTheme>,
         theme: Theme
     ): void {
         addRenderer(createTicTacToeRoot(

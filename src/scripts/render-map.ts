@@ -1,9 +1,8 @@
 import { createPointerEvents } from "./pointer-events/create-pointer-events";
 import { PointerEventTargetLike } from "./pointer-events/types";
 import { getInitialMeasurements, ScreenMeasurements } from "./measurements";
-import { palette } from "./palette";
 import { Renderer } from "./renderer/types";
-import { lightTheme, darkTheme } from "./themes";
+import { lightTheme, darkTheme, Theme } from "./themes";
 import { GridImpl } from "./ui-impl/grid-impl";
 import { TicTacToeMap } from "./map/tictactoemap";
 
@@ -11,7 +10,7 @@ export function renderMap(
     renderer: Renderer,
     pointerEvents: PointerEventTargetLike,
     screenMeasurements: ScreenMeasurements,
-    map: TicTacToeMap
+    map: TicTacToeMap<Theme>
 ): void {
     const eventTarget = createPointerEvents(pointerEvents);
     const measurements = getInitialMeasurements(screenMeasurements.width, screenMeasurements.height);

@@ -1,8 +1,9 @@
 import { CustomPointerEventMap } from "../../src/scripts/pointer-events/types";
 import { GameState } from "../../src/scripts/state/game-state";
 import { Grid } from "../../src/scripts/ui/grid";
+import { MockTheme } from "../mock-theme";
 
-export interface TestPlayerGrid extends Grid {
+export interface TestPlayerGrid extends Grid<MockTheme> {
     findByPosition(position: number[]): TestPlayerGridCell | undefined
 }
 

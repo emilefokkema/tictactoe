@@ -2,14 +2,14 @@ import { EventDispatcher } from "../events/event-dispatcher";
 import { MapRenderer, MapRendererEventMap } from "../map/map-renderer";
 import { GameState } from "../state/game-state";
 import { GameStateTree } from "../state/game-state-tree";
-import { Theme } from "../themes";
+import { Theme } from "../ui/theme";
 import { Grid } from "../ui/grid";
 import { TicTacToeImpl } from "./tictactoe-impl";
 import { TicTacToeParent } from "./tictactoe-parent";
 
-export function createTicTacToeRoot(
-    grid: Grid,
-    theme: Theme,
+export function createTicTacToeRoot<TTheme extends Theme>(
+    grid: Grid<TTheme>,
+    theme: TTheme,
     tree: GameStateTree
 ): MapRenderer {
     const eventDispatcher: EventDispatcher<MapRendererEventMap> = new EventDispatcher({

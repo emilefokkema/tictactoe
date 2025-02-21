@@ -1,5 +1,5 @@
 import { CustomPointerEventMap } from "../pointer-events/types"
-import { GridCell } from "../ui/grid"
+import { MarkSlot } from "../ui/grid"
 
 export interface XParent {
     notifyXDoubleClicked(): void
@@ -10,7 +10,7 @@ export class X {
     private readonly doubleClickListener: (ev: CustomPointerEventMap['dblclick']) => void
 
     public constructor(
-        private readonly cell: GridCell,
+        private readonly cell: MarkSlot,
         parent: XParent
     ){
         cell.displayX();

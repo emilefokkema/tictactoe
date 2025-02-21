@@ -2,7 +2,7 @@ import { Point } from "../point";
 import { Theme } from "../themes";
 import { Themeable } from "../ui/themeable";
 
-export class Win implements Themeable {
+export class Win implements Themeable<Theme> {
     public constructor(
         private theme: Theme,
         private readonly start: Point,

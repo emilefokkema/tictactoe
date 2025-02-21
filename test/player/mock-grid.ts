@@ -1,9 +1,9 @@
 import Table, { TableConstructorOptions } from 'cli-table3'
 import { CustomPointerEventMap } from "../../src/scripts/pointer-events/types";
-import { Theme } from "../../src/scripts/themes";
 import { Grid, GridCell } from "../../src/scripts/ui/grid";
 import { Winner } from "../../src/scripts/winner";
 import { TestPlayerContext } from './test-player';
+import { MockTheme } from '../mock-theme';
 
 type Mark = 'X' | 'O';
 
@@ -35,7 +35,7 @@ const listTableOptions: TableConstructorOptions = {
     }
 }
 
-export class MockGridCell implements GridCell, TestPlayerContext {
+export class MockGridCell implements GridCell<MockTheme>, TestPlayerContext {
     private winner = false;
     private listeners: {[Key in keyof CustomPointerEventMap]: ((ev: CustomPointerEventMap[Key]) => void)[]} = {
         pointerdown: [],
@@ -84,7 +84,7 @@ export class MockGridCell implements GridCell, TestPlayerContext {
         this.content = 'O';
     }
 
-    public displayGrid(): Grid {
+    public displayGrid(): Grid<MockTheme> {
         return this.content = new MockGrid();
     }
 
@@ -124,8 +124,8 @@ export class MockGridCell implements GridCell, TestPlayerContext {
         return index.toString();
     }
 }
-export class MockGrid implements Grid, TestPlayerContext {
-    public theme: Theme | undefined
+export class MockGrid implements Grid<MockTheme>, TestPlayerContext {
+    public theme: MockTheme | undefined
     private readonly mockCells: readonly [MockGridCell, MockGridCell, MockGridCell, MockGridCell, MockGridCell, MockGridCell, MockGridCell, MockGridCell, MockGridCell]
     public get cells(){return this.mockCells;}
     public get grid(): MockGrid {return this;}
@@ -143,7 +143,7 @@ export class MockGrid implements Grid, TestPlayerContext {
         ]
     }
 
-    public setTheme(theme: Theme): void{
+    public setTheme(theme: MockTheme): void{
         this.theme = theme;
     }
 

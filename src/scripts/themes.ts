@@ -1,11 +1,8 @@
-import { palette } from "./palette"
-
 export interface Theme {
     readonly backgroundColor: string
     readonly color: string
     readonly loserTheme: Theme
     readonly winnerTheme: Theme
-    equals(other: Theme | undefined): boolean
 }
 
 class DarkTheme implements Theme {
@@ -21,9 +18,6 @@ class DarkTheme implements Theme {
     public get loserTheme(): Theme {
         return darkTheme;
     }
-    public equals(other: Theme | undefined): boolean {
-        return other === this;
-    }
 }
 
 class EverDarkerTheme implements Theme {
@@ -36,9 +30,6 @@ class EverDarkerTheme implements Theme {
     }
     public get loserTheme(): Theme {
         return this.cachedLoser = this.cachedLoser || this.createLoserTheme();
-    }
-    public equals(other: Theme | undefined): boolean {
-        return other === this;
     }
     public constructor(
         private readonly lightness: number

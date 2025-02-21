@@ -13,9 +13,8 @@ import { GridCellMeasurements } from "./types";
 import { Win } from "./win";
 import { X } from "./x";
 import { Renderable, Renderer } from "../renderer/types";
-import { Themeable } from "../ui/themeable";
 
-class GridCellImpl implements GridCell {
+class GridCellImpl implements GridCell<Theme> {
     private theme: Theme;
     public content: Renderable | undefined;
     private eventTarget: CustomPointerEventTarget | undefined;
@@ -74,7 +73,7 @@ class GridCellImpl implements GridCell {
         this.content = new O(this.measurements, this.theme);
         this.renderer.rerender();
     }
-    public displayGrid(): Grid {
+    public displayGrid(): Grid<Theme> {
         const newGrid = new GridImpl(
             this.renderer,
             this.measurements,
@@ -103,7 +102,7 @@ class GridCellImpl implements GridCell {
         this.content?.draw(ctx);
     }
 }
-export class GridImpl implements Grid, Themeable, Renderable {
+export class GridImpl implements Grid<Theme>, Renderable {
     private overlayContent: Renderable | undefined;
     private readonly cellImpls: [GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl];
     private readonly leftVerticalBorder: GridBorder;

@@ -1,34 +1,34 @@
 import { otherPlayer, Player } from "../player";
 import { GameState } from "../state/game-state";
 import { GameStateTree } from "../state/game-state-tree";
-import { Theme } from "../themes";
-import { Grid, GridCell } from "../ui/grid";
+import { Theme } from "../ui/theme";
+import { Grid, GridCell, GridSlot } from "../ui/grid";
 import { Possibility, PossibilityParent } from "./possibility";
 import { TicTacToeParent } from "./tictactoe-parent";
 import { X, XParent } from "./x";
 
-function calculateAdjustedTheme(tree: GameStateTree, theme: Theme): Theme {
+function calculateAdjustedTheme<TTheme extends Theme>(tree: GameStateTree, theme: TTheme): TTheme {
     const currentPlayer = tree.state.getCurrentPlayer();
     const isLosing = tree.winner === currentPlayer;
     const isWinning = tree.winner === otherPlayer(currentPlayer);
     return isWinning ? theme.winnerTheme : isLosing ? theme.loserTheme : theme;
 }
 
-export class TicTacToeImpl {
+export class TicTacToeImpl<TTheme extends Theme> {
     private readonly isWinner: boolean;
     private readonly playersAtPositions: (0 | Player)[];
-    private theme: Theme
+    private theme: TTheme
     private readonly possibilityParent: PossibilityParent;
     private readonly possibilities: Possibility[]
     private readonly xes: X[];
-    private readonly ticTacToes: TicTacToeImpl[];
+    private readonly ticTacToes: TicTacToeImpl<TTheme>[];
     public readonly state: GameState;
     public constructor(
         private readonly parent: TicTacToeParent,
         private tree: GameStateTree,
-        private readonly grid: Grid,
-        private readonly gridCell: GridCell | undefined,
-        theme: Theme,
+        private readonly grid: Grid<TTheme>,
+        private readonly gridCell: GridCell<TTheme> | undefined,
+        theme: TTheme,
     ){
         this.possibilityParent = {
             play(possibility) {
@@ -46,7 +46,7 @@ export class TicTacToeImpl {
         grid.setTheme(adjustedTheme);
         const possibilities: Possibility[] = this.possibilities = [];
         const xes: X[] = this.xes = [];
-        const ticTacToes: TicTacToeImpl[] = this.ticTacToes = [];
+        const ticTacToes: TicTacToeImpl<TTheme>[] = this.ticTacToes = [];
         const playersAtPositions = this.playersAtPositions = [...tree.state.getPlayersAtPositions()];
         const winner = tree.state.findWinner();
         this.isWinner = !!winner;
@@ -87,7 +87,7 @@ export class TicTacToeImpl {
         }
     }
 
-    private removeTicTacToe(tictactoe: TicTacToeImpl): void {
+    private removeTicTacToe(tictactoe: TicTacToeImpl<TTheme>): void {
         const index = this.ticTacToes.indexOf(tictactoe);
         this.ticTacToes.splice(index, 1);
         tictactoe.destroy();
@@ -100,12 +100,12 @@ export class TicTacToeImpl {
         this.possibilities.push(possibility);
     }
 
-    private revealPossibility(possibility: Possibility, tree: GameStateTree, theme: Theme): void {
+    private revealPossibility(possibility: Possibility, tree: GameStateTree, theme: TTheme): void {
         const index = this.possibilities.indexOf(possibility);
         this.possibilities.splice(index, 1);
         possibility.destroy();
-        const cell = possibility.cell;
-        const ticTacToe = new TicTacToeImpl(
+        const cell = possibility.cell as GridCell<TTheme>;
+        const ticTacToe = new TicTacToeImpl<TTheme>(
             this.parent,
             tree,
             cell.displayGrid(),
@@ -147,7 +147,7 @@ export class TicTacToeImpl {
         this.tree = tree;
     }
 
-    public setTheme(theme: Theme): void {
+    public setTheme(theme: TTheme): void {
         const adjustedTheme = calculateAdjustedTheme(this.tree, theme);
         this.theme = adjustedTheme;
         this.grid?.setTheme(adjustedTheme)

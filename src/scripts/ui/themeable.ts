@@ -1,5 +1,3 @@
-import { Theme } from "../themes";
-
-export interface Themeable {
-    setTheme(theme: Theme): void
+export interface Themeable<TTheme> {
+    setTheme(theme: TTheme): void
 }

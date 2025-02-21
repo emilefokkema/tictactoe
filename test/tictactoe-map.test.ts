@@ -49,7 +49,7 @@ describe('a tictactoe map', () => {
     };
     let player: TestPlayer;
     let serialized: SerializedTree;
-    let ticTacToeMap: TicTacToeMap;
+    let ticTacToeMap: TicTacToeMap<MockTheme>;
 
     beforeEach(() => {
         vi.clearAllMocks();

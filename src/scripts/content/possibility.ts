@@ -1,6 +1,6 @@
 import { CustomPointerEventMap } from "../pointer-events/types";
 import { GameState } from "../state/game-state";
-import { GridCell } from "../ui/grid";
+import { Slot } from "../ui/grid";
 
 export interface PossibilityParent {
     play(
@@ -12,7 +12,7 @@ export class Possibility {
     private readonly pointerDownEventListener: (ev: CustomPointerEventMap['pointerdown']) => void;
     private readonly clickEventListener: (ev: CustomPointerEventMap['click']) => void;
     public constructor(
-        public readonly cell: GridCell,
+        public readonly cell: Slot,
         parent: PossibilityParent,
         public readonly gameState: GameState
     ){
