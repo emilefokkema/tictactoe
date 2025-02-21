@@ -26,5 +26,5 @@ export function getInitialMeasurements(totalWidth: number, totalHeight: number):
 }
 
 export function getMarkLineWidth(cellSize: number): number{
-    return cellSize / 10;
+    return cellSize / (7 * Math.sqrt(2));
 }
