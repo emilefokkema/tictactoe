@@ -31,9 +31,6 @@ export function renderMap(
         undefined
     )
     map.renderOnGrid(grid, theme);
-    //const ticTacToeRoot = createTicTacToeRoot(grid, lightTheme);
-
-    //store.connectNewMapStore(ticTacToeRoot);
 
     renderer.setRenderable({
         draw(ctx): void{
