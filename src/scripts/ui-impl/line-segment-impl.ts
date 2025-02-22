@@ -35,11 +35,17 @@ function getStartAndEnd({
 class ThemedLineSegment implements LineSegment{
     public constructor(
         private readonly lineSegment: LineSegment,
+        private readonly lineWidth: number,
         private readonly theme: Theme){}
     
     public draw(ctx: CanvasRenderingContext2D): void{
         ctx.save();
         ctx.strokeStyle = this.theme.color;
+        const lineDash = this.theme.lineDash;
+        if(lineDash){
+            const scaledLineDash = lineDash.map(d => d * this.lineWidth / 4);
+            ctx.setLineDash(scaledLineDash);
+        }
         this.lineSegment.draw(ctx);
         ctx.restore();
     }
@@ -52,7 +58,7 @@ export class LineSegmentImpl implements LineSegment{
     private readonly start: Point;
     private readonly end: Point
     public constructor(
-        measurements: LineSegmentMeasurements
+        private readonly measurements: LineSegmentMeasurements
     ){
         const {start, end} = getStartAndEnd(measurements)
         this.start = start;
@@ -60,7 +66,7 @@ export class LineSegmentImpl implements LineSegment{
     }
 
     public themed(theme: Theme): LineSegment {
-        return new ThemedLineSegment(this, theme);
+        return new ThemedLineSegment(this, this.measurements.lineWidth, theme);
     }
 
     public draw(ctx: CanvasRenderingContext2D): void{

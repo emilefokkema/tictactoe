@@ -1,39 +1,67 @@
-export interface Theme {
+interface ThemeProps {
     readonly backgroundColor: string
     readonly color: string
+    readonly lineDash: number[] | undefined
+}
+
+export interface Theme extends ThemeProps {
     readonly loserTheme: Theme
     readonly winnerTheme: Theme
 }
 
-class DarkTheme implements Theme {
-    public backgroundColor: string;
-    public color: string;
-    public constructor(){
-        this.color = `hsl(0 0 50%)`;
-        this.backgroundColor = `hsl(0 0 10%)`
-    }
+class SequenceTheme implements Theme {
+    public get backgroundColor(){return this.props.backgroundColor;}
+    public get color(){return this.props.color;}
+    public get lineDash(){return this.props.lineDash;}
+    private cachedWinner: Theme | undefined;
+    private cachedLoser: Theme | undefined;
     public get winnerTheme(): Theme {
-        return this;
+        return this.cachedWinner = this.cachedWinner || this.createWinnerTheme();
     }
     public get loserTheme(): Theme {
-        return this;
-    }
-}
-
-class LightTheme implements Theme {
-    public backgroundColor: string
-    public color = '#151517';
-    public get winnerTheme(): Theme {
-        return this;
-    }
-    public get loserTheme(): Theme {
-        return this;
+        return this.cachedLoser = this.cachedLoser || this.createLoserTheme();
     }
     public constructor(
-    ){
-        this.backgroundColor = `hsl(57 5% 98%)`;
+        private readonly props: ThemeProps,
+        private readonly createWinner: (props: ThemeProps) => ThemeProps,
+        private readonly createLoser: (props: ThemeProps) => ThemeProps
+    ){}
+    private createWinnerTheme(): SequenceTheme {
+        return new SequenceTheme(this.createWinner(this.props), this.createWinner, this.createLoser);
+    }
+    private createLoserTheme(): SequenceTheme {
+        return new SequenceTheme(this.createLoser(this.props), this.createWinner, this.createLoser);
     }
 }
+const loserLineDash: number[] = [4, 1];
 
-export const lightTheme = new LightTheme();
-export const darkTheme = new DarkTheme();
+const darkThemeProps: ThemeProps = {
+    backgroundColor: `hsl(0 0 10%)`,
+    color: `hsl(0 0 50%)`,
+    lineDash: undefined
+}
+
+const lightThemeProps: ThemeProps = {
+    backgroundColor: `hsl(57 5% 98%)`,
+    color: '#151517',
+    lineDash: undefined
+}
+
+function getDarkThemeWinner(): ThemeProps {
+    return darkThemeProps;
+}
+
+function getDarkThemeLoser(): ThemeProps {
+    return {...darkThemeProps, lineDash: loserLineDash};
+}
+
+function getLightThemeWinner(): ThemeProps {
+    return lightThemeProps;
+}
+
+function getLightThemeLoser(): ThemeProps {
+    return {...lightThemeProps, lineDash: loserLineDash};
+}
+
+export const lightTheme = new SequenceTheme(lightThemeProps, getLightThemeWinner, getLightThemeLoser);
+export const darkTheme = new SequenceTheme(darkThemeProps, getDarkThemeWinner, getDarkThemeLoser)

@@ -52,7 +52,8 @@ export class GridBuilder {
                 direction: BorderDirection.Vertical,
                 position: this.vertical1,
                 start: this.measurements.y - this.measurements.background.extendTop,
-                end: this.measurements.y + this.measurements.size + this.measurements.background.extendBottom
+                end: this.measurements.y + this.measurements.size + this.measurements.background.extendBottom,
+                lineWidth: this.lineWidth
             },
             intersection1: this.horizontal1,
             intersection2: this.horizontal2,
@@ -65,7 +66,8 @@ export class GridBuilder {
                 direction: BorderDirection.Vertical,
                 position: this.vertical2,
                 start: this.measurements.y - this.measurements.background.extendTop,
-                end: this.measurements.y + this.measurements.size + this.measurements.background.extendBottom
+                end: this.measurements.y + this.measurements.size + this.measurements.background.extendBottom,
+                lineWidth: this.lineWidth
             },
             intersection1: this.horizontal1,
             intersection2: this.horizontal2,
@@ -79,6 +81,7 @@ export class GridBuilder {
                 position: this.horizontal1,
                 start: this.measurements.x - this.measurements.background.extendLeft,
                 end: this.measurements.x + this.measurements.size + this.measurements.background.extendRight,
+                lineWidth: this.lineWidth
             },
             intersection1: this.vertical1,
             intersection2: this.vertical2,
@@ -91,7 +94,8 @@ export class GridBuilder {
                 direction: BorderDirection.Horizontal,
                 position: this.horizontal2,
                 start: this.measurements.x - this.measurements.background.extendLeft,
-                end: this.measurements.x + this.measurements.size + this.measurements.background.extendRight
+                end: this.measurements.x + this.measurements.size + this.measurements.background.extendRight,
+                lineWidth: this.lineWidth
             },
             intersection1: this.vertical1,
             intersection2: this.vertical2,

@@ -31,6 +31,11 @@ export class O implements Mark {
         ctx.save();
         ctx.lineWidth = this.lineWidth;
         ctx.strokeStyle = this.theme.color;
+        const lineDash = this.theme.lineDash;
+        if(lineDash){
+            const scaledLineDash = lineDash.map(d => d * this.lineWidth / 4);
+            ctx.setLineDash(scaledLineDash);
+        }
         ctx.beginPath();
         ctx.arc(x + size / 2, y + size / 2, size / 4, 0, 2 * Math.PI);
         ctx.stroke();

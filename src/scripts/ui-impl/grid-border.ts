@@ -38,7 +38,7 @@ export class GridBorder{
     private readonly end: BorderSection;
     public constructor(
         private readonly measurements: GridBorderMeasurements,
-        private theme: Theme
+        theme: Theme
     ){
         this.lineSegments = [new LineSegmentImpl(measurements.lineSegment)];
         this.beginning = new BorderSection(
@@ -58,16 +58,14 @@ export class GridBorder{
         )
     }
 
-    private createLineSegment(start: number, end: number, theme: Theme): LineSegment{
+    private createLineSegment(start: number, end: number, lineWidth: number, theme: Theme): LineSegment{
         const result = new LineSegmentImpl({
             start,
             end,
             position: this.measurements.lineSegment.position,
-            direction: this.measurements.lineSegment.direction
+            direction: this.measurements.lineSegment.direction,
+            lineWidth
         })
-        if(theme === this.theme){
-            return result;
-        }
         return result.themed(theme);
     }
 
@@ -77,26 +75,25 @@ export class GridBorder{
         const middleTheme = this.middle.theme;
         const endTheme = this.end.theme;
         if(beginningTheme !== middleTheme){
-            segments.push(this.createLineSegment(this.beginning.start, this.beginning.end, beginningTheme));
+            segments.push(this.createLineSegment(this.beginning.start, this.beginning.end, this.measurements.lineWidth, beginningTheme));
             if(middleTheme !== endTheme){
-                segments.push(this.createLineSegment(this.middle.start, this.middle.end, middleTheme))
-                segments.push(this.createLineSegment(this.end.start, this.end.end, endTheme));
+                segments.push(this.createLineSegment(this.middle.start, this.middle.end, this.measurements.lineWidth, middleTheme))
+                segments.push(this.createLineSegment(this.end.start, this.end.end, this.measurements.lineWidth, endTheme));
             }else{
-                segments.push(this.createLineSegment(this.middle.start, this.end.end, middleTheme))
+                segments.push(this.createLineSegment(this.middle.start, this.end.end, this.measurements.lineWidth, middleTheme))
             }
         }else{
             if(middleTheme !== endTheme){
-                segments.push(this.createLineSegment(this.beginning.start, this.middle.end, middleTheme))
-                segments.push(this.createLineSegment(this.end.start, this.end.end, endTheme))
+                segments.push(this.createLineSegment(this.beginning.start, this.middle.end, this.measurements.lineWidth, middleTheme))
+                segments.push(this.createLineSegment(this.end.start, this.end.end, this.measurements.lineWidth, endTheme))
             }else{
-                segments.push(this.createLineSegment(this.beginning.start, this.end.end, middleTheme))
+                segments.push(this.createLineSegment(this.beginning.start, this.end.end, this.measurements.lineWidth, middleTheme))
             }
         }
         this.lineSegments = segments;
     }
 
     public setTheme(theme: Theme): void{
-        this.theme = theme;
         this.beginning.setBorderTheme(theme);
         this.middle.setBorderTheme(theme);
         this.end.setBorderTheme(theme);

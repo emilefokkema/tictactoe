@@ -22,9 +22,16 @@ export class X implements Mark {
         ctx.save();
         ctx.lineWidth = this.lineWidth;
         ctx.strokeStyle = this.theme.color;
+        const lineDash = this.theme.lineDash;
+        if(lineDash){
+            const scaledLineDash = lineDash.map(d => d * this.lineWidth / 4);
+            ctx.setLineDash(scaledLineDash);
+        }
         ctx.beginPath();
         ctx.moveTo(x + size / 4, y + size / 4);
         ctx.lineTo(x + 3 * size / 4, y + 3 * size / 4);
+        ctx.stroke();
+        ctx.beginPath();
         ctx.moveTo(x + 3 * size / 4, y + size / 4);
         ctx.lineTo(x + size / 4, y + 3 * size / 4);
         ctx.stroke();

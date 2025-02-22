@@ -20,6 +20,7 @@ export interface LineSegmentMeasurements{
     position: number;
     start: number;
     end: number;
+    lineWidth: number;
 }
 
 export interface GridCellBackgroundMeasurements {
