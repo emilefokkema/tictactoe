@@ -10,8 +10,8 @@ interface Hsl {
 }
 
 interface ThemeDeterminingProps {
-    backgroundColor: Hsl
-    color: Hsl
+    index: number,
+    all: ThemeProps[]
 }
 
 export interface Theme extends ThemeProps {
@@ -56,42 +56,89 @@ class SequenceTheme implements Theme {
     }
 }
 
-const darkThemeProps: ThemeDeterminingProps = {
-    backgroundColor: {h: 0, s: 0, l: 10},
-    color: {h: 0, s: 0, l: 50}
-}
-
-const lightThemeProps: ThemeDeterminingProps = {
-    backgroundColor: {h: 57, s: 5, l: 98},
-    color: {h: 240, s: 5, l: 9}
-}
-
-function getDarkThemeWinner(): ThemeDeterminingProps {
-    return darkThemeProps;
-}
-
-function getDarkThemeLoser(): ThemeDeterminingProps {
-    return darkThemeProps;
-}
-
-function getLightThemeWinner(): ThemeDeterminingProps {
-    return lightThemeProps;
-}
-
-function getLightThemeLoser(): ThemeDeterminingProps {
-    return lightThemeProps;
-}
-
-function determineColor({h, s, l}: Hsl): string {
-    return `hsl(${h} ${s}% ${l}%)`
-}
-
-function determineThemeProps({backgroundColor, color}: ThemeDeterminingProps): ThemeProps {
-    return {
-        color: determineColor(color),
-        backgroundColor: determineColor(backgroundColor)
+const allLightThemeProps: ThemeProps[] = [
+    {
+        color: 'hsl(240 5% 80%)',
+        backgroundColor: 'hsl(57 5% 85%)'
+    },
+    {
+        color: 'hsl(240 5% 78%)',
+        backgroundColor: 'hsl(57 5% 87%)'
+    },
+    {
+        color: 'hsl(240 5% 72%)',
+        backgroundColor: 'hsl(57 5% 92%)'
+    },
+    {
+        color: 'hsl(240 5% 65%)',
+        backgroundColor: 'hsl(57 5% 95%)'
+    },
+    {
+        color: 'hsl(240 5% 45%)',
+        backgroundColor: 'hsl(57 5% 95%)'
+    },
+    {
+        color: 'hsl(240 5% 15%)',
+        backgroundColor: 'hsl(57 5% 95%)'
     }
+];
+
+const allDarkThemeProps: ThemeProps[] = [
+    {
+        color: 'hsl(0 0 10%)',
+        backgroundColor: 'hsl(0 0 5%)'
+    },
+    {
+        color: 'hsl(0 0 12%)',
+        backgroundColor: 'hsl(0 0 7%)'
+    },
+    {
+        color: 'hsl(0 0 20%)',
+        backgroundColor: 'hsl(0 0 9%)'
+    },
+    {
+        color: 'hsl(0 0 30%)',
+        backgroundColor: 'hsl(0 0 10%)'
+    },
+    {
+        color: 'hsl(0 0 40%)',
+        backgroundColor: 'hsl(0 0 10%)'
+    },
+    {
+        color: 'hsl(0 0 60%)',
+        backgroundColor: 'hsl(0 0 10%)'
+    },
+]
+
+function getDarkThemeWinner({index, all}: ThemeDeterminingProps): ThemeDeterminingProps {
+    return {all, index: Math.min(index + 1, allDarkThemeProps.length - 1)}
 }
 
-export const lightTheme = new SequenceTheme(lightThemeProps, determineThemeProps, getLightThemeWinner, getLightThemeLoser);
-export const darkTheme = new SequenceTheme(darkThemeProps, determineThemeProps, getDarkThemeWinner, getDarkThemeLoser)
+function getDarkThemeLoser({index, all}: ThemeDeterminingProps): ThemeDeterminingProps {
+    return {all, index: Math.max(index - 1, 0)}
+}
+
+function getLightThemeWinner({index, all}: ThemeDeterminingProps): ThemeDeterminingProps {
+    return {all, index: Math.min(index + 1, allLightThemeProps.length - 1)}
+}
+
+function getLightThemeLoser({index, all}: ThemeDeterminingProps): ThemeDeterminingProps {
+    return {all, index: Math.max(index - 1, 0)}
+}
+
+function determineThemeProps({all, index}: ThemeDeterminingProps): ThemeProps {
+    return all[index];
+}
+
+export const lightTheme = new SequenceTheme(
+    {all: allLightThemeProps, index: 5},
+    determineThemeProps,
+    getLightThemeWinner,
+    getLightThemeLoser
+);
+export const darkTheme = new SequenceTheme(
+    {all: allDarkThemeProps, index: 5},
+    determineThemeProps,
+    getDarkThemeWinner,
+    getDarkThemeLoser
+)
