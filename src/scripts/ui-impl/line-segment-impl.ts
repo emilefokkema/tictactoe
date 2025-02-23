@@ -41,11 +41,6 @@ class ThemedLineSegment implements LineSegment{
     public draw(ctx: CanvasRenderingContext2D): void{
         ctx.save();
         ctx.strokeStyle = this.theme.color;
-        const lineDash = this.theme.lineDash;
-        if(lineDash){
-            const scaledLineDash = lineDash.map(d => d * this.lineWidth / 4);
-            ctx.setLineDash(scaledLineDash);
-        }
         this.lineSegment.draw(ctx);
         ctx.restore();
     }

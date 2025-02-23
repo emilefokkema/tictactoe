@@ -1,7 +1,6 @@
 interface ThemeProps {
     readonly backgroundColor: string
     readonly color: string
-    readonly lineDash: number[] | undefined
 }
 
 export interface Theme extends ThemeProps {
@@ -12,7 +11,6 @@ export interface Theme extends ThemeProps {
 class SequenceTheme implements Theme {
     public get backgroundColor(){return this.props.backgroundColor;}
     public get color(){return this.props.color;}
-    public get lineDash(){return this.props.lineDash;}
     private cachedWinner: Theme | undefined;
     private cachedLoser: Theme | undefined;
     public get winnerTheme(): Theme {
@@ -38,13 +36,11 @@ const loserLineDash: number[] = [4, 1];
 const darkThemeProps: ThemeProps = {
     backgroundColor: `hsl(0 0 10%)`,
     color: `hsl(0 0 50%)`,
-    lineDash: undefined
 }
 
 const lightThemeProps: ThemeProps = {
     backgroundColor: `hsl(57 5% 98%)`,
     color: '#151517',
-    lineDash: undefined
 }
 
 function getDarkThemeWinner(): ThemeProps {
@@ -52,7 +48,7 @@ function getDarkThemeWinner(): ThemeProps {
 }
 
 function getDarkThemeLoser(): ThemeProps {
-    return {...darkThemeProps, lineDash: loserLineDash};
+    return darkThemeProps;
 }
 
 function getLightThemeWinner(): ThemeProps {
@@ -60,7 +56,7 @@ function getLightThemeWinner(): ThemeProps {
 }
 
 function getLightThemeLoser(): ThemeProps {
-    return {...lightThemeProps, lineDash: loserLineDash};
+    return lightThemeProps;
 }
 
 export const lightTheme = new SequenceTheme(lightThemeProps, getLightThemeWinner, getLightThemeLoser);
