@@ -14,7 +14,7 @@ export function renderMap(
 ): void {
     const eventTarget = createPointerEvents(pointerEvents);
     const measurements = getInitialMeasurements(screenMeasurements.width, screenMeasurements.height);
-    const theme = lightTheme;
+    const theme = darkTheme;
     const grid = new GridImpl(
         renderer,
         {
