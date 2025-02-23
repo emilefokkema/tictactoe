@@ -1,3 +1,4 @@
+import { InfiniteCanvasRenderingContext2D } from "ef-infinite-canvas";
 import { CustomPointerEventMap, CustomPointerEventTarget } from "../pointer-events/types";
 import { getMarkLineWidth } from "../measurements";
 import { Theme } from "../themes";
@@ -97,7 +98,7 @@ class GridCellImpl implements GridCell<Theme> {
     public destroy(): void {
         this.eventTarget?.destroy();
     }
-    public draw(ctx: CanvasRenderingContext2D): void {
+    public draw(ctx: InfiniteCanvasRenderingContext2D): void {
         this.drawBackground(ctx);
         this.content?.draw(ctx);
     }
@@ -240,7 +241,7 @@ export class GridImpl implements Grid<Theme>, Renderable {
         ctx.restore();
     }
 
-    public draw(ctx: CanvasRenderingContext2D): void {
+    public draw(ctx: InfiniteCanvasRenderingContext2D): void {
         this.cellImpls.forEach(c => c.draw(ctx));
         this.overlayContent?.draw(ctx);
         this.drawBorders(ctx);

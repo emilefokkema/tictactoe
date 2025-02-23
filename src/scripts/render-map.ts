@@ -13,12 +13,14 @@ export function renderMap(
     map: TicTacToeMap<Theme>
 ): void {
     const eventTarget = createPointerEvents(pointerEvents);
-    const measurements = getInitialMeasurements(screenMeasurements.width, screenMeasurements.height);
-    const theme = darkTheme;
-    const grid = new GridImpl(
+    const {grid1: grid1Measurements, grid2: grid2Measurements} = getInitialMeasurements(screenMeasurements.width, screenMeasurements.height);
+    const theme1 = darkTheme;
+    const theme2 = theme1 === darkTheme ? lightTheme : darkTheme;
+    console.log('grid 2 measurements:', grid2Measurements)
+    const grid1 = new GridImpl(
         renderer,
         {
-            ...measurements,
+            ...grid1Measurements,
             background: {
                 extendLeft: 0,
                 extendRight: 0,
@@ -27,18 +29,44 @@ export function renderMap(
             }
         },
         eventTarget,
-        theme,
+        theme1,
         undefined
     )
-    map.renderOnGrid(grid, theme);
+    const grid2 = new GridImpl(
+        renderer,
+        {
+            ...grid2Measurements,
+            background: {
+                extendLeft: 0,
+                extendRight: 0,
+                extendTop: 0,
+                extendBottom: 0
+            }
+        },
+        eventTarget,
+        theme2,
+        undefined
+    )
+    map.renderOnGrid(grid1, theme1);
+    map.renderOnGrid(grid2, theme2);
+    const maxBottomRightX = Math.max(screenMeasurements.width, screenMeasurements.height)
 
     renderer.setRenderable({
         draw(ctx): void{
-            ctx.fillStyle = theme.backgroundColor;
             ctx.save();
+            ctx.fillStyle = theme1.backgroundColor;
             ctx.clearRect(-Infinity, -Infinity, Infinity, Infinity);
             ctx.fillRect(-Infinity, -Infinity, Infinity, Infinity);
-            grid.draw(ctx);
+            grid1.draw(ctx);
+            ctx.beginPath();
+            ctx.moveTo(maxBottomRightX, maxBottomRightX);
+            ctx.lineToInfinityInDirection(1, -1);
+            ctx.lineToInfinityInDirection(1, 1);
+            ctx.lineToInfinityInDirection(-1, 1);
+            ctx.clip();
+            ctx.fillStyle = theme2.backgroundColor;
+            ctx.fillRect(-Infinity, -Infinity, Infinity, Infinity);
+            grid2.draw(ctx)
             ctx.restore();
         }
     });

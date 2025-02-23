@@ -1,7 +1,8 @@
+import { InfiniteCanvasRenderingContext2D } from "ef-infinite-canvas";
 import { Renderable, Renderer } from "./types";
 
 export function createRenderer(
-    ctx: CanvasRenderingContext2D
+    ctx: InfiniteCanvasRenderingContext2D
 ): Renderer {
     let drawRequested = false;
     let renderable: Renderable | undefined;
