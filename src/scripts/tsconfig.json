@@ -11,8 +11,8 @@
         "composite": true,
         "emitDeclarationOnly": true,
         "strict": true,
-        "rootDir": "src/scripts",
-        "outDir": "dist-types/src/scripts"
+        "rootDir": ".",
+        "outDir": "../../dist-types/src/scripts"
     },
-    "include": ["src/scripts/**/*"]
+    "include": ["**/*"]
 }

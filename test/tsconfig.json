@@ -5,12 +5,12 @@
         "target": "ESNext",
         "composite": true,
         "emitDeclarationOnly": true,
-        "outDir": "dist-types/test",
+        "outDir": "../dist-types/test",
         "skipLibCheck": true,
-        "rootDir": "test"
+        "rootDir": "."
     },
     "references": [
-        {"path": "tsconfig-app.json"}
+        {"path": "../src/scripts"}
     ],
-    "include": ["test/**/*"]
+    "include": ["**/*"]
 }
