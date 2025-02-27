@@ -1,7 +1,6 @@
 import { createTicTacToeRoot } from "./tictactoe-root";
 import { GameStateTree } from "../state/game-state-tree";
 import { GameStateTreeImpl } from "../state/game-state-tree-impl";
-import { deserializeTree } from "../state/serialization";
 import { MapPersister } from "../store/map-persister";
 import { Theme } from "../ui/theme";
 import { Grid } from "../ui/grid";
@@ -52,7 +51,7 @@ export function createTicTacToeMap<TTheme extends Theme>(
         if(!serialized){
             return;
         }
-        tree = deserializeTree(GameStateTreeImpl.initial, serialized);
+        tree = GameStateTreeImpl.fromJSON(serialized);
         notifyRenderers();
     }
     function addRenderer(renderer: MapRenderer): void {

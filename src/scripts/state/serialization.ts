@@ -39,20 +39,17 @@ class ChildDeserializationContext implements DeserializationContext{
 class RootDeserializationContext implements DeserializationContext {
     public state: GameState
     public constructor(
-        public tree: GameStateTree,
-        private readonly hooks: DeserializationHooks | undefined
+        public tree: GameStateTree
     ){
         this.state = tree.state
     }
 
     public addState(newState: GameState): void {
         this.tree = this.tree.addState(newState);
-        this.hooks?.addState(newState);
     }
 
     public addWinner(winnerState: GameState, winner: Player): void {
         this.tree = this.tree.addWinner(winnerState, winner);
-        this.hooks?.addWinner(winnerState, winner);
     }
 
     public forState(state: GameState): DeserializationContext {
@@ -79,9 +76,12 @@ function deserializeChildTree(serialized: SerializedTree, context: Deserializati
     let revealed = false;
     for(const key of Object.getOwnPropertyNames(serialized)){
         if(/^\d$/.test(key)){
-            revealed = true;
             const position = parseInt(key);
             const stateForKey = context.state.playPosition(position);
+            if(stateForKey.equals(context.state)){
+                continue;
+            }
+            revealed = true;
             const contextForState = context.forState(stateForKey);
             deserializeChildTree(serialized[position], contextForState);
             continue;
@@ -91,13 +91,13 @@ function deserializeChildTree(serialized: SerializedTree, context: Deserializati
         context.addState(context.state);
     }
     const winner = serialized.w;
-    if(winner){
+    if(winner === Player.X || winner === Player.O){
         context.addWinner(context.state, winner);
     }
 }
 
-export function deserializeTree(emptyTree: GameStateTree, serialized: SerializedTree, hooks?: DeserializationHooks): GameStateTree {
-    const rootContext = new RootDeserializationContext(emptyTree, hooks);
+export function deserializeTree(emptyTree: GameStateTree, serialized: SerializedTree): GameStateTree {
+    const rootContext = new RootDeserializationContext(emptyTree);
     deserializeChildTree(serialized, rootContext);
     return rootContext.tree;
 }

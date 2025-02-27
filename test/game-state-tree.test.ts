@@ -1,8 +1,9 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, SerializedTestSpecification } from 'vitest'
 import { GameStateTreeImpl } from '../src/scripts/state/game-state-tree-impl'
 import { gameStateWithPositions } from './game-state-with-positions'
 import { Player } from '../src/scripts/player';
 import { GameStateTree } from '../src/scripts/state/game-state-tree';
+import { SerializedTree } from '../src/scripts/state/serialization';
 
 
 function stringifyTree(tree: GameStateTree): string {
@@ -260,5 +261,16 @@ describe('a game state tree', () => {
             expect(stringifyTree(tree0521436.getForState(gameStateWithPositions([6, 5, 8, 7, 4, 3])))).toMatchSnapshot();
             expect(stringifyTree(tree0521436.getForState(gameStateWithPositions([6, 1, 0, 3, 4, 7])))).toMatchSnapshot();
         })
+    })
+
+    it.each<[SerializedTree, SerializedTree]>([
+        [{9: {w: 1}}, {}],
+        [{0: {0: {w: 1}}}, {0: {}}],
+        [{0: {1: {0: {}}}}, {0: {1: {}}}],
+        [{a: 9} as SerializedTree, {}],
+        [{0: {1: {w: 3} as unknown as SerializedTree}}, {0: {1: {}}}]
+    ])('should deserialize %j', (input, expectedSerialized) => {
+        const tree = GameStateTreeImpl.fromJSON(input);
+        expect(tree.toJSON()).toEqual(expectedSerialized)
     })
 })

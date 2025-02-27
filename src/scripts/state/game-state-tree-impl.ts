@@ -1,7 +1,7 @@
 import { otherPlayer, Player } from "../player";
 import { GameState } from "./game-state";
 import { GameStateTree } from "./game-state-tree";
-import { SerializedTree, serializeTree } from "./serialization";
+import { SerializedTree, serializeTree, deserializeTree } from "./serialization";
 
 export class GameStateTreeImpl implements GameStateTree{
     private constructor(
@@ -190,6 +190,10 @@ export class GameStateTreeImpl implements GameStateTree{
 
     public toJSON(): SerializedTree{
         return serializeTree(this)
+    }
+
+    public static fromJSON(json: SerializedTree): GameStateTree {
+        return deserializeTree(GameStateTreeImpl.initial, json);
     }
 
     public static create(state: GameState): GameStateTreeImpl {
