@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { PositionSet } from '../src/scripts/state/position-set'
-import { RotateLeft } from '../src/scripts/transformations';
-import { Player } from '../src/scripts/player';
+import { PositionSet } from '../src/scripts/page/state/position-set'
+import { RotateLeft } from '../src/scripts/page/transformations';
+import { Player } from '../src/scripts/page/player';
 
 describe('a position set', () => {
 

@@ -1,13 +1,13 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest'
 import { TestPlayer } from './player/test-player';
 import { createTestPlayer } from './player/test-player-impl';
-import { MapPersister } from '../src/scripts/store/map-persister';
-import { TicTacToeMap } from '../src/scripts/map/tictactoemap';
-import { createTicTacToeMap } from '../src/scripts/content/map'
+import { MapPersister } from '../src/scripts/page/store/map-persister';
+import { TicTacToeMap } from '../src/scripts/page/map/tictactoemap';
+import { createTicTacToeMap } from '../src/scripts/page/content/map'
 import { MockTheme } from './mock-theme';
 import { gameStateWithPositions } from './game-state-with-positions';
-import { SerializedTree } from '../src/scripts/state/serialization';
-import { GameState } from '../src/scripts/state/game-state';
+import { SerializedTree } from '../src/scripts/page/state/serialization';
+import { GameState } from '../src/scripts/page/state/game-state';
 import { MockBroadcastChannel } from './mock-broadcast-channel';
 
 describe('a tictactoe map', () => {

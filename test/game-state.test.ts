@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { ClonedGameState, GameState } from '../src/scripts/state/game-state'
-import { Player } from '../src/scripts/player';
-import { MAIN_DIAGONAL } from '../src/scripts/three';
+import { ClonedGameState, GameState } from '../src/scripts/page/state/game-state'
+import { Player } from '../src/scripts/page/player';
+import { MAIN_DIAGONAL } from '../src/scripts/page/three';
 import { gameStateWithPositions } from './game-state-with-positions';
 
 describe('a game state', () => {

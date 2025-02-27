@@ -10,7 +10,7 @@
         "rootDir": "."
     },
     "references": [
-        {"path": "../src/scripts"}
+        {"path": "../src/scripts/page"}
     ],
     "include": ["**/*"]
 }

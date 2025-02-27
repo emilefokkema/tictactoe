@@ -1,6 +1,6 @@
-import { CustomPointerEventMap } from "../../src/scripts/pointer-events/types";
-import { GameState } from "../../src/scripts/state/game-state";
-import { Grid } from "../../src/scripts/ui/grid";
+import { CustomPointerEventMap } from "../../src/scripts/page/pointer-events/types";
+import { GameState } from "../../src/scripts/page/state/game-state";
+import { Grid } from "../../src/scripts/page/ui/grid";
 import { MockTheme } from "../mock-theme";
 
 export interface TestPlayerGrid extends Grid<MockTheme> {

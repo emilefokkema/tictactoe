@@ -1,4 +1,4 @@
-import '../main.css'
+import '../../main.css'
 import InfiniteCanvas, { Units } from 'ef-infinite-canvas'
 import { createRenderer } from './renderer/create-renderer';
 import { renderMap } from './render-map';

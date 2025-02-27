@@ -1,10 +1,10 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest'
-import { ThemeSwitch } from '../src/scripts/themes/theme-switch';
-import { createThemeSwitch } from '../src/scripts/themes/create-theme-switch'
-import { ThemeAreaTracker } from '../src/scripts/themes/theme-area-tracker';
-import { ThemePreference, ThemePreferencePersister } from '../src/scripts/themes/theme-preference-persister';
-import { DarkThemePreferenceTracker } from '../src/scripts/themes/dark-theme-preference-tracker';
-import { darkTheme, lightTheme } from '../src/scripts/themes/themes';
+import { ThemeSwitch } from '../src/scripts/page/themes/theme-switch';
+import { createThemeSwitch } from '../src/scripts/page/themes/create-theme-switch'
+import { ThemeAreaTracker } from '../src/scripts/page/themes/theme-area-tracker';
+import { ThemePreference, ThemePreferencePersister } from '../src/scripts/page/themes/theme-preference-persister';
+import { DarkThemePreferenceTracker } from '../src/scripts/page/themes/dark-theme-preference-tracker';
+import { darkTheme, lightTheme } from '../src/scripts/page/themes/themes';
 import { MockBroadcastChannel } from './mock-broadcast-channel';
 
 describe('a theme switch', () => {

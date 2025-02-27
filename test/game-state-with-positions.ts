@@ -1,4 +1,4 @@
-import { GameState } from "../src/scripts/state/game-state";
+import { GameState } from "../src/scripts/page/state/game-state";
 
 export function gameStateWithPositions(positions: number[]): GameState {
     let result = GameState.initial;

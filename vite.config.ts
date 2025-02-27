@@ -8,7 +8,7 @@ const inlineHeadScriptFilePath = path.resolve(inlineHeadScriptOutDir, 'index.iif
 const inlineHeadScriptConfig: InlineConfig = {
     build: {
         lib: {
-            entry: fileURLToPath(new URL('./src/scripts/inline-head-script.ts', import.meta.url)),
+            entry: fileURLToPath(new URL('./src/scripts/page/inline-head-script.ts', import.meta.url)),
             formats: ['iife'],
             fileName: 'index',
             name: 'inlineHeadScript'
