@@ -31,7 +31,8 @@ export class GameStateTreeImpl implements GameStateTree{
             }
             winnerCalculator.addChildWinner(newChild?.winner || existingChild?.winner);
         }
-        const newWinner = winnerCalculator.getResult();
+        winnerCalculator.finish();
+        const newWinner = winnerCalculator.result;
         const unchanged = sameChildren && (this.winner === newWinner);
         if(unchanged){
             return fn(this.state, this);
@@ -63,8 +64,19 @@ export class GameStateTreeImpl implements GameStateTree{
     }
 
     private findOwnWinner(): GameStateTreeImpl {
-        if(this.winnerInState){
+        if(this.winner){
             return this;
+        }
+        const winnerCalculator = calculateWinner(this.state);
+        for(const successor of this.state.getNonequivalentSuccessors()){
+            let existingChild = this.children.get(successor.id) || GameStateTreeImpl.create(successor);
+            if(!existingChild.winner){
+                existingChild = existingChild.findOwnWinner();
+            }
+            winnerCalculator.addChildWinner(existingChild.winner);
+            if(winnerCalculator.done){
+                break;
+            }
         }
         return this;
     }

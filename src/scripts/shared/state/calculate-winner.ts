@@ -34,7 +34,9 @@ function *getWinnerCalculatorGenerator(
 
 export interface WinnerCalculator {
     addChildWinner(childWinner: Player | undefined): void;
-    getResult(): Player | undefined;
+    finish(): void;
+    done: boolean
+    result: Player | undefined
 }
 
 export function calculateWinner(state: GameState): WinnerCalculator {
@@ -43,6 +45,10 @@ export function calculateWinner(state: GameState): WinnerCalculator {
     let done = false;
     let result: Player | undefined = undefined;
     return {
+        get done(): boolean {return done;},
+        get result(): Player | undefined {
+            return result;
+        },
         addChildWinner(childWinner: Player | undefined): void{
             if(done){
                 return;
@@ -53,13 +59,13 @@ export function calculateWinner(state: GameState): WinnerCalculator {
                 result = iteratorResult.value;
             }
         },
-        getResult(): Player | undefined {
+        finish(): void {
             if(done){
-                return result;
+                return;
             }
             const returnResult = generator.return(undefined);
             done = true;
-            return returnResult.value;
+            result = returnResult.value;
         }
     }
 }
