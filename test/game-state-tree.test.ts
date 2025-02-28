@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, SerializedTestSpecification } from 'vitest'
-import { GameStateTreeImpl } from '../src/scripts/page/state/game-state-tree-impl'
+import { GameStateTreeImpl } from '../src/scripts/shared/state/game-state-tree-impl'
 import { gameStateWithPositions } from './game-state-with-positions'
-import { Player } from '../src/scripts/page/player';
-import { GameStateTree } from '../src/scripts/page/state/game-state-tree';
-import { SerializedTree } from '../src/scripts/page/state/serialization';
+import { Player } from '../src/scripts/shared/player';
+import { GameStateTree } from '../src/scripts/shared/state/game-state-tree';
+import { SerializedTree } from '../src/scripts/shared/state/serialization';
 
 
 function stringifyTree(tree: GameStateTree): string {

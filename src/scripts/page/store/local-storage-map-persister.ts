@@ -1,4 +1,4 @@
-import { SerializedTree } from "../state/serialization";
+import { SerializedTree } from "../../shared/state/serialization";
 import { MapPersister } from "./map-persister";
 
 const POSITIONS = 'positions';

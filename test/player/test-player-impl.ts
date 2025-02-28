@@ -1,4 +1,4 @@
-import { GameState } from "../../src/scripts/page/state/game-state";
+import { GameState } from "../../src/scripts/shared/state/game-state";
 import { MockGrid } from "./mock-grid";
 import { TestPlayer, TestPlayerContext } from "./test-player";
 

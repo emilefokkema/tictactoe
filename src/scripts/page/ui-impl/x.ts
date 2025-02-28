@@ -1,7 +1,7 @@
 import { getMarkLineWidth, Measurements } from "../measurements";
 import { Point } from "../point";
 import { Theme } from "../themes/themes";
-import { isInColumn, isInRow, isMainDiagonal, Three } from "../three";
+import { isInColumn, isInRow, isMainDiagonal, Three } from "../../shared/three";
 import { Mark } from "./mark";
 
 export class X implements Mark {

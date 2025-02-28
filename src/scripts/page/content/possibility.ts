@@ -1,5 +1,5 @@
 import { CustomPointerEventMap } from "../pointer-events/types";
-import { GameState } from "../state/game-state";
+import { GameState } from "../../shared/state/game-state";
 import { Slot } from "../ui/grid";
 
 export interface PossibilityParent {

@@ -1,4 +1,4 @@
-import { GameState } from "../state/game-state"
+import { GameState } from "../../shared/state/game-state"
 
 export interface TicTacToeParent {
     notifyRevealedState(state: GameState): void

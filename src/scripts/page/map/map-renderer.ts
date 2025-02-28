@@ -1,6 +1,6 @@
 import { EventTargetLike } from "../events/types"
-import { GameState } from "../state/game-state"
-import { GameStateTree } from "../state/game-state-tree"
+import { GameState } from "../../shared/state/game-state"
+import { GameStateTree } from "../../shared/state/game-state-tree"
 
 export interface MapRendererEventMap {
     statehidden: GameState

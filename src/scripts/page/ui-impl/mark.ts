@@ -1,6 +1,6 @@
 import { Point } from "../point"
 import { Renderable } from "../renderer/types";
-import { Three } from "../three"
+import { Three } from "../../shared/three"
 import { Drawable } from "./drawable";
 
 export function isMark(content: Renderable): content is Mark {

@@ -1,7 +1,7 @@
 import Table, { TableConstructorOptions } from 'cli-table3'
 import { CustomPointerEventMap } from "../../src/scripts/page/pointer-events/types";
 import { Grid, GridCell } from "../../src/scripts/page/ui/grid";
-import { Winner } from "../../src/scripts/page/winner";
+import { Winner } from "../../src/scripts/shared/winner";
 import { TestPlayerContext } from './test-player';
 import { MockTheme } from '../mock-theme';
 

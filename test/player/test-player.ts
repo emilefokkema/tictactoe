@@ -1,5 +1,5 @@
 import { CustomPointerEventMap } from "../../src/scripts/page/pointer-events/types";
-import { GameState } from "../../src/scripts/page/state/game-state";
+import { GameState } from "../../src/scripts/shared/state/game-state";
 import { Grid } from "../../src/scripts/page/ui/grid";
 import { MockTheme } from "../mock-theme";
 

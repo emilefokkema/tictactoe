@@ -2,6 +2,7 @@
     "references": [
         {"path": "tsconfig-node.json"},
         {"path": "./src/scripts/page"},
+        {"path": "./src/scripts/shared"},
         {"path": "./test"}
     ],
     "include": []

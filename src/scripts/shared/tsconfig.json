@@ -3,15 +3,15 @@
         "module": "ESNext",
         "moduleResolution": "bundler",
         "target": "ESNext",
+        "lib": [
+            "ES2020"
+        ],
+        "types": [],
         "composite": true,
         "emitDeclarationOnly": true,
-        "outDir": "../dist-types/test",
-        "skipLibCheck": true,
-        "rootDir": "."
+        "strict": true,
+        "rootDir": ".",
+        "outDir": "../../../dist-types/src/scripts/shared"
     },
-    "references": [
-        {"path": "../src/scripts/page"},
-        {"path": "../src/scripts/shared"}
-    ],
     "include": ["**/*"]
 }

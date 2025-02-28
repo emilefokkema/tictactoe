@@ -6,8 +6,8 @@ import { TicTacToeMap } from '../src/scripts/page/map/tictactoemap';
 import { createTicTacToeMap } from '../src/scripts/page/content/map'
 import { MockTheme } from './mock-theme';
 import { gameStateWithPositions } from './game-state-with-positions';
-import { SerializedTree } from '../src/scripts/page/state/serialization';
-import { GameState } from '../src/scripts/page/state/game-state';
+import { SerializedTree } from '../src/scripts/shared/state/serialization';
+import { GameState } from '../src/scripts/shared/state/game-state';
 import { MockBroadcastChannel } from './mock-broadcast-channel';
 
 describe('a tictactoe map', () => {

@@ -3,7 +3,7 @@ import { CustomPointerEventMap, CustomPointerEventTarget } from "../pointer-even
 import { getMarkLineWidth } from "../measurements";
 import { Theme } from "../themes/themes";
 import { Grid, GridCell } from "../ui/grid";
-import { Winner } from "../winner";
+import { Winner } from "../../shared/winner";
 import { GridBorder } from "./grid-border";
 import { GridBorderPart } from "./grid-border-part";
 import { GridBuilder } from "./grid-builder";

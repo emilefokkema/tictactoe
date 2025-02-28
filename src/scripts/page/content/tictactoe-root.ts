@@ -1,7 +1,7 @@
 import { EventDispatcher } from "../events/event-dispatcher";
 import { MapRenderer, MapRendererEventMap } from "../map/map-renderer";
-import { GameState } from "../state/game-state";
-import { GameStateTree } from "../state/game-state-tree";
+import { GameState } from "../../shared/state/game-state";
+import { GameStateTree } from "../../shared/state/game-state-tree";
 import { Theme } from "../ui/theme";
 import { Grid } from "../ui/grid";
 import { TicTacToeImpl } from "./tictactoe-impl";

@@ -1,12 +1,12 @@
 import { createTicTacToeRoot } from "./tictactoe-root";
-import { GameStateTree } from "../state/game-state-tree";
-import { GameStateTreeImpl } from "../state/game-state-tree-impl";
+import { GameStateTree } from "../../shared/state/game-state-tree";
+import { GameStateTreeImpl } from "../../shared/state/game-state-tree-impl";
 import { MapPersister } from "../store/map-persister";
 import { Theme } from "../ui/theme";
 import { Grid } from "../ui/grid";
 import { MapRenderer } from "../map/map-renderer";
 import { TicTacToeMap } from "../map/tictactoemap";
-import { GameState } from "../state/game-state";
+import { GameState } from "../../shared/state/game-state";
 import { createBroadcastChannelRenderer } from "../store/broadcast-channel-renderer";
 import { RenderedMap } from "../map/rendered-map";
 

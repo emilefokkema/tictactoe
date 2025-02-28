@@ -14,5 +14,8 @@
         "rootDir": ".",
         "outDir": "../../../dist-types/src/scripts/page"
     },
-    "include": ["**/*"]
+    "include": ["**/*"],
+    "references": [
+        {"path": "../shared"}
+    ]
 }

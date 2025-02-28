@@ -1,6 +1,6 @@
-import { otherPlayer, Player } from "../player";
-import { GameState } from "../state/game-state";
-import { GameStateTree } from "../state/game-state-tree";
+import { otherPlayer, Player } from "../../shared/player";
+import { GameState } from "../../shared/state/game-state";
+import { GameStateTree } from "../../shared/state/game-state-tree";
 import { Theme } from "../ui/theme";
 import { Grid, GridCell, GridSlot } from "../ui/grid";
 import { Possibility, PossibilityParent } from "./possibility";

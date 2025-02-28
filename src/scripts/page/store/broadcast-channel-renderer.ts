@@ -1,6 +1,6 @@
 import { EventDispatcher } from "../events/event-dispatcher";
 import { MapRendererEventMap, RemoteMapRenderer } from "../map/map-renderer";
-import { ClonedGameState, GameState } from "../state/game-state";
+import { ClonedGameState, GameState } from "../../shared/state/game-state";
 
 interface StateHiddenMessage {
     type: 'statehidden',
