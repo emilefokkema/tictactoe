@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { ClonedGameState, GameState } from '../src/scripts/shared/state/game-state'
+import { GameState } from '../src/scripts/shared/state/game-state'
+import type { ClonedGameState } from '@shared/state/game-state'
 import { Player } from '../src/scripts/shared/player';
 import { MAIN_DIAGONAL } from '../src/scripts/shared/three';
 import { gameStateWithPositions } from './game-state-with-positions';
@@ -131,7 +132,7 @@ describe('a game state', () => {
             .playPosition(4)
             .playPosition(5)
             .playPosition(8)
-        const winner = state.findWinner();
+        const winner = state.findWinner()!;
 
         expect(winner.player).toBe(Player.X);
         expect(winner.three).toBe(MAIN_DIAGONAL)

@@ -1,20 +1,20 @@
-import { InfiniteCanvasRenderingContext2D } from "ef-infinite-canvas";
-import { CustomPointerEventMap, CustomPointerEventTarget } from "../pointer-events/types";
+import type { InfiniteCanvasRenderingContext2D } from "ef-infinite-canvas";
+import type { CustomPointerEventMap, CustomPointerEventTarget } from "../pointer-events/types";
 import { getMarkLineWidth } from "../measurements";
-import { Theme } from "../themes/themes";
-import { Grid, GridCell } from "../ui/grid";
-import { Winner } from "../../shared/winner";
+import type { Theme } from "../themes/themes";
+import type { Grid, GridCell } from "../ui";
+import type { Winner } from "@shared/winner";
 import { GridBorder } from "./grid-border";
 import { GridBorderPart } from "./grid-border-part";
 import { GridBuilder } from "./grid-builder";
 import { GridCellBorder } from "./grid-cell-border";
 import { isMark } from "./mark";
 import { O } from "./o";
-import { GridCellMeasurements } from "./types";
+import type { GridCellMeasurements } from "./types";
 import { Win } from "./win";
 import { X } from "./x";
-import { Renderable, Renderer } from "../renderer/types";
-import { Drawable } from "./drawable";
+import type { Renderable, Renderer } from "../renderer/types";
+import type { Drawable } from "./drawable";
 
 class GridCellImpl implements GridCell<Theme> {
     private theme: Theme;

@@ -1,6 +1,6 @@
-import { Point } from "../point";
-import { Theme } from "../themes/themes";
-import { BorderDirection, LineSegment, LineSegmentMeasurements } from "./types";
+import type { Point } from "../point";
+import type { Theme } from "../themes";
+import { BorderDirection, type LineSegment, type LineSegmentMeasurements } from "./types";
 
 function getStartAndEnd({
     direction,

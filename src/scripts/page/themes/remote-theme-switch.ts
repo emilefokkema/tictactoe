@@ -1,5 +1,5 @@
-import { EventTargetLike } from "../events/types";
-import { ThemeVariant } from "./theme-variant";
+import type { EventTargetLike } from "../events/types";
+import type { ThemeVariant } from "./theme-variant";
 
 export interface RemoteThemeSwitchEventMap {
     change: {theme: ThemeVariant}

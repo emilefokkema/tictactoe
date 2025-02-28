@@ -1,15 +1,15 @@
 import { EventDispatcher } from "../events/event-dispatcher";
 import { createRemoteThemeSwitch } from "./create-remote-theme-switch";
-import { DarkThemePreferenceTracker } from "./dark-theme-preference-tracker";
+import type { DarkThemePreferenceTracker } from "./dark-theme-preference-tracker";
 import { derivePersistableTheme } from "./derive-persistable-theme";
-import { DerivedThemePreferencePersister } from "./derived-theme-preference-persister";
+import type { DerivedThemePreferencePersister } from "./derived-theme-preference-persister";
 import { otherVariant } from "./other-variant";
-import { RemoteThemeSwitch } from "./remote-theme-switch";
-import { ThemeAreaTracker } from "./theme-area-tracker";
-import { ThemePreferencePersister } from "./theme-preference-persister";
-import { ThemeSwitch, ThemeSwitchEventMap, ThemeSwitchProperties } from "./theme-switch";
-import { ThemeVariant } from "./theme-variant";
-import { darkTheme, lightTheme, Theme } from "./themes";
+import type { RemoteThemeSwitch } from "./remote-theme-switch";
+import type { ThemeAreaTracker } from "./theme-area-tracker";
+import type { ThemePreferencePersister } from "./theme-preference-persister";
+import type { ThemeSwitch, ThemeSwitchEventMap, ThemeSwitchProperties } from "./theme-switch";
+import type { ThemeVariant } from "./theme-variant";
+import { darkTheme, lightTheme, type Theme } from "./themes";
 
 interface ThemeSwitchState extends ThemeSwitchProperties{
     onPrimaryArea(primary: boolean): ThemeSwitchState

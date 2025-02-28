@@ -1,5 +1,5 @@
-import { EventTargetLike } from "../events/types"
-import { Measurements } from "../measurements"
+import type { EventTargetLike } from "../events/types"
+import type { Measurements } from "../measurements"
 
 export interface CustomPointerEvent {
     type: string

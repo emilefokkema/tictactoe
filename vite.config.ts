@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { readFile } from 'fs/promises';
-import { defineConfig, HtmlTagDescriptor, InlineConfig, PluginOption, build } from 'vite'
+import { defineConfig, type HtmlTagDescriptor, type InlineConfig, type PluginOption, build } from 'vite'
 
 const inlineHeadScriptOutDir = fileURLToPath(new URL('./dist-inline-head-script', import.meta.url));
 const inlineHeadScriptFilePath = path.resolve(inlineHeadScriptOutDir, 'index.iife.js')

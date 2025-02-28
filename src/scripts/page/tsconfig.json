@@ -1,18 +1,16 @@
 {
+    "extends": "../../../tsconfig-base.json",
     "compilerOptions": {
-        "module": "ESNext",
-        "moduleResolution": "bundler",
-        "target": "ESNext",
         "lib": [
             "ES2020",
             "DOM",
             "DOM.Iterable"
         ],
-        "composite": true,
-        "emitDeclarationOnly": true,
-        "strict": true,
         "rootDir": ".",
-        "outDir": "../../../dist-types/src/scripts/page"
+        "outDir": "../../../dist-types/src/scripts/page",
+        "paths": {
+            "@shared/*": ["../shared/*"]
+        }
     },
     "include": ["**/*"],
     "references": [

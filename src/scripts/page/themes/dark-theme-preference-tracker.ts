@@ -1,4 +1,4 @@
-import { EventTargetLike } from "../events/types"
+import type { EventTargetLike } from "../events/types"
 
 export interface DarkThemePreferenceTrackerEventMap {
     change: {prefersDarkTheme: boolean}

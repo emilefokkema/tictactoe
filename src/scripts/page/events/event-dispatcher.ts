@@ -1,4 +1,4 @@
-import { EventTargetLike } from "./types";
+import type { EventTargetLike } from "./types";
 
 export class EventDispatcher<TMap> implements EventTargetLike<TMap> {
     public constructor(

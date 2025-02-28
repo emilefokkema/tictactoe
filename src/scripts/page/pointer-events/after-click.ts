@@ -1,4 +1,4 @@
-import { CustomPointerEventDispatcher, Gesture, GestureReplaceFn } from "./types";
+import type { CustomPointerEventDispatcher, Gesture, GestureReplaceFn } from "./types";
 
 export class AfterClick implements Gesture {
     private timeout: ReturnType<typeof setTimeout>;

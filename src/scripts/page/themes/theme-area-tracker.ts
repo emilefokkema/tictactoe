@@ -1,6 +1,6 @@
-import { InfiniteCanvas } from "ef-infinite-canvas";
-import { EventTargetLike } from "../events/types";
-import { ScreenMeasurements } from "../measurements";
+import type { InfiniteCanvas } from "ef-infinite-canvas";
+import type { EventTargetLike } from "../events/types";
+import type { ScreenMeasurements } from "../measurements";
 import { EventDispatcher } from "../events/event-dispatcher";
 
 export interface ThemeAreaTrackerEventMap {

@@ -1,5 +1,5 @@
-import { InfiniteCanvasRenderingContext2D } from 'ef-infinite-canvas';
-import { Renderable, Renderer } from '../src/scripts/page/renderer/types'
+import type { InfiniteCanvasRenderingContext2D } from 'ef-infinite-canvas';
+import type { Renderable, Renderer } from '@page/renderer/types'
 
 export interface RendererMock extends Renderer{
     render(): void

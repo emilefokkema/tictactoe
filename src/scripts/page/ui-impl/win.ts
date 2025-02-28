@@ -1,6 +1,6 @@
-import { Point } from "../point";
-import { Theme } from "../themes/themes";
-import { Drawable } from "./drawable";
+import type { Point } from "../point";
+import type { Theme } from "../themes";
+import type { Drawable } from "./drawable";
 
 export class Win implements Drawable {
     public constructor(

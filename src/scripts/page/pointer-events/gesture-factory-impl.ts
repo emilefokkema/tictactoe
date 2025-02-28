@@ -2,7 +2,7 @@ import { AfterClick } from "./after-click";
 import { NoopGesture } from "./noop-gesture";
 import { PointerThatIsDown } from "./pointer-that-is-down";
 import { PointerThatIsDownAgain } from "./pointer-that-is-down-again";
-import { CustomPointerDownAgainEventProperties, CustomPointerDownEventProperties, CustomPointerEventDispatcher, Gesture, GestureFactory } from "./types";
+import type { CustomPointerDownAgainEventProperties, CustomPointerDownEventProperties, CustomPointerEventDispatcher, Gesture, GestureFactory } from "./types";
 
 export class GestureFactoryImpl implements GestureFactory {
     public constructor(

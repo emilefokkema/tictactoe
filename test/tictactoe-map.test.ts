@@ -1,13 +1,13 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest'
-import { TestPlayer } from './player/test-player';
+import type { TestPlayer } from './player/test-player';
 import { createTestPlayer } from './player/test-player-impl';
-import { MapPersister } from '../src/scripts/page/store/map-persister';
-import { TicTacToeMap } from '../src/scripts/page/map/tictactoemap';
+import type { MapPersister } from '@page/store/map-persister';
+import type { TicTacToeMap } from '@page/map/tictactoemap';
 import { createTicTacToeMap } from '../src/scripts/page/content/map'
 import { MockTheme } from './mock-theme';
 import { gameStateWithPositions } from './game-state-with-positions';
-import { SerializedTree } from '../src/scripts/shared/state/serialization';
-import { GameState } from '../src/scripts/shared/state/game-state';
+import type { SerializedTree } from '@shared/state/serialization';
+import type { GameState } from '@shared/state/game-state';
 import { MockBroadcastChannel } from './mock-broadcast-channel';
 
 describe('a tictactoe map', () => {
@@ -21,7 +21,7 @@ describe('a tictactoe map', () => {
         }
     };
     let player: TestPlayer;
-    let serialized: SerializedTree;
+    let serialized: SerializedTree | undefined;
     let ticTacToeMap: TicTacToeMap<MockTheme>;
 
     beforeEach(() => {
@@ -130,7 +130,7 @@ describe('a tictactoe map', () => {
                 })
 
                 it('should delete states by double clicking', () => {
-                    player013.grid.findByPosition([0]).dblclick();
+                    player013.grid.findByPosition([0])!.dblclick();
                     expect(player.grid.toString()).toMatchSnapshot();
                 })
             })
@@ -156,8 +156,8 @@ describe('a tictactoe map', () => {
             const player0216384 = player021638.play(4);
             player0216385.play(4);
             player0216384.play(5);
-            player0216385.grid.findByPosition([5]).dblclick();
-            player0216384.grid.findByPosition([4]).dblclick();
+            player0216385.grid.findByPosition([5])!.dblclick();
+            player0216384.grid.findByPosition([4])!.dblclick();
         })
 
         it('should look like this', () => {
@@ -285,7 +285,7 @@ describe('a tictactoe map', () => {
         describe('and then removing 0', () => {
 
             beforeEach(() => {
-                player.grid.findByPosition([0, 0]).dblclick();
+                player.grid.findByPosition([0, 0])!.dblclick();
             })
 
             it('should look like this', () => {
@@ -334,8 +334,8 @@ describe('a tictactoe map', () => {
         })
 
         it('should look like this', () => {
-            expect(player.grid.findByPosition([0, 2, 1, 6]).grid.toString()).toMatchSnapshot();
-            expect(player.grid.findByPosition([6, 0, 3, 8]).grid.toString()).toMatchSnapshot();
+            expect(player.grid.findByPosition([0, 2, 1, 6])!.grid.toString()).toMatchSnapshot();
+            expect(player.grid.findByPosition([6, 0, 3, 8])!.grid.toString()).toMatchSnapshot();
         })
     })
 
@@ -347,7 +347,7 @@ describe('a tictactoe map', () => {
         })
 
         it('should look like this', () => {
-            expect(player.grid.findByPosition([0, 1]).grid.toString()).toMatchSnapshot();
+            expect(player.grid.findByPosition([0, 1])!.grid.toString()).toMatchSnapshot();
         })
     })
 
@@ -359,7 +359,7 @@ describe('a tictactoe map', () => {
         })
 
         it('should look like this', () => {
-            expect(player.grid.findByPosition([0, 2, 1, 6, 3, 5, 8, 7]).grid.toString()).toMatchSnapshot();
+            expect(player.grid.findByPosition([0, 2, 1, 6, 3, 5, 8, 7])!.grid.toString()).toMatchSnapshot();
         })
     })
 
@@ -374,7 +374,7 @@ describe('a tictactoe map', () => {
         })
 
         it('should look like this', () => {
-            expect(player.grid.findByPosition([0, 1]).grid.toString()).toMatchSnapshot();
+            expect(player.grid.findByPosition([0, 1])!.grid.toString()).toMatchSnapshot();
         })
 
         it('should not have written to local storage', () => {
@@ -388,7 +388,7 @@ describe('a tictactoe map', () => {
             })
 
             it('should look like this', () => {
-                expect(player.grid.findByPosition([0, 1]).grid.toString()).toMatchSnapshot();
+                expect(player.grid.findByPosition([0, 1])!.grid.toString()).toMatchSnapshot();
             })
     
             it('should not have written to local storage', () => {

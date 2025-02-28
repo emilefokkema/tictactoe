@@ -1,4 +1,4 @@
-import { CustomPointerEventDispatcher, CustomPointerEventMap, Gesture, GestureReplaceFn } from "./types";
+import type { CustomPointerEventDispatcher, Gesture, GestureReplaceFn } from "./types";
 
 export class NoopGesture implements Gesture {
     public constructor(

@@ -1,7 +1,7 @@
-import { CustomPointerEventMap } from "../pointer-events/types";
-import { EventTargetLike } from '../events/types'
-import { Winner } from "../../shared/winner";
-import { Themeable } from "./themeable";
+import type { CustomPointerEventMap } from "../pointer-events/types";
+import type { EventTargetLike } from '../events/types'
+import type { Winner } from "@shared/winner";
+import type { Themeable } from "./themeable";
 
 export interface Slot extends EventTargetLike<CustomPointerEventMap> {
     clear(): void

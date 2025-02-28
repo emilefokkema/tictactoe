@@ -1,6 +1,6 @@
 import { EventDispatcher } from "../events/event-dispatcher";
-import { Measurements, measurementsInclude } from "../measurements";
-import { CustomPointerEventDispatcher, CustomPointerEventMap, CustomPointerEventTarget, PointerDownEventResult } from "./types";
+import { type Measurements, measurementsInclude } from "../measurements";
+import type { CustomPointerEventDispatcher, CustomPointerEventMap, CustomPointerEventTarget, PointerDownEventResult } from "./types";
 
 export class PointerEventTargetImpl implements CustomPointerEventDispatcher {
     private readonly children: PointerEventTargetImpl[] = [];

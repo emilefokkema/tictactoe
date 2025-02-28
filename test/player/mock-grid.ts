@@ -1,8 +1,8 @@
-import Table, { TableConstructorOptions } from 'cli-table3'
-import { CustomPointerEventMap } from "../../src/scripts/page/pointer-events/types";
-import { Grid, GridCell } from "../../src/scripts/page/ui/grid";
-import { Winner } from "../../src/scripts/shared/winner";
-import { TestPlayerContext } from './test-player';
+import Table, { type TableConstructorOptions } from 'cli-table3'
+import type { CustomPointerEventMap } from "@page/pointer-events/types";
+import type { Grid, GridCell } from "@page/ui";
+import type { Winner } from "@shared/winner";
+import type { TestPlayerContext } from './test-player';
 import { MockTheme } from '../mock-theme';
 
 type Mark = 'X' | 'O';

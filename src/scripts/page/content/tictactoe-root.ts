@@ -1,12 +1,10 @@
 import { EventDispatcher } from "../events/event-dispatcher";
-import { MapRenderer, MapRendererEventMap } from "../map/map-renderer";
-import { GameState } from "../../shared/state/game-state";
-import { GameStateTree } from "../../shared/state/game-state-tree";
-import { Theme } from "../ui/theme";
-import { Grid } from "../ui/grid";
+import type { MapRenderer, MapRendererEventMap, RenderedMap } from "../map";
+import type { GameState } from "@shared/state/game-state";
+import type { GameStateTree } from "@shared/state/game-state-tree";
+import type { Theme, Grid } from "../ui";
 import { TicTacToeImpl } from "./tictactoe-impl";
-import { TicTacToeParent } from "./tictactoe-parent";
-import { RenderedMap } from "../map/rendered-map";
+import type { TicTacToeParent } from "./tictactoe-parent";
 
 export interface TicTacToeRoot<TTheme> extends MapRenderer, RenderedMap<TTheme> {
 

@@ -1,5 +1,5 @@
-import { Measurements } from "../measurements";
-import { Theme } from "../themes/themes"
+import type { Measurements } from "../measurements";
+import type { Theme } from "../themes"
 
 export enum BorderDirection { Vertical, Horizontal }
 

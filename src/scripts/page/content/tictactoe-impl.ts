@@ -1,11 +1,10 @@
 import { otherPlayer, Player } from "../../shared/player";
-import { GameState } from "../../shared/state/game-state";
-import { GameStateTree } from "../../shared/state/game-state-tree";
-import { Theme } from "../ui/theme";
-import { Grid, GridCell, GridSlot } from "../ui/grid";
-import { Possibility, PossibilityParent } from "./possibility";
-import { TicTacToeParent } from "./tictactoe-parent";
-import { X, XParent } from "./x";
+import type { GameState } from "@shared/state/game-state";
+import type { GameStateTree } from "@shared/state/game-state-tree";
+import type { Grid, GridCell, Theme } from "../ui";
+import { Possibility, type PossibilityParent } from "./possibility";
+import type { TicTacToeParent } from "./tictactoe-parent";
+import { X, type XParent } from "./x";
 
 function calculateAdjustedTheme<TTheme extends Theme>(tree: GameStateTree, theme: TTheme): TTheme {
     const currentPlayer = tree.state.getCurrentPlayer();

@@ -1,4 +1,4 @@
-import { ThemeVariant } from "./theme-variant";
+import type { ThemeVariant } from "./theme-variant";
 
 export interface DerivedThemePreferencePersister {
     persist(preference: ThemeVariant): void

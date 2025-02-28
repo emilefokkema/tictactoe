@@ -1,11 +1,10 @@
 import { createPointerEvents } from "./pointer-events/create-pointer-events";
-import { PointerEventTargetLike } from "./pointer-events/types";
-import { getInitialMeasurements, ScreenMeasurements } from "./measurements";
-import { Renderer } from "./renderer/types";
-import { Theme } from "./themes/themes";
+import type { PointerEventTargetLike } from "./pointer-events/types";
+import { getInitialMeasurements, type ScreenMeasurements } from "./measurements";
+import type { Renderer } from "./renderer/types";
+import type { Theme, ThemeSwitch } from "./themes";
 import { GridImpl } from "./ui-impl/grid-impl";
-import { TicTacToeMap } from "./map/tictactoemap";
-import { ThemeSwitch } from "./themes/theme-switch";
+import type { TicTacToeMap } from "./map";
 
 export function renderMap(
     renderer: Renderer,

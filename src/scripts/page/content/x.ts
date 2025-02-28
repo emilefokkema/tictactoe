@@ -1,5 +1,5 @@
-import { CustomPointerEventMap } from "../pointer-events/types"
-import { MarkSlot } from "../ui/grid"
+import type { CustomPointerEventMap } from "../pointer-events/types"
+import type { MarkSlot } from "../ui"
 
 export interface XParent {
     notifyXDoubleClicked(): void

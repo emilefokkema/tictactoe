@@ -1,5 +1,5 @@
-import { InfiniteCanvasRenderingContext2D } from "ef-infinite-canvas";
-import { Renderable, Renderer } from "./types";
+import type { InfiniteCanvasRenderingContext2D } from "ef-infinite-canvas";
+import type { Renderable, Renderer } from "./types";
 
 export function createRenderer(
     ctx: InfiniteCanvasRenderingContext2D

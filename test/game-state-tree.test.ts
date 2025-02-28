@@ -1,12 +1,12 @@
-import { describe, it, expect, beforeEach, SerializedTestSpecification } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { GameStateTreeImpl } from '../src/scripts/shared/state/game-state-tree-impl'
 import { gameStateWithPositions } from './game-state-with-positions'
 import { Player } from '../src/scripts/shared/player';
-import { GameStateTree } from '../src/scripts/shared/state/game-state-tree';
-import { SerializedTree } from '../src/scripts/shared/state/serialization';
+import type { GameStateTree } from '@shared/state/game-state-tree';
+import type { SerializedTree } from '@shared/state/serialization';
 
 
-function stringifyTree(tree: GameStateTree): string {
+function stringifyTree(tree: GameStateTree | undefined): string {
     return JSON.stringify(tree, null, 2);
 }
 describe('a game state tree', () => {
@@ -85,18 +85,18 @@ describe('a game state tree', () => {
                 const state7 = gameStateWithPositions([7]);
                 const state1 = gameStateWithPositions([1])
                 const tree01_1winner01 = tree01_1.addWinner(state01, Player.X);
-                expect(tree01_1winner01.getForState(state01).equals(tree01_1.getForState(state01))).toBe(false);
-                expect(tree01_1winner01.getForState(state01).equals(tree01_1.getForState(state01))).toBe(false);
-                expect(tree01_1winner01.getForState(state85).equals(tree01_1.getForState(state85))).toBe(false);
-                expect(tree01_1winner01.getForState(state85).equals(tree01_1winner01.getForState(state85))).toBe(true);
-                expect(tree01_1.getForState(state7).equals(tree01_1winner01.getForState(state7))).toBe(true);
-                expect(tree01_1winner01.getForState(state7).equals(tree01_1winner01.getForState(state1))).toBe(false);
+                expect(tree01_1winner01.getForState(state01)!.equals(tree01_1.getForState(state01))).toBe(false);
+                expect(tree01_1winner01.getForState(state01)!.equals(tree01_1.getForState(state01))).toBe(false);
+                expect(tree01_1winner01.getForState(state85)!.equals(tree01_1.getForState(state85))).toBe(false);
+                expect(tree01_1winner01.getForState(state85)!.equals(tree01_1winner01.getForState(state85))).toBe(true);
+                expect(tree01_1.getForState(state7)!.equals(tree01_1winner01.getForState(state7))).toBe(true);
+                expect(tree01_1winner01.getForState(state7)!.equals(tree01_1winner01.getForState(state1))).toBe(false);
             })
 
             it('should contain the same tree for state 5', () => {
                 const forState5a = tree0_1.getForState(gameStateWithPositions([5]));
                 const forState5b = tree01_1.getForState(gameStateWithPositions([5]));
-                expect(forState5a.equals(forState5b)).toBe(true);
+                expect(forState5a!.equals(forState5b)).toBe(true);
             })
         })
 
@@ -116,7 +116,7 @@ describe('a game state tree', () => {
             let treeA: GameStateTree;
 
             beforeEach(() => {
-                treeA = tree0.removeState(gameStateWithPositions([0]));
+                treeA = tree0.removeState(gameStateWithPositions([0]))!;
             })
 
             it('should no longer have the child', () => {
@@ -210,7 +210,7 @@ describe('a game state tree', () => {
                         let tree01364a: GameStateTree;
 
                         beforeEach(() => {
-                            tree01364a = tree01364.removeState(gameStateWithPositions([0, 1, 3, 6, 4, 7]))
+                            tree01364a = tree01364.removeState(gameStateWithPositions([0, 1, 3, 6, 4, 7]))!
                         })
 
                         it('should look like this', () => {
@@ -222,7 +222,7 @@ describe('a game state tree', () => {
                         let tree0136: GameStateTree;
 
                         beforeEach(() => {
-                            tree0136 = tree01364.removeState(gameStateWithPositions([0, 1, 3, 6, 4]));
+                            tree0136 = tree01364.removeState(gameStateWithPositions([0, 1, 3, 6, 4]))!;
                         })
 
                         it('should look like this', () => {

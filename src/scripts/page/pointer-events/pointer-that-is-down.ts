@@ -1,4 +1,4 @@
-import { CustomPointerDownEventProperties, CustomPointerEventDispatcher, CustomPointerEventMap, Gesture, GestureReplaceFn } from "./types";
+import type { CustomPointerDownEventProperties, CustomPointerEventDispatcher, Gesture, GestureReplaceFn } from "./types";
 
 export class PointerThatIsDown implements Gesture {
     public constructor(

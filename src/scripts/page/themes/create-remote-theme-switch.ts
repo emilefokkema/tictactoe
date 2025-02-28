@@ -1,6 +1,6 @@
 import { EventDispatcher } from "../events/event-dispatcher";
-import { RemoteThemeSwitch, RemoteThemeSwitchEventMap } from "./remote-theme-switch";
-import { ThemeVariant } from "./theme-variant";
+import type { RemoteThemeSwitch, RemoteThemeSwitchEventMap } from "./remote-theme-switch";
+import type { ThemeVariant } from "./theme-variant";
 
 interface ThemeChangeMessage {
     type: 'themechange',

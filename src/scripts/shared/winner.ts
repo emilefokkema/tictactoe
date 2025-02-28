@@ -1,5 +1,5 @@
-import { Player } from "../shared/player";
-import { Three } from "../shared/three";
+import { Player } from "./player";
+import type { Three } from "./three";
 
 export interface Winner{
     player: Player

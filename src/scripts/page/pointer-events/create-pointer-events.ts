@@ -1,6 +1,6 @@
 import { PointerEventTargetImpl } from "./pointer-event-target-impl";
 import { GestureFactoryImpl } from "./gesture-factory-impl";
-import { CustomPointerEventTarget, PointerEventTargetLike, CustomPointerEventDispatcher, Gesture } from "./types";
+import type { CustomPointerEventTarget, PointerEventTargetLike, CustomPointerEventDispatcher, Gesture } from "./types";
 
 
 class CustomPointerEventProducer {

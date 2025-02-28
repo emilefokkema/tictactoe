@@ -1,6 +1,6 @@
 import { Player } from "../player"
-import { GameState } from "./game-state"
-import { GameStateTree } from "./game-state-tree"
+import type { GameState } from "./game-state"
+import type { GameStateTree } from "./game-state-tree"
 
 export interface SerializedTree {
     [position: number]: SerializedTree

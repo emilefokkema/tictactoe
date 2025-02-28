@@ -1,7 +1,7 @@
-import { Theme } from "../themes/themes";
+import type { Theme } from "../themes";
 import { getSection, getSide, GridBorderPart, GridBorderSection, GridBorderSide } from "./grid-border-part";
 import { LineSegmentImpl } from "./line-segment-impl";
-import { GridBorderMeasurements, LineSegment, LineSegmentMeasurements } from "./types";
+import type { GridBorderMeasurements, LineSegment } from "./types";
 
 
 class BorderSection {

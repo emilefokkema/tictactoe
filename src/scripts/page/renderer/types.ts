@@ -1,4 +1,4 @@
-import { InfiniteCanvasRenderingContext2D } from "ef-infinite-canvas"
+import type { InfiniteCanvasRenderingContext2D } from "ef-infinite-canvas"
 
 export interface Renderer {
     rerender(): void

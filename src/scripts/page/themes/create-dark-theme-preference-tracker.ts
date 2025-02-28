@@ -1,5 +1,5 @@
 import { EventDispatcher } from "../events/event-dispatcher";
-import { DarkThemePreferenceTracker, DarkThemePreferenceTrackerEventMap } from "./dark-theme-preference-tracker";
+import type { DarkThemePreferenceTracker, DarkThemePreferenceTrackerEventMap } from "./dark-theme-preference-tracker";
 
 export function createDarkThemePreferenceTracker(): DarkThemePreferenceTracker {
     const queryList = window.matchMedia("(prefers-color-scheme: dark)");

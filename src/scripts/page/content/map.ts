@@ -1,14 +1,11 @@
 import { createTicTacToeRoot } from "./tictactoe-root";
-import { GameStateTree } from "../../shared/state/game-state-tree";
+import type { GameStateTree } from "@shared/state/game-state-tree";
 import { GameStateTreeImpl } from "../../shared/state/game-state-tree-impl";
-import { MapPersister } from "../store/map-persister";
-import { Theme } from "../ui/theme";
-import { Grid } from "../ui/grid";
-import { MapRenderer } from "../map/map-renderer";
-import { TicTacToeMap } from "../map/tictactoemap";
-import { GameState } from "../../shared/state/game-state";
+import type { MapPersister } from "../store/map-persister";
+import type { Theme, Grid } from "../ui";
+import type { MapRenderer, TicTacToeMap, RenderedMap} from "../map";
+import type { GameState } from "@shared/state/game-state";
 import { createBroadcastChannelRenderer } from "../store/broadcast-channel-renderer";
-import { RenderedMap } from "../map/rendered-map";
 
 export function createTicTacToeMap<TTheme extends Theme>(
     localPersister: MapPersister,

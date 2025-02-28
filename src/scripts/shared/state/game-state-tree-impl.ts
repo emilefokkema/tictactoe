@@ -1,7 +1,7 @@
 import { otherPlayer, Player } from "../player";
 import { GameState } from "./game-state";
-import { GameStateTree } from "./game-state-tree";
-import { SerializedTree, serializeTree, deserializeTree } from "./serialization";
+import type { GameStateTree } from "./game-state-tree";
+import { type SerializedTree, serializeTree, deserializeTree } from "./serialization";
 
 export class GameStateTreeImpl implements GameStateTree{
     private constructor(

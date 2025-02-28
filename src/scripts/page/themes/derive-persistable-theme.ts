@@ -1,6 +1,6 @@
-import { DerivedThemePreferencePersister } from "./derived-theme-preference-persister";
-import { ThemePreferencePersister } from "./theme-preference-persister";
-import { ThemeVariant } from "./theme-variant";
+import type { DerivedThemePreferencePersister } from "./derived-theme-preference-persister";
+import type { ThemePreferencePersister } from "./theme-preference-persister";
+import type { ThemeVariant } from "./theme-variant";
 
 export function derivePersistableTheme(
     prefersDarkTheme: boolean,

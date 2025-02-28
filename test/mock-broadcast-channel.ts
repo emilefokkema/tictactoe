@@ -12,7 +12,7 @@ export class MockBroadcastChannel implements BroadcastChannel {
     }
     public onmessageerror = () => {}
     public close(){}
-    public addEventListener(type, listener): void {
+    public addEventListener<K extends keyof BroadcastChannelEventMap>(type: K, listener: (ev: BroadcastChannelEventMap[K]) => void): void {
         if(type === 'message'){
             this.messageHandler = listener;
         }

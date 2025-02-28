@@ -1,8 +1,9 @@
-import { getMarkLineWidth, Measurements } from "../measurements";
-import { Point } from "../point";
-import { Theme } from "../themes/themes";
-import { isInColumn, isInRow, isMainDiagonal, Three } from "../../shared/three";
-import { Mark } from "./mark";
+import { getMarkLineWidth, type Measurements } from "../measurements";
+import type { Point } from "../point";
+import type { Theme } from "../themes";
+import { isInColumn, isInRow, isMainDiagonal } from "../../shared/three";
+import type { Three } from '@shared/three'
+import type { Mark } from "./mark";
 
 export class X implements Mark {
     private readonly lineWidth: number;

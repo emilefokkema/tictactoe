@@ -1,8 +1,8 @@
 import { otherPlayer, Player } from "../player";
 import { PositionStream } from "./position-stream";
 import { getThrees } from "../three";
-import { Identity, Transformation, combine } from "../transformations";
-import { Winner } from "../winner";
+import { Identity, type Transformation, combine } from "../transformations";
+import type { Winner } from "../winner";
 import { PositionSet } from "./position-set";
 
 export interface ClonedGameState {

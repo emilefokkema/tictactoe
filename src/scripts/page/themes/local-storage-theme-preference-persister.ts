@@ -1,4 +1,4 @@
-import { ThemePreference, ThemePreferencePersister } from "./theme-preference-persister";
+import type { ThemePreference, ThemePreferencePersister } from "./theme-preference-persister";
 
 const localStorageKey = 'theme';
 

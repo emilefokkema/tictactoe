@@ -1,5 +1,5 @@
 import { otherPlayer, Player } from "../player";
-import { allTransformations, Transformation } from "../transformations";
+import { allTransformations, type Transformation } from "../transformations";
 
 export class PositionSet{
     public constructor(private readonly positions: number){
