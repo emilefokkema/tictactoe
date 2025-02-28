@@ -47,7 +47,7 @@ export class TicTacToeImpl<TTheme extends Theme> {
         const xes: X[] = this.xes = [];
         const ticTacToes: TicTacToeImpl<TTheme>[] = this.ticTacToes = [];
         const playersAtPositions = this.playersAtPositions = [...tree.state.getPlayersAtPositions()];
-        const winner = tree.state.findWinner();
+        const winner = tree.winnerInState;
         this.isWinner = !!winner;
         for(let position = 0; position < 9; position++){
             const cell = grid.cells[position];

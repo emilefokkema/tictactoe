@@ -44,18 +44,8 @@ describe('a game state tree', () => {
                 .addState(gameStateWithPositions([3, 6, 4, 5, 0, 8, 7, 2]))
         })
 
-        it('should have these winners', () => {
-            const winners = [...treeA.getWinnersInState(gameStateWithPositions([3, 6, 4, 5, 0, 8, 7, 2]))]
-            expect(winners).toEqual([
-                {
-                    state: gameStateWithPositions([3, 6, 4, 5, 0, 8, 7, 2]),
-                    winner: Player.O
-                },
-                {
-                    state: gameStateWithPositions([3, 6, 4, 5, 0, 8, 7]),
-                    winner: Player.O
-                }
-            ])
+        it('should look like this', () => {
+            expect(stringifyTree(treeA)).toMatchSnapshot();
         })
     })
 
@@ -182,20 +172,6 @@ describe('a game state tree', () => {
                     expect(stringifyTree(tree0136458)).toMatchSnapshot();
                 })
 
-                it('should return winners', () => {
-                    const winners = [...tree0136458.getWinnersInState(gameStateWithPositions([0, 1, 3, 6, 4, 5, 8]))];
-                    expect(winners).toEqual([
-                        {
-                            winner: Player.X,
-                            state: gameStateWithPositions([0, 1, 3, 6, 4, 5, 8])
-                        },
-                        {
-                            winner: Player.X,
-                            state: gameStateWithPositions([0, 1, 3, 6, 4, 5])
-                        }
-                    ])
-                })
-
                 describe('that adds the winner of 01364', () => {
                     let tree01364: GameStateTree;
 
@@ -227,16 +203,6 @@ describe('a game state tree', () => {
 
                         it('should look like this', () => {
                             expect(stringifyTree(tree0136)).toMatchSnapshot();
-                        })
-    
-                        it('should return winners', () => {
-                            const winners = [...tree0136.getWinnersInState(gameStateWithPositions([0, 1, 3, 6]))];
-                            expect(winners).toEqual([
-                                {
-                                    winner: Player.X,
-                                    state: gameStateWithPositions([0, 1, 3, 6])
-                                }
-                            ])
                         })
                     })
                 })

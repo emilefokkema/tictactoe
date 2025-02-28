@@ -1,4 +1,5 @@
 import { otherPlayer, Player } from "../player";
+import type { Winner } from "../winner";
 import { GameState } from "./game-state";
 import type { GameStateTree } from "./game-state-tree";
 import { type SerializedTree, serializeTree, deserializeTree } from "./serialization";
@@ -6,6 +7,7 @@ import { type SerializedTree, serializeTree, deserializeTree } from "./serializa
 export class GameStateTreeImpl implements GameStateTree{
     private constructor(
         public readonly state: GameState,
+        public readonly winnerInState: Winner | undefined, 
         public readonly children: Map<number, GameStateTreeImpl>,
         public readonly winner: Player | undefined
     ){}
@@ -43,7 +45,7 @@ export class GameStateTreeImpl implements GameStateTree{
         if(unchanged){
             return fn(this.state, this);
         }
-        return fn(this.state, new GameStateTreeImpl(this.state, newChildren, newWinner));
+        return fn(this.state, new GameStateTreeImpl(this.state, this.winnerInState, newChildren, newWinner));
     }
 
     private withPredecessor(predecessorState: GameState): GameStateTreeImpl | undefined {
@@ -59,7 +61,7 @@ export class GameStateTreeImpl implements GameStateTree{
                 return tree;
             }
             if(state.equals(this.state)){
-                return new GameStateTreeImpl(equivalentState, tree.children, tree.winner);
+                return new GameStateTreeImpl(equivalentState, equivalentState.findWinner(), tree.children, tree.winner);
             }
             const equivalentChildState = state.getEquivalentWithSameLineage(equivalentState);
             if(!equivalentChildState){
@@ -94,7 +96,7 @@ export class GameStateTreeImpl implements GameStateTree{
             if(winner === this.winner){
                 return this;
             }
-            return new GameStateTreeImpl(this.state, this.children, winner);
+            return new GameStateTreeImpl(this.state, this.winnerInState, this.children, winner);
         }
         return this.replace((state, tree) => {
             if(state.equals(this.state)){
@@ -148,23 +150,6 @@ export class GameStateTreeImpl implements GameStateTree{
         return undefined;
     }
 
-    public *getWinnersInState(state: GameState): Iterable<{winner: Player, state: GameState}> {
-        for(const [_, child] of this.children){
-            const equivalentChildState = child.state.getEquivalentWithSameLineage(state);
-            if(!equivalentChildState){
-                continue;
-            }
-            const equivalentChildTree = child.withPredecessor(equivalentChildState);
-            if(!equivalentChildTree){
-                continue;
-            }
-            yield* equivalentChildTree.getWinnersInState(state);
-        }
-        if(this.winner !== undefined){
-            yield { winner: this.winner, state: this.state };
-        }
-    }
-
     public equals(other: GameStateTree | undefined): boolean {
         if(!other){
             return false;
@@ -198,7 +183,7 @@ export class GameStateTreeImpl implements GameStateTree{
 
     public static create(state: GameState): GameStateTreeImpl {
         const winner = state.findWinner();
-        return new GameStateTreeImpl(state, new Map(), winner ? winner.player : undefined);
+        return new GameStateTreeImpl(state, winner, new Map(), winner ? winner.player : undefined);
     }
 
     public static initial = this.create(GameState.initial);

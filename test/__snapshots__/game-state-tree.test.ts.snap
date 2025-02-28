@@ -72,6 +72,29 @@ exports[`a game state tree > that adds 0521436 > should look like this 8`] = `
 }"
 `;
 
+exports[`a game state tree > that adds 36450872 successively > should look like this 1`] = `
+"{
+  "1": {
+    "0": {
+      "4": {
+        "7": {
+          "2": {
+            "6": {
+              "3": {
+                "8": {
+                  "w": 2
+                },
+                "w": 2
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
 exports[`a game state tree > that adds 364517802 > should look like this 1`] = `
 "{
   "2": {}
