@@ -229,6 +229,18 @@ describe('a game state tree', () => {
         })
     })
 
+    describe('that adds 01364', () => {
+        let tree01364: GameStateTree;
+
+        beforeEach(() => {
+            tree01364 = tree.addState(gameStateWithPositions([0, 1, 3, 6, 4]))
+        })
+
+        it.skip('should add winner for 01364', () => {
+            const result = tree01364.findWinnerFor(gameStateWithPositions([0, 1, 3, 6, 4]))
+        })
+    })
+
     it.each<[SerializedTree, SerializedTree]>([
         [{9: {w: 1}}, {}],
         [{0: {0: {w: 1}}}, {0: {}}],

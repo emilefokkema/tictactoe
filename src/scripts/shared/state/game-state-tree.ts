@@ -10,6 +10,7 @@ export interface GameStateTree {
     children: Map<number, GameStateTree>;
     addState(newState: GameState): GameStateTree
     addWinner(winnerState: GameState, winner: Player): GameStateTree
+    findWinnerFor(state: GameState): GameStateTree
     removeState(stateToRemove: GameState): GameStateTree | undefined
     getForState(state: GameState): GameStateTree | undefined
     toJSON(): SerializedTree

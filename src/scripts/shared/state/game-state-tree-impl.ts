@@ -1,8 +1,10 @@
-import { otherPlayer, Player } from "../player";
+import type { Player } from "../player";
 import type { Winner } from "../winner";
+import { calculateWinner } from "./calculate-winner";
 import { GameState } from "./game-state";
 import type { GameStateTree } from "./game-state-tree";
 import { type SerializedTree, serializeTree, deserializeTree } from "./serialization";
+
 
 export class GameStateTreeImpl implements GameStateTree{
     private constructor(
@@ -14,14 +16,9 @@ export class GameStateTreeImpl implements GameStateTree{
 
     private replace(fn: (state: GameState, tree: GameStateTreeImpl | undefined) => GameStateTreeImpl | undefined): GameStateTreeImpl | undefined {
         const newChildren: Map<number, GameStateTreeImpl> = new Map([...this.children]);
+        const winnerCalculator = calculateWinner(this.state);
         let sameChildren = true;
-        let newWinner = this.winner;
-        const currentPlayer = this.state.getCurrentPlayer();
-        const previousPlayer = otherPlayer(currentPlayer);
-        let previousPlayerWinsInAllSuccessors = true;
-        let successorExists = false;
         for(const successor of this.state.getNonequivalentSuccessors()){
-            successorExists = true;
             const existingChild = newChildren.get(successor.id);
             const newChild = fn(successor, existingChild);
             if(newChild !== existingChild){
@@ -29,23 +26,17 @@ export class GameStateTreeImpl implements GameStateTree{
                 if(!newChild){
                     newChildren.delete(successor.id);
                 }else{
-                    const newChildWinner = newChild.winner;
-                    if(newChildWinner === currentPlayer){
-                        newWinner = currentPlayer;
-                    }
                     newChildren.set(successor.id, newChild);
                 }
             }
-            previousPlayerWinsInAllSuccessors = previousPlayerWinsInAllSuccessors && (!!newChild && newChild.winner === previousPlayer);
+            winnerCalculator.addChildWinner(newChild?.winner || existingChild?.winner);
         }
-        if(successorExists && previousPlayerWinsInAllSuccessors){
-            newWinner = previousPlayer;
-        }
+        const newWinner = winnerCalculator.getResult();
         const unchanged = sameChildren && (this.winner === newWinner);
         if(unchanged){
             return fn(this.state, this);
         }
-        return fn(this.state, new GameStateTreeImpl(this.state, this.winnerInState, newChildren, newWinner));
+        return fn(this.state, new GameStateTreeImpl(this.state, this.winnerInState, newChildren, newWinner === undefined ? this.winner : newWinner));
     }
 
     private withPredecessor(predecessorState: GameState): GameStateTreeImpl | undefined {
@@ -69,6 +60,13 @@ export class GameStateTreeImpl implements GameStateTree{
             }
             return tree.withPredecessor(equivalentChildState);
         })
+    }
+
+    private findOwnWinner(): GameStateTreeImpl {
+        if(this.winnerInState){
+            return this;
+        }
+        return this;
     }
 
     public addState(newState: GameState): GameStateTreeImpl {
@@ -176,6 +174,26 @@ export class GameStateTreeImpl implements GameStateTree{
     public toJSON(): SerializedTree{
         return serializeTree(this)
     }
+
+    public findWinnerFor(state: GameState): GameStateTreeImpl {
+        if(state.equals(this.state)){
+            return this.findOwnWinner();
+        }
+        return this.replace((treeState, tree) => {
+            if(treeState.equals(this.state)){
+                return tree;
+            }
+            if(!tree){
+                return;
+            }
+            if(treeState.equals(state)){
+                return tree.findOwnWinner();
+            }
+            return tree.findWinnerFor(state);
+        })!
+    }
+
+
 
     public static fromJSON(json: SerializedTree): GameStateTree {
         return deserializeTree(GameStateTreeImpl.initial, json);
