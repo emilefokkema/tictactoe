@@ -78,7 +78,11 @@ export class GameStateTreeImpl implements GameStateTree{
                 break;
             }
         }
-        return this;
+        winnerCalculator.finish();
+        if(winnerCalculator.result === this.winner){
+            return this;
+        }
+        return new GameStateTreeImpl(this.state, this.winnerInState, this.children, winnerCalculator.result);
     }
 
     public addState(newState: GameState): GameStateTreeImpl {
