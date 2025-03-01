@@ -13,16 +13,6 @@ export class GameState {
     public get id(): number {return this.positions; }
     private constructor(private readonly positions: number){}
 
-
-    private *getPredecessors(): Iterable<GameState>{
-        const stream = new PositionStream(0);
-        yield GameState.initial;
-        for(const position of PositionStream.readAll(this.positions)){
-            stream.write(position);
-            yield new GameState(stream.positions);
-        }
-    }
-
     private getPositions(): Generator<number> {
         return PositionStream.readAll(this.positions);
     }
@@ -32,28 +22,32 @@ export class GameState {
     }
 
     public getNonequivalentSuccessors(): GameState[] {
-        const positionSet = this.getPositionSet();
+        const positionStream = PositionStream.create(this.positions);
+        const playedPositions = [...positionStream.readAll()];
+        const positionSet = PositionSet.fromPlayedPositions(playedPositions);
         const playersAtPositions = [...positionSet.getPlayersAtPositions()];
         const currentPlayer = this.getCurrentPlayer();
-        const result: GameState[] = [];
+        const result: {state: GameState, positionSet: PositionSet}[] = [];
         for(let position = 0; position < 9; position++){
             if(playersAtPositions[position] !== 0){
                 continue;
             }
             const newPositionSet = positionSet.withPlayerAtPosition(currentPlayer, position);
-            const isEquivalent = result.some(s => s.getPositionSet().isEquivalentTo(newPositionSet));
+            const isEquivalent = result.some(s => s.positionSet.isEquivalentTo(newPositionSet));
             if(isEquivalent){
                 continue;
             }
-            result.push(this.playPosition(position));
+            const clonedStream = positionStream.clone();
+            clonedStream.write(position);
+            result.push({state: new GameState(clonedStream.positions), positionSet: newPositionSet});
         }
-        return result;
+        return result.map(s => s.state);
     }
 
     public getEquivalentWithSameLineage(predecessor: GameState): GameState | undefined {
         const thisPositions = this.getPositions();
         const predecessorPositions = predecessor.getPositions();
-        const resultStream = new PositionStream(0);
+        const resultStream = PositionStream.create(0);
         let currentPositionSet = new PositionSet(0);
         let currentTransformation = Identity;
         let player = Player.X;
@@ -137,7 +131,7 @@ export class GameState {
     }
 
     public playPosition(position: number): GameState{
-        const stream = new PositionStream(this.positions);
+        const stream = PositionStream.create(this.positions);
         stream.moveToEnd();
         stream.write(position);
         return new GameState(stream.positions);
@@ -154,7 +148,7 @@ export class GameState {
 
     public static reviveCloned(cloned: ClonedGameState): GameState {
         const positions = PositionStream.readAll(cloned.positions);
-        const resultStream = new PositionStream(0);
+        const resultStream = PositionStream.create(0);
         for(const position of positions){
             resultStream.write(position);
         }

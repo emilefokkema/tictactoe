@@ -16,11 +16,13 @@ const sections: Section[] = [
 ];
 
 export class PositionStream {
-    private readonly vacantPositions = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-    private sectionIndex = 0;
-    private section = sections[0];
-    private atEnd = false;
-    public constructor(public positions: number){}
+    private constructor(
+        public positions: number,
+        private readonly vacantPositions: number[],
+        private sectionIndex: number,
+        private section: Section,
+        private atEnd: boolean
+    ){}
     private getCurrentPositionIndex(): number | undefined{
         if(this.atEnd){
             return undefined;
@@ -62,7 +64,26 @@ export class PositionStream {
     public moveToEnd(): void{
         for(const _ of this.readAll()){}
     }
+
+    public clone(): PositionStream {
+        return new PositionStream(
+            this.positions,
+            this.vacantPositions.slice(),
+            this.sectionIndex,
+            this.section,
+            this.atEnd
+        )
+    }
     public static readAll(positions: number): Generator<number>{
-        return new PositionStream(positions).readAll();
+        return PositionStream.create(positions).readAll();
+    }
+    public static create(positions: number): PositionStream {
+        return new PositionStream(
+            positions,
+            [0, 1, 2, 3, 4, 5, 6, 7, 8],
+            0,
+            sections[0],
+            false
+        );
     }
 }
