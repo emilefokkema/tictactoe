@@ -1,6 +1,8 @@
-import { Player } from "../player"
+import { otherPlayer, Player } from "../player"
+import { combine, Identity, type Transformation } from "../transformations"
 import type { GameState } from "./game-state"
 import type { GameStateTree } from "./game-state-tree"
+import { PositionSet } from "./position-set"
 
 export interface SerializedTree {
     [position: number]: SerializedTree
@@ -14,12 +16,18 @@ export interface DeserializationHooks {
 
 interface DeserializationContext extends DeserializationHooks {
     state: GameState
-    forState(state: GameState): DeserializationContext
+    transformation: Transformation
+    positionSet: PositionSet,
+    player: Player,
+    forState(state: GameState, transformation: Transformation, positionSet: PositionSet, player: Player): DeserializationContext
 }
 
 class ChildDeserializationContext implements DeserializationContext{
     public constructor(
         public readonly state: GameState,
+        public readonly transformation: Transformation,
+        public readonly positionSet: PositionSet,
+        public readonly player: Player,
         private readonly context: DeserializationContext
     ){}
 
@@ -31,13 +39,16 @@ class ChildDeserializationContext implements DeserializationContext{
         this.context.addWinner(winnerState, winner);
     }
 
-    public forState(state: GameState): DeserializationContext {
-        return new ChildDeserializationContext(state, this);
+    public forState(state: GameState, transformation: Transformation, positionSet: PositionSet, player: Player): DeserializationContext {
+        return new ChildDeserializationContext(state, transformation, positionSet, player, this);
     }
 }
 
 class RootDeserializationContext implements DeserializationContext {
     public state: GameState
+    public transformation: Transformation = Identity;
+    public positionSet = new PositionSet(0);
+    public player = Player.X;
     public constructor(
         public tree: GameStateTree
     ){
@@ -52,8 +63,8 @@ class RootDeserializationContext implements DeserializationContext {
         this.tree = this.tree.addWinner(winnerState, winner);
     }
 
-    public forState(state: GameState): DeserializationContext {
-        return new ChildDeserializationContext(state, this);
+    public forState(state: GameState, transformation: Transformation, positionSet: PositionSet, player: Player): DeserializationContext {
+        return new ChildDeserializationContext(state, transformation, positionSet, player, this);
     }
 }
 
@@ -74,17 +85,28 @@ export function serializeTree(tree: GameStateTree): SerializedTree {
 
 function deserializeChildTree(serialized: SerializedTree, context: DeserializationContext): void {
     let revealed = false;
-    for(const key of Object.getOwnPropertyNames(serialized)){
+    const ownTransformations = [...context.positionSet.getOwnTransformations()];
+    const nonequivalentSuccessors = [...context.state.getNonequivalentSuccessors()];
+    a:for(const key of Object.getOwnPropertyNames(serialized)){
         if(/^\d$/.test(key)){
             const position = parseInt(key);
-            const stateForKey = context.state.playPosition(position);
-            if(stateForKey.equals(context.state)){
+            if(position > 8){
                 continue;
             }
-            revealed = true;
-            const contextForState = context.forState(stateForKey);
-            deserializeChildTree(serialized[position], contextForState);
-            continue;
+            const transformedPosition = context.transformation.positions[position];
+            for(const ownTransformation of ownTransformations){
+                const equivalentPosition = ownTransformation.positions[transformedPosition];
+                const equivalentState = context.state.playPosition(equivalentPosition);
+                for(const successor of nonequivalentSuccessors){
+                    if(equivalentState.equals(successor)){
+                        const newTransformation = combine(ownTransformation, context.transformation);
+                        const newPositionSet = context.positionSet.withPlayerAtPosition(context.player, equivalentPosition);
+                        const newPlayer = otherPlayer(context.player);
+                        deserializeChildTree(serialized[position], context.forState(equivalentState, newTransformation, newPositionSet, newPlayer))
+                        continue a;
+                    }
+                }
+            }
         }
     }
     if(!revealed){

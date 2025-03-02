@@ -264,7 +264,12 @@ describe('a game state tree', () => {
         [{a: 9} as SerializedTree, {}],
         [{0: {1: {w: 3} as unknown as SerializedTree}}, {0: {1: {}}}],
         [{2: {1: {}}}, {0: {1: {}}}],
-        [{8: {7: {6: {}}}}, {0: {1: {2: {}}}}]
+        [{8: {7: {6: {}}}}, {0: {1: {2: {}}}}],
+        [{8: {5: {2: {}}}}, {0: {1: {2: {}}}}],
+        [{6: {3: {4: {}}}}, {0: {1: {4: {}}}}],
+        [{6: {7: {4: {}}}}, {0: {1: {4: {}}}}],
+        [{2: {4: {7: {}}}}, {0: {4: {5: {}}}}],
+        [{2: {4: {3: {}}}}, {0: {4: {5: {}}}}]
     ])('should deserialize %j', (input, expectedSerialized) => {
         const tree = GameStateTreeImpl.fromJSON(input);
         expect(tree.toJSON()).toEqual(expectedSerialized)
