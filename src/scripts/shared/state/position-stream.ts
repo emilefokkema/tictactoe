@@ -1,3 +1,5 @@
+import { PositionArray } from "./position-array";
+
 interface Section {
     shift: number
     cumulativeShift: number
@@ -18,7 +20,7 @@ const sections: Section[] = [
 export class PositionStream {
     private constructor(
         public positions: number,
-        private readonly vacantPositions: number[],
+        private vacantPositions: PositionArray,
         private sectionIndex: number,
         private section: Section,
         private atEnd: boolean
@@ -30,12 +32,12 @@ export class PositionStream {
         const masked = (this.positions >> (this.section.cumulativeShift)) & ((1 << this.section.shift) - 1);
         return masked === 0 ? undefined : Math.min(masked - 1, this.vacantPositions.length - 1);
     }
-    private advance(positionIndex: number): void{
+    private advance(position: number): void{
         if(this.sectionIndex === 8){
             this.atEnd = true;
             return;
         }
-        this.vacantPositions.splice(positionIndex, 1);
+        this.vacantPositions = this.vacantPositions.removePosition(position);
         this.section = sections[++this.sectionIndex];
     }
     private read(): number | undefined{
@@ -43,8 +45,11 @@ export class PositionStream {
         if(positionIndex === undefined){
             return undefined;
         }
-        const position = this.vacantPositions[positionIndex];
-        this.advance(positionIndex);
+        const position = this.vacantPositions.positionAt(positionIndex);
+        if(position === undefined){
+            return undefined;
+        }
+        this.advance(position);
         return position;
     }
     public write(position: number): void{
@@ -53,7 +58,7 @@ export class PositionStream {
             return;
         }
         this.positions |= (positionIndex + 1) << (this.section.cumulativeShift);
-        this.advance(positionIndex);
+        this.advance(position);
     }
     public *readAll(): Generator<number>{
         let position: number | undefined = undefined;
@@ -68,7 +73,7 @@ export class PositionStream {
     public clone(): PositionStream {
         return new PositionStream(
             this.positions,
-            this.vacantPositions.slice(),
+            this.vacantPositions,
             this.sectionIndex,
             this.section,
             this.atEnd
@@ -80,7 +85,7 @@ export class PositionStream {
     public static create(positions: number): PositionStream {
         return new PositionStream(
             positions,
-            [0, 1, 2, 3, 4, 5, 6, 7, 8],
+            PositionArray.initial,
             0,
             sections[0],
             false
