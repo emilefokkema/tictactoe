@@ -35,7 +35,7 @@ export class PositionBuilder {
         return masked === 0 ? undefined : Math.min(masked - 1, this.vacantPositions.length - 1);
     }
 
-    private advance(position: number, positionIndex: number): PositionBuilder{
+    private advance(positionIndex: number, position: number): PositionBuilder{
         const newPositions = this.positions | positionIndex + 1 << this.section.offset;
         const newAtEnd = this.sectionIndex === 8;
         const newVacantPositions = this.vacantPositions.removeAtIndex(positionIndex);
