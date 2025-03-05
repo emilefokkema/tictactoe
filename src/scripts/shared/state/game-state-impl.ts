@@ -6,17 +6,18 @@ import type { Winner } from "../winner";
 import { PositionSet } from "./position-set";
 import type { GameState } from "./game-state";
 import type { ClonedGameState } from "./cloned-game-state";
+import { PositionBuilder } from "./position-builder";
 
 export class GameStateImpl implements GameState {
     public get id(): number {return this.positions; }
     private constructor(private readonly positions: number){}
 
     public getPositions(): Generator<number> {
-        return PositionStream.readAll(this.positions);
+        return PositionBuilder.readAllPositions(this.positions);
     }
 
     private getPositionSet(): PositionSet{
-        return PositionSet.fromPlayedPositions(PositionStream.readAll(this.positions));
+        return PositionSet.fromPlayedPositions(PositionBuilder.readAllPositions(this.positions));
     }
 
     public getNonequivalentSuccessors(): GameStateImpl[] {
@@ -44,7 +45,7 @@ export class GameStateImpl implements GameState {
 
     public getEquivalentWithSameLineage(predecessor: GameState): GameStateImpl | undefined {
         const thisPositions = this.getPositions();
-        const predecessorPositions = predecessor.getPositions();
+        const predecessorPositions = (predecessor as GameStateImpl).getPositions();
         const resultStream = PositionStream.create(0);
         let currentPositionSet = new PositionSet(0);
         let currentTransformation = Identity;
@@ -90,7 +91,7 @@ export class GameStateImpl implements GameState {
     }
 
     public getLastPlayedPosition(): number | undefined {
-        const positions = [...PositionStream.readAll(this.positions)];
+        const positions = [...PositionBuilder.readAllPositions(this.positions)];
         if(positions.length === 0){
             return undefined;
         }
@@ -136,7 +137,7 @@ export class GameStateImpl implements GameState {
     }
 
     public getCurrentPlayer(): Player {
-        const positions = [...PositionStream.readAll(this.positions)];
+        const positions = [...PositionBuilder.readAllPositions(this.positions)];
         return positions.length % 2 === 0 ? Player.X : Player.O;
     }
 
@@ -145,7 +146,7 @@ export class GameStateImpl implements GameState {
     }
 
     public static reviveCloned(cloned: ClonedGameState): GameStateImpl {
-        const positions = PositionStream.readAll(cloned.positions);
+        const positions = PositionBuilder.readAllPositions(cloned.positions);
         const resultStream = PositionStream.create(0);
         for(const position of positions){
             resultStream.write(position);

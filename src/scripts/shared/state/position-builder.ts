@@ -71,6 +71,42 @@ export class PositionBuilder {
         return this.advance(positionIndex, position);
     }
 
+    public static *readAllPositions(positions: number): Generator<number> {
+        let vacantPositions = PositionArray.initial;
+        let sectionIndex = 0;
+        let section = sections[sectionIndex];
+        while(true){
+            const masked = (positions >> (section.offset)) & ((1 << section.length) - 1);
+            if(masked === 0){
+                break;
+            }
+            const positionIndex = Math.min(masked - 1, vacantPositions.length - 1);
+            const position = vacantPositions.positionAt(positionIndex);
+            if(position === undefined){
+                break;
+            }
+            yield position;
+            if(sectionIndex === 8){
+                break;
+            }
+            sectionIndex++;
+            section = sections[sectionIndex];
+            vacantPositions = vacantPositions.removeAtIndex(positionIndex);
+        }
+    }
+
+    public static *readAll(positions: number): Generator<PositionBuilder> {
+        let builder = PositionBuilder.initial;    
+        while(true){
+            const newBuilder = builder.read(positions);
+            if(newBuilder === builder){
+                break;
+            }
+            builder = newBuilder;
+            yield builder;
+        }
+    }
+
     public static initial: PositionBuilder = new PositionBuilder(
         0,
         undefined,

@@ -3,7 +3,6 @@ import type { Winner } from "../winner"
 
 export interface GameState {
     readonly id: number
-    getPositions(): Generator<number>
     getNonequivalentSuccessors(): GameState[]
     getEquivalentWithSameLineage(predecessor: GameState): GameState | undefined
     getLastPlayedPosition(): number | undefined

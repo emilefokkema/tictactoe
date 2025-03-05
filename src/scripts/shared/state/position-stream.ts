@@ -6,14 +6,6 @@ export class PositionStream {
         private positionBuilder: PositionBuilder
     ){}
 
-    private read(): number | undefined{
-        const newBuilder = this.positionBuilder.read(this.positions);
-        if(newBuilder === this.positionBuilder){
-            return undefined;
-        }
-        this.positionBuilder = newBuilder;
-        return newBuilder.lastPlayedPosition;
-    }
     public write(position: number): void{
         const newBuilder = this.positionBuilder.write(position);
         if(newBuilder === this.positionBuilder){
@@ -22,14 +14,22 @@ export class PositionStream {
         this.positionBuilder = newBuilder;
         this.positions = newBuilder.positions;
     }
-    public *readAll(): Generator<number>{
-        let position: number | undefined = undefined;
-        while((position = this.read()) !== undefined){
-            yield position;
+
+    public *readAll(): Generator<number>{    
+        for(const builder of PositionBuilder.readAll(this.positions)){
+            this.positionBuilder = builder;
+            if(builder.lastPlayedPosition === undefined){
+                break;
+            }
+            yield builder.lastPlayedPosition;
         }
     }
+
+
     public moveToEnd(): void{
-        for(const _ of this.readAll()){}
+        for(const builder of PositionBuilder.readAll(this.positions)){
+            this.positionBuilder = builder;
+        }
     }
 
     public clone(): PositionStream {
@@ -37,9 +37,6 @@ export class PositionStream {
             this.positions,
             this.positionBuilder
         )
-    }
-    public static readAll(positions: number): Generator<number>{
-        return PositionStream.create(positions).readAll();
     }
     public static create(positions: number): PositionStream {
         return new PositionStream(

@@ -4,6 +4,7 @@ import type { ClonedGameState } from '@shared/state/cloned-game-state'
 import { Player } from '../src/scripts/shared/player';
 import { MAIN_DIAGONAL } from '../src/scripts/shared/three';
 import { gameStateWithPositions } from './game-state-with-positions';
+import type { GameState } from '@shared/state/game-state';
 
 describe('a game state', () => {
 
@@ -26,7 +27,7 @@ describe('a game state', () => {
         expect(playersAtPositions[2]).toBe(0)
     })
 
-    it.each<[GameStateImpl, GameStateImpl[]]>([
+    it.each<[GameState, GameState[]]>([
         [
             GameStateImpl.initial,
             [
@@ -138,7 +139,7 @@ describe('a game state', () => {
         expect(winner.three).toBe(MAIN_DIAGONAL)
     })
 
-    it.each<[GameStateImpl, GameStateImpl, GameStateImpl | undefined]>([
+    it.each<[GameState, GameState, GameState | undefined]>([
         [
             gameStateWithPositions([0]),
             gameStateWithPositions([0]),
@@ -184,13 +185,13 @@ describe('a game state', () => {
     })
 
     describe('state [0, 4, 2, 6, 8, 3, 5]', () => {
-        let state: GameStateImpl;
+        let state: GameState;
 
         beforeEach(() => {
             state = gameStateWithPositions([0, 4, 2, 6, 8, 3, 5])
         })
 
-        it.each<[GameStateImpl, GameStateImpl | undefined]>([
+        it.each<[GameState, GameState | undefined]>([
             [
                 gameStateWithPositions([0, 4, 2, 6, 8, 3, 5]),
                 gameStateWithPositions([0, 4, 2, 6, 8, 3, 5])
@@ -220,7 +221,7 @@ describe('a game state', () => {
         })
     })
 
-    it.each<[number, GameStateImpl]>([
+    it.each<[number, GameState]>([
         [10, GameStateImpl.initial.playPosition(8)],
         [170, GameStateImpl.initial.playPosition(8).playPosition(7)]
     ])('%d should be rivivable to game state %j', (positions, expectedState) => {

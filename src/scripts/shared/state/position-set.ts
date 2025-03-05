@@ -52,6 +52,14 @@ export class PositionSet{
         return false;
     }
 
+    public *getEmptyPositions(): Iterable<number> {
+        for(let position = 0; position < 9; position++){
+            if((this.positions & 3 << 2 * position) === 0){
+                yield position;
+            }
+        }
+    }
+
     public *getPlayersAtPositions(): Iterable<Player | 0>{
         for(let position = 0; position < 9; position++){
             yield (this.positions >> (2 * position)) & 3;
