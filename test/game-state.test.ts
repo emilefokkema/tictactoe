@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { GameState } from '../src/scripts/shared/state/game-state'
-import type { ClonedGameState } from '@shared/state/game-state'
+import { GameStateImpl } from '../src/scripts/shared/state/game-state-impl'
+import type { ClonedGameState } from '@shared/state/cloned-game-state'
 import { Player } from '../src/scripts/shared/player';
 import { MAIN_DIAGONAL } from '../src/scripts/shared/three';
 import { gameStateWithPositions } from './game-state-with-positions';
@@ -8,7 +8,7 @@ import { gameStateWithPositions } from './game-state-with-positions';
 describe('a game state', () => {
 
     it('should have a current player', () => {
-        let state = GameState.initial;
+        let state = GameStateImpl.initial;
 
         expect(state.getCurrentPlayer()).toBe(Player.X)
 
@@ -18,7 +18,7 @@ describe('a game state', () => {
     })
 
     it('should return player at position', () => {
-        const state = GameState.initial.playPosition(0).playPosition(1);
+        const state = GameStateImpl.initial.playPosition(0).playPosition(1);
 
         const playersAtPositions = [...state.getPlayersAtPositions()];
         expect(playersAtPositions[0]).toBe(Player.X);
@@ -26,13 +26,13 @@ describe('a game state', () => {
         expect(playersAtPositions[2]).toBe(0)
     })
 
-    it.each<[GameState, GameState[]]>([
+    it.each<[GameStateImpl, GameStateImpl[]]>([
         [
-            GameState.initial,
+            GameStateImpl.initial,
             [
-                GameState.initial.playPosition(0),
-                GameState.initial.playPosition(1),
-                GameState.initial.playPosition(4)
+                GameStateImpl.initial.playPosition(0),
+                GameStateImpl.initial.playPosition(1),
+                GameStateImpl.initial.playPosition(4)
             ]
         ],
         [
@@ -84,7 +84,7 @@ describe('a game state', () => {
     })
 
     it('should return players at positions', () => {
-        const state = GameState.initial
+        const state = GameStateImpl.initial
             .playPosition(0)
             .playPosition(1)
             .playPosition(8)
@@ -109,22 +109,22 @@ describe('a game state', () => {
     })
 
     it('should equal', () => {
-        const state1 = GameState.initial.playPosition(2).playPosition(6);
-        const state2 = GameState.initial.playPosition(2).playPosition(6);
-        const state3 = GameState.initial.playPosition(2).playPosition(7);
+        const state1 = GameStateImpl.initial.playPosition(2).playPosition(6);
+        const state2 = GameStateImpl.initial.playPosition(2).playPosition(6);
+        const state3 = GameStateImpl.initial.playPosition(2).playPosition(7);
 
         expect(state1.equals(state2)).toBe(true)
         expect(state1.equals(state3)).toBe(false)
     })
 
     it('should not have a winner', () => {
-        const state = GameState.initial.playPosition(0).playPosition(4);
+        const state = GameStateImpl.initial.playPosition(0).playPosition(4);
 
         expect(state.findWinner()).toBe(undefined);
     })
 
     it('should have a winner', () => {
-        const state = GameState.initial
+        const state = GameStateImpl.initial
             .playPosition(0)
             .playPosition(1)
             .playPosition(3)
@@ -138,7 +138,7 @@ describe('a game state', () => {
         expect(winner.three).toBe(MAIN_DIAGONAL)
     })
 
-    it.each<[GameState, GameState, GameState | undefined]>([
+    it.each<[GameStateImpl, GameStateImpl, GameStateImpl | undefined]>([
         [
             gameStateWithPositions([0]),
             gameStateWithPositions([0]),
@@ -184,13 +184,13 @@ describe('a game state', () => {
     })
 
     describe('state [0, 4, 2, 6, 8, 3, 5]', () => {
-        let state: GameState;
+        let state: GameStateImpl;
 
         beforeEach(() => {
             state = gameStateWithPositions([0, 4, 2, 6, 8, 3, 5])
         })
 
-        it.each<[GameState, GameState | undefined]>([
+        it.each<[GameStateImpl, GameStateImpl | undefined]>([
             [
                 gameStateWithPositions([0, 4, 2, 6, 8, 3, 5]),
                 gameStateWithPositions([0, 4, 2, 6, 8, 3, 5])
@@ -220,12 +220,12 @@ describe('a game state', () => {
         })
     })
 
-    it.each<[number, GameState]>([
-        [10, GameState.initial.playPosition(8)],
-        [170, GameState.initial.playPosition(8).playPosition(7)]
+    it.each<[number, GameStateImpl]>([
+        [10, GameStateImpl.initial.playPosition(8)],
+        [170, GameStateImpl.initial.playPosition(8).playPosition(7)]
     ])('%d should be rivivable to game state %j', (positions, expectedState) => {
         const impossible: ClonedGameState = {positions};
-        const revived = GameState.reviveCloned(impossible);
+        const revived = GameStateImpl.reviveCloned(impossible);
         expect(revived).toEqual(expectedState);
     })
 })

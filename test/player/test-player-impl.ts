@@ -1,4 +1,5 @@
-import { GameState } from "../../src/scripts/shared/state/game-state";
+import type { GameState } from "@shared/state/game-state";
+import { GameStateImpl } from "../../src/scripts/shared/state/game-state-impl";
 import { MockGrid } from "./mock-grid";
 import type { TestPlayer, TestPlayerContext } from "./test-player";
 
@@ -22,5 +23,5 @@ class TestPlayerImpl implements TestPlayer {
 }
 
 export function createTestPlayer(): TestPlayer {
-    return new TestPlayerImpl(new MockGrid(), undefined, GameState.initial);
+    return new TestPlayerImpl(new MockGrid(), undefined, GameStateImpl.initial);
 }

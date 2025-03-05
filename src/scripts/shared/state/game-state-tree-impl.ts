@@ -1,7 +1,8 @@
 import type { Player } from "../player";
 import type { Winner } from "../winner";
 import { calculateWinner } from "./calculate-winner";
-import { GameState } from "./game-state";
+import type { GameState } from "./game-state";
+import { GameStateImpl } from "./game-state-impl";
 import type { GameStateTree } from "./game-state-tree";
 import { type SerializedTree, serializeTree, deserializeTree } from "./serialization";
 
@@ -220,5 +221,5 @@ export class GameStateTreeImpl implements GameStateTree{
         return new GameStateTreeImpl(state, winner, new Map(), winner ? winner.player : undefined);
     }
 
-    public static initial = this.create(GameState.initial);
+    public static initial = this.create(GameStateImpl.initial);
 }

@@ -1,7 +1,8 @@
 import { EventDispatcher } from "../events/event-dispatcher";
 import type { MapRendererEventMap, RemoteMapRenderer } from "../map";
-import type { ClonedGameState } from "@shared/state/game-state";
-import { GameState } from "../../shared/state/game-state";
+import type { ClonedGameState } from "@shared/state/cloned-game-state";
+import { GameStateImpl } from "../../shared/state/game-state-impl";
+import type { GameState } from "@shared/state/game-state";
 
 interface StateHiddenMessage {
     type: 'statehidden',
@@ -40,11 +41,11 @@ export function createBroadcastChannelRenderer(
             return;
         }
         if(data.type === 'statehidden'){
-            eventDispatcher.dispatchEvent('statehidden', GameState.reviveCloned(data.data));
+            eventDispatcher.dispatchEvent('statehidden', GameStateImpl.reviveCloned(data.data));
             return;
         }
         if(data.type === 'staterevealed'){
-            eventDispatcher.dispatchEvent('staterevealed', GameState.reviveCloned(data.data))
+            eventDispatcher.dispatchEvent('staterevealed', GameStateImpl.reviveCloned(data.data))
         }
     })
 
