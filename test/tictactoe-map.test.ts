@@ -26,7 +26,7 @@ describe('a tictactoe map', () => {
     let player: TestPlayer;
     let serialized: SerializedTree | undefined;
     let serializedInSharedWork: SerializedTree | undefined;
-    let ticTacToeMap: TicTacToeMap<MockTheme>;
+    let ticTacToeMap: TicTacToeMap;
 
     beforeEach(() => {
         vi.resetAllMocks();

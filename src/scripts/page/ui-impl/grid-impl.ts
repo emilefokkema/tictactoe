@@ -15,6 +15,7 @@ import { Win } from "./win";
 import { X } from "./x";
 import type { Renderable, Renderer } from "../renderer/types";
 import type { Drawable } from "./drawable";
+import type { RenderableGrid } from "./renderable-grid";
 
 class GridCellImpl implements GridCell<Theme> {
     private theme: Theme;
@@ -104,7 +105,7 @@ class GridCellImpl implements GridCell<Theme> {
         this.content?.draw(ctx);
     }
 }
-export class GridImpl implements Grid<Theme>, Renderable {
+export class GridImpl implements RenderableGrid {
     private overlayContent: Drawable | undefined;
     private readonly cellImpls: [GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl, GridCellImpl];
     private readonly leftVerticalBorder: GridBorder;

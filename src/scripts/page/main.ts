@@ -9,6 +9,10 @@ import { createDarkThemePreferenceTracker } from './themes/create-dark-theme-pre
 import { createThemeAreaTracker } from './themes/theme-area-tracker';
 import { LocalStorageThemePreferencePersister } from './themes/local-storage-theme-preference-persister';
 import { createRequestClient } from './sharedworker/create-request-client';
+import { createPointerEvents } from './pointer-events/create-pointer-events';
+import type { Theme } from './themes/themes';
+import type { Measurements } from './measurements';
+import { createGrid } from './ui-impl/create-grid';
 
 function initialize(): void{
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
@@ -18,9 +22,10 @@ function initialize(): void{
     const infCanvas = new InfiniteCanvas(canvas, {units: Units.CSS, greedyGestureHandling: true});
     const channel = new BroadcastChannel('tictactoemap');
     const map = createTicTacToeMap(new LocalStorageMapPersister(), channel, createRequestClient());
+    const eventTarget = createPointerEvents(infCanvas);
+    const renderer = createRenderer(infCanvas.getContext('2d'));
     renderMap(
-        createRenderer(infCanvas.getContext('2d')),
-        infCanvas,
+        renderer,
         { width, height },
         map,
         createThemeSwitch(
@@ -28,7 +33,8 @@ function initialize(): void{
             new LocalStorageThemePreferencePersister(),
             createDarkThemePreferenceTracker(),
             channel
-        )
+        ),
+        (measurements: Measurements, theme: Theme) => createGrid(measurements, theme, eventTarget, renderer)
     )
     map.load();
 }

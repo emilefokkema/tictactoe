@@ -1,50 +1,20 @@
-import { createPointerEvents } from "./pointer-events/create-pointer-events";
-import type { PointerEventTargetLike } from "./pointer-events/types";
-import { getInitialMeasurements, type ScreenMeasurements } from "./measurements";
+import { getInitialMeasurements, type Measurements, type ScreenMeasurements } from "./measurements";
 import type { Renderer } from "./renderer/types";
 import type { Theme, ThemeSwitch } from "./themes";
-import { GridImpl } from "./ui-impl/grid-impl";
 import type { TicTacToeMap } from "./map";
+import type { RenderableGrid } from "./ui-impl/renderable-grid";
 
 export function renderMap(
     renderer: Renderer,
-    pointerEvents: PointerEventTargetLike,
     screenMeasurements: ScreenMeasurements,
-    map: TicTacToeMap<Theme>,
-    themeSwitch: ThemeSwitch
+    map: TicTacToeMap,
+    themeSwitch: ThemeSwitch,
+    gridFactory: (measurements: Measurements, theme: Theme) => RenderableGrid
 ): void {
-    const eventTarget = createPointerEvents(pointerEvents);
     const {grid1: grid1Measurements, grid2: grid2Measurements} = getInitialMeasurements(screenMeasurements.width, screenMeasurements.height);
-    const grid1 = new GridImpl(
-        renderer,
-        {
-            ...grid1Measurements,
-            background: {
-                extendLeft: 0,
-                extendRight: 0,
-                extendTop: 0,
-                extendBottom: 0
-            }
-        },
-        eventTarget,
-        themeSwitch.primaryTheme,
-        undefined
-    )
-    const grid2 = new GridImpl(
-        renderer,
-        {
-            ...grid2Measurements,
-            background: {
-                extendLeft: 0,
-                extendRight: 0,
-                extendTop: 0,
-                extendBottom: 0
-            }
-        },
-        eventTarget,
-        themeSwitch.secondaryTheme,
-        undefined
-    )
+    const grid1 = gridFactory(grid1Measurements, themeSwitch.primaryTheme);
+    const grid2 = gridFactory(grid2Measurements, themeSwitch.secondaryTheme);
+
     const primaryDrawing = map.renderOnGrid(grid1);
     const secondaryDrawing = map.renderOnGrid(grid2);
     const maxBottomRightX = Math.max(screenMeasurements.width, screenMeasurements.height)

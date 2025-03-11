@@ -10,11 +10,11 @@ import { createSharedWorkClient } from "../sharedworker/create-shared-work-clien
 import type { RequestClient } from "../sharedworker/request-client";
 import { createMapPersister } from "../store/map-persister";
 
-export function createTicTacToeMap<TTheme extends Theme>(
+export function createTicTacToeMap(
     localPersister: LocalMapPersister,
     broadcastChannel: BroadcastChannel,
     sharedWorkRequestClient: RequestClient
-): TicTacToeMap<TTheme> {
+): TicTacToeMap {
     let tree: GameStateTree = GameStateTreeImpl.initial;
     const mapRenderers: MapRenderer[] = [];
     const remote = createBroadcastChannelRenderer(broadcastChannel);
