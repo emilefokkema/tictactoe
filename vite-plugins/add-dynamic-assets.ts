@@ -1,8 +1,8 @@
 import type { PluginOption } from "vite"
 import type { Readable } from "stream"
 import { createIcon } from "../src/scripts/assets/create-icon"
-import { createOgImage } from '../src/scripts/assets/create-og-image'
-import { faviconFileName, ogImageFileName } from "./constants"
+import { faviconFileName, ogImageFileName, pwaIcon1, pwaIcon2 } from "./constants"
+import { createPngIcon } from "../src/scripts/assets/create-png-icon"
 
 export interface DynamicAsset {
     fileName: string
@@ -20,7 +20,21 @@ const dynamicAssets: DynamicAsset[] = [
         fileName: ogImageFileName,
         contentType: 'image/png',
         getContent() {
-            return createOgImage();
+            return createPngIcon(600);
+        },
+    },
+    {
+        fileName: pwaIcon1,
+        contentType: 'image/png',
+        getContent() {
+            return createPngIcon(192);
+        },
+    },
+    {
+        fileName: pwaIcon2,
+        contentType: 'image/png',
+        getContent() {
+            return createPngIcon(512);
         },
     }
 ]

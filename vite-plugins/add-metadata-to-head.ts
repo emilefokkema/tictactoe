@@ -19,6 +19,37 @@ export function addMetadataToHead(): PluginOption {
             const language = getLanguage(ctx.filename);
             const { title, explanation } = translations[language];
             return [
+		        {
+                    tag: 'meta',
+                    attrs: {
+                        charset: 'utf-8'
+                    },
+                    injectTo: 'head-prepend'
+                },
+		        {
+                    tag: 'meta',
+                    attrs: {
+                        name: 'viewport',
+                        content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+                    },
+                    injectTo: 'head-prepend'
+                },
+                {
+                    tag: 'meta',
+                    attrs: {
+                        name: 'mobile-web-app-capable',
+                        content: 'yes'
+                    },
+                    injectTo: 'head-prepend'
+                },
+                {
+                    tag: 'meta',
+                    attrs: {
+                                name: 'theme-color',
+                                value: '#333'
+                            },
+                    injectTo: 'head-prepend'
+                },
                 {
                     tag: 'link',
                     attrs: {
@@ -27,20 +58,12 @@ export function addMetadataToHead(): PluginOption {
                         sizes: 'any'
                     }
                 },
-                {
-                    tag: 'meta',
+		        {
+                    tag: 'link',
                     attrs: {
-                        charset: 'utf-8'
-                    },
-                    injectTo: 'head-prepend'
-                },
-                {
-                    tag: 'meta',
-                    attrs: {
-                        name: 'viewport',
-                        content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
-                    },
-                    injectTo: 'head-prepend'
+                        rel: 'manifest',
+                        href: '/manifest.json',
+                    }
                 },
                 {
                     tag: 'title',

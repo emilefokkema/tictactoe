@@ -1,21 +1,23 @@
 import type { Readable } from "stream";
-import { GridImpl } from '../shared/drawing/grid'
 import type { Theme } from '../shared/drawing'
+import { GridImpl } from '../shared/drawing/grid'
 import { createCanvasDrawing } from "./create-canvas-drawing";
 
-export function createOgImage(): Readable {
+export function createPngIcon(size: number): Readable {
+    const relativeGridSize = 14 / 15;
+    const gridOffset = size * (1 - relativeGridSize) / 2;
+    const gridSize = size * relativeGridSize;
     const theme: Theme = {
         color: 'hsl(240 5% 15%)',
         backgroundColor: 'rgba(0, 0, 0, 0)'
     };
-    const drawing = createCanvasDrawing(600, 600);
+    const drawing = createCanvasDrawing(size, size);
     const grid = GridImpl.create({
-        x: 20,
-        y: 20,
-        width: 560,
-        height: 560
+        x: gridOffset,
+        y: gridOffset,
+        width: gridSize,
+        height: gridSize
     }, theme);
-
     const grid0 = grid.cells[0].displayGrid();
     grid0.cells[0].displayX();
     const grid01 = grid0.cells[1].displayGrid();
@@ -52,7 +54,7 @@ export function createOgImage(): Readable {
     grid85.cells[5].displayO();
     grid87.cells[8].displayX();
     grid87.cells[7].displayO();
-    drawing.addRectangle(0, 0, 600, 600, 'hsl(57 5% 95%)')
+    drawing.addRectangle(0, 0, size, size, 'hsl(57 5% 95%)')
     grid.draw(drawing);
     return drawing.getPNGImage();
 }
